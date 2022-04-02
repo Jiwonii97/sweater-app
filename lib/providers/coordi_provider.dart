@@ -19,18 +19,19 @@ class CoordiProvider with ChangeNotifier {
   void initCoordiList() async {
     QuerySnapshot qs = await requestCooris();
     addCoordiList(qs);
+    notifyListeners();
   }
 
   void idxIncrease() {
     _idx++;
-    if (_idx >= coordi_lists.length) _idx = 0;
+    if (_idx >= coordi_lists[0].docs.length) _idx = 0;
     notifyListeners();
   }
 
   void idxDecrease() {
     _idx--;
     if (_idx < 0) {
-      _idx = coordi_lists.length - 1;
+      _idx = coordi_lists[0].docs.length - 1;
     }
     notifyListeners();
   }
