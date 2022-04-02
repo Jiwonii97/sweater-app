@@ -15,13 +15,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //비동기 처리를 위해 추가
   await Firebase.initializeApp(); //파이어베이스 등록
   HttpOverrides.global = MyHttpOverrides();
-  // QuerySnapshot qs =
-  //     await FirebaseFirestore.instance.collection('coordis').get();
-  // CoordiProvider _coordiProvider;
-
-  // _coordiProvider = Provider.of<CoordiProvider>();
-  // _coordiProvider.addCoordiList(qs);
-  // print(qs.docs[0].data());
   runApp(const MyApp());
 }
 
