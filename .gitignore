@@ -44,3 +44,14 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/app/src/**
+/android/local.properties
+/android/app/google-services.json
+
+.dart_tool/**
+.packages
+pubspec.lock
+package_config.json 
+
+# assets
+assets/weather-api.json

@@ -4,7 +4,10 @@ import 'package:sweater/components/card_container.dart';
 import 'package:sweater/pages/gender_change_page.dart';
 import 'package:sweater/pages/manage_location_page.dart';
 import 'package:sweater/providers/location_info.dart';
+import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../components/coordi_section.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    context.read<CoordiProvider>().initCoordiList();
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -33,16 +37,21 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     CardContainer(child: Text(context.watch<Location>().cur)),
-                    CardContainer(child: Text("what")),
-                    CardContainer(child: Text("what"))
+                    CardContainer(child: CoordiSection()),
                   ]),
             ),
             drawer: Drawer(
                 child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
+                const DrawerHeader(
+                    child: Text(
+                      'SWEATER',
+                      style: TextStyle(fontSize: 36),
+                    ),
+                    decoration: BoxDecoration(color: Colors.blue)),
                 ListTile(
-                    leading: Icon(Icons.location_city),
+                    leading: Icon(Icons.location_on),
                     title: Text("지역 관리"),
                     onTap: () => {
                           Navigator.push(
@@ -52,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                                       const ManageLocationPage()))
                         }),
                 ListTile(
-                    leading: const Icon(Icons.location_city),
+                    leading: const Icon(Icons.wc),
                     title: const Text("성별 설정"),
                     onTap: () => {
                           Navigator.push(
