@@ -5,6 +5,7 @@ import 'package:sweater/components/card_container.dart';
 import 'package:sweater/components/coordi_section.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/pages/gender_change_page.dart';
+import 'package:sweater/providers/weather.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     context.read<CoordiProvider>().initCoordiList();
+    context.read<Weather>().updateWeather("20220402", "0358", "158", "58");
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
