@@ -29,18 +29,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  shared_preferences: "^2.0.13"
+  excel: ^1.1.5
   provider: ^5.0.0
-  firebase_core: ^1.10.2
-  cloud_firestore: ^3.1.11
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  shared_preferences: ^2.0.13
-  http: 0.13.4
+  cloud_firestore: ^3.1.11
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  shared_preferences: "^2.0.13"
+  excel: ^1.1.5
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -63,7 +66,7 @@ flutter:
   assets:
     - assets/asset_list.json
     - assets/background-sky.png
-    - assets/weather-api.json
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

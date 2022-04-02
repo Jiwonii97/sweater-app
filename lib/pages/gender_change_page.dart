@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweater/components/check_menu.dart';
 import 'package:sweater/components/go_back_app_bar.dart';
-import 'package:sweater/providers/user_info.dart';
-import 'package:provider/provider.dart';
 
 class GenderChangePage extends StatefulWidget {
   const GenderChangePage({Key? key}) : super(key: key);
@@ -12,6 +10,23 @@ class GenderChangePage extends StatefulWidget {
 }
 
 class _GenderChangePage extends State<GenderChangePage> {
+  bool _iamWoman = false;
+  bool _iamMan = true;
+
+  void _setMan() {
+    setState(() {
+      _iamMan = true;
+      _iamWoman = false;
+    });
+  }
+
+  void _setWoman() {
+    setState(() {
+      _iamMan = false;
+      _iamWoman = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,25 +37,21 @@ class _GenderChangePage extends State<GenderChangePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               GestureDetector(
-                onTap: () {
-                  context.read<User>().changeGender(User.man);
-                },
+                onTap: _setWoman,
                 child: CheckMenu(
-                  leadingIcon: Icons.boy,
-                  title: User.manString,
-                  checked: context.watch<User>().gender == User.man,
+                  leadingIcon: Icons.girl,
+                  title: "여자",
+                  checked: _iamWoman,
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  context.read<User>().changeGender(User.woman);
-                },
+                onTap: _setMan,
                 child: CheckMenu(
-                  leadingIcon: Icons.girl,
-                  title: User.womanString,
-                  checked: context.watch<User>().gender == User.woman,
+                  leadingIcon: Icons.boy,
+                  title: "남자",
+                  checked: _iamMan,
                 ),
-              ),
+              )
             ]));
   }
 }
