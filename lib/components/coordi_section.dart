@@ -33,11 +33,13 @@ class CoordiSection extends StatelessWidget {
                     Consumer<CoordiProvider>(
                       builder: (context, value, child) => SizedBox(
                         height: 150,
-                        child: Text(value.coordi_lists.length != 0
-                            ? value.coordi_lists[0].docs[idx].data().toString()
-                            : value.dummy.values
-                                .map((value) => (value))
-                                .toString()),
+                        child: Column(children: <Widget>[
+                          const Text("오늘의 추천 코디!"),
+                          Text(context.read<CoordiProvider>().getTop()),
+                          Text(context.read<CoordiProvider>().getBottom()),
+                          // Text(context.read<CoordiProvider>().getBottom()),
+                          Text('어때요?')
+                        ]),
                       ),
                     ),
                     const ChangeCoordiButton(),

@@ -22,6 +22,24 @@ class CoordiProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  String getTop() {
+    QueryDocumentSnapshot temp = coordi_lists[0].docs[_idx];
+    String topCategory = temp.get('items')[0]['category'];
+    // Map<String, dynamic>.from(temp);
+    // if (temp != null) print(temp.runtimeType);
+    // return temp.get('items')[0].get('category');
+    return topCategory;
+  }
+
+  String getBottom() {
+    QueryDocumentSnapshot temp = coordi_lists[0].docs[_idx];
+    String bottomCategory = temp.get('items')[1]['category'];
+    // Map<String, dynamic>.from(temp);
+    // if (temp != null) print(temp.runtimeType);
+    // return temp.get('items')[0].get('category');
+    return bottomCategory;
+  }
+
   void idxIncrease() {
     _idx++;
     if (_idx >= coordi_lists[0].docs.length) _idx = 0;

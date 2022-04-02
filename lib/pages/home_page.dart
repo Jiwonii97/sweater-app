@@ -8,6 +8,7 @@ import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../components/coordi_section.dart';
+import '../components/weather_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -35,8 +36,10 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    CardContainer(child: Text(context.watch<Location>().cur)),
+                  children: const <Widget>[
+                    CardContainer(
+                      child: WeatherView(child: Text("what1")),
+                    ),
                     CardContainer(child: CoordiSection()),
                   ]),
             ),
@@ -51,8 +54,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     decoration: BoxDecoration(color: Colors.blue)),
                 ListTile(
-                    leading: Icon(Icons.location_on),
-                    title: Text("지역 관리"),
+                    leading: const Icon(Icons.location_on),
+                    title: const Text("지역 관리"),
                     onTap: () => {
                           Navigator.push(
                               context,
