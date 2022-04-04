@@ -18,13 +18,13 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   bool _long_press = false;
   bool init = false;
   List<Widget> loc_list = [];
-  String select = "";
+  // String select = "";
   List selects = [];
   late SharedPreferences prefs;
 
   List<Widget> _read_loc_list() {
     if (loc_list.length == 0) {
-      select = context.read<Location>().cur;
+      // select = context.read<Location>().cur;
     } else
       loc_list = [];
 
@@ -32,20 +32,20 @@ class _ManageLocationPage extends State<ManageLocationPage> {
       loc_list.add(GestureDetector(
         onTap: () => setState(() {
           context.read<Location>().cur = location["name"];
-          select = location['name'];
+          // select = location['name'];
           context.read<Location>().save_all();
           setState(() {});
         }),
         onLongPress: () => setState(() {
           _long_press = !_long_press;
-          select = location['name'];
+          context.read<Location>().cur = location['name'];
           context.read<Location>().cur = location["name"];
           setState(() {});
         }),
         child: CheckMenu(
             leadingIcon: Icons.location_on_outlined,
             title: location['name'],
-            checked: select == location['name'],
+            checked: context.read<Location>().cur == location['name'],
             multi_select: _long_press),
       ));
     }
@@ -54,7 +54,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
       loc_list.add(ButtonBar(alignment: MainAxisAlignment.center, children: [
         IconButton(
             onPressed: () {
-              context.read<Location>().del_loc(select);
+              context.read<Location>().del_loc(context.read<Location>().cur);
               _long_press = false;
               setState(() {});
             },

@@ -37,9 +37,7 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: const <Widget>[
-                    CardContainer(
-                      child: WeatherView(child: Text("what1")),
-                    ),
+                    WeatherView(child: Text("what1")),
                     CardContainer(child: CoordiSection()),
                   ]),
             ),
