@@ -1,12 +1,14 @@
+// 테스트용 함수
+
 import 'dart:convert' as convert;
+import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import "dart:math";
+import 'package:flutter/services.dart' show rootBundle;
 
 // Weather 객체 클래스
-class Weather extends ChangeNotifier {
+class Weather {
   // 구름 상태 인덱스
   static const _sunny = "1";
   static const _cloudiness = "3";
@@ -20,21 +22,19 @@ class Weather extends ChangeNotifier {
   static const _rainDrop = "4";
 
   final List<HourForecast> _forecastList = [];
-  List<HourForecast> get forecastList => _forecastList; // get 필드
-  static const int predictMax = 6; // 객체는 6개 만들면 되니 예측 모델은 6개를 최대로 한다
-
+  List<HourForecast> get forecastList => _forecastList;
+  static const int predictMax = 12; // 전체 객체의 개수 이자 날씨를 구할 시간의 수
   // API Key값
   late String _myKey = '';
 
-  // 해당 API 주소
+  //
   final String _requestHost = "apis.data.go.kr";
   final String _requestPath =
       "/1360000/VilageFcstInfoService_2.0/getVilageFcst";
 
-  // 생성자
   Weather() {
     for (var i = 0; i < predictMax; i++) {
-      forecastList.add(HourForecast());
+      _forecastList.add(HourForecast());
     }
   }
 
@@ -48,7 +48,7 @@ class Weather extends ChangeNotifier {
     }
   }
 
-// 기상 정보(날씨 상태) 설정 함수
+  // 기상 정보(날씨 상태) 설정 함수
   String makeSky(String sky, String rain) {
     String res = "";
     // 오늘 비 예보가 없는 경우, 구름 상태에 따라 기상 정보 제공
@@ -92,8 +92,7 @@ class Weather extends ChangeNotifier {
     return res.toStringAsFixed(1);
   }
 
-  // API를 받아서 해당 날씨 데이터를 Weather 객체에 업데이트
-  void updateWeather(
+  Future<List<HourForecast>> updateWeather(
       String basedate, String basetime, String nx, String ny) async {
     /*
     String basedate // 기준 날짜
@@ -101,13 +100,12 @@ class Weather extends ChangeNotifier {
     String nx // 기준 위치 X좌표
     String ny // 기준 위치 Y좌표
     */
+
     if (_myKey == '') {
       bool isSuccess = await initKey();
     }
     try {
       var getTime = predictMax; // 몇 시간의 정보를 가져올 것인가
-
-      // url 변환
       final url = Uri.https(_requestHost, _requestPath, {
         "serviceKey": _myKey,
         "pageNo": "1",
@@ -118,15 +116,12 @@ class Weather extends ChangeNotifier {
         "nx": nx,
         "ny": ny
       });
-      final response = await http.get(url); // http 호출
+      var response = await http.get(url);
       // print(url);
-
-      // http 호출이 안되면 예외 처리
       if (response.statusCode != 200) {
         throw HttpException('${response.statusCode}');
       }
 
-      // 전체 item 항목을 list로 바꾸고, 해당 카테고리에 맞는 정보만 따로 추출
       final List itemList = (convert.jsonDecode(response.body))['response']
           ['body']['items']['item'];
       final Iterable tempList = itemList.where((el) => el['category'] == 'TMP');
@@ -139,8 +134,6 @@ class Weather extends ChangeNotifier {
 
       final Iterable dateList = windSpeedList.map((el) => el['fcstDate']);
       final Iterable timeList = windSpeedList.map((el) => el['fcstTime']);
-
-      // 데이터 업데이트
       for (var i = 0; i < predictMax; i++) {
         forecastList[i].initHourForecast(
             dateList.elementAt(i), // 날짜
@@ -153,7 +146,6 @@ class Weather extends ChangeNotifier {
             int.parse(rainRateList.elementAt(i)['fcstValue']), // 강수 확률
             windSpeedList.elementAt(i)['fcstValue']); // 풍속
       }
-      notifyListeners();
     } on SocketException {
       print('No Internet connection 😑');
     } on HttpException {
@@ -161,12 +153,13 @@ class Weather extends ChangeNotifier {
     } on FormatException {
       print("Bad response format 👎");
     }
+
+    return forecastList;
   }
 }
 
-// 시간별 날씨 정보를 담고 있는 객체
 class HourForecast {
-  // 초기값(Default) 설정
+  // 초기값 설정
   String _date = "19700101";
   String _time = "9999"; // 시간
   String _temp = "999"; // 기온
@@ -204,7 +197,6 @@ class HourForecast {
     _windSpeed = input;
   }
 
-  // 해당 객체 업데이트(갱신)
   void initHourForecast(String newDate, String newTime, String newTemp,
       String newsTemp, String newSky, int newRainRate, String newWindSpeed) {
     date = newDate;
@@ -216,7 +208,6 @@ class HourForecast {
     windSpeed = newWindSpeed;
   }
 
-  // 순수 출력 테스트 함수 (후에 이걸로 데이터 추출 가능)
   void testPrint() {
     print("날짜 : $_date");
     print("시간 : $_time");
@@ -226,4 +217,19 @@ class HourForecast {
     print("강수 확률 : $_rainRate");
     print("풍속 : $_windSpeed");
   }
+}
+
+// Future<Weather> getWeatherAPI() async {
+void main() async {
+  Weather wt = Weather();
+  var result = await wt.updateWeather("20220405", "1100", "59", "125");
+  print(result);
+
+  print(wt.forecastList[0]._date);
+  print(wt.forecastList.length);
+  print("-------------------------\n\n");
+
+  wt.forecastList[0].testPrint();
+
+  return;
 }
