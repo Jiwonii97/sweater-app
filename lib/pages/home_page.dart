@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:sweater/components/home_app_bar.dart';
 import 'package:sweater/components/card_container.dart';
 import 'package:sweater/pages/gender_change_page.dart';
 import 'package:sweater/pages/manage_location_page.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:sweater/theme/global_theme.dart';
 import '../components/coordi_section.dart';
 import '../components/weather_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  final String title = "SWEATER";
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final String _title = "SWEATER";
+
   @override
   Widget build(BuildContext context) {
     context.read<CoordiProvider>().initCoordiList();
@@ -30,8 +29,15 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.cover)),
         child: Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: HomeAppBar(
-                title: widget.title, leading: const Icon(Icons.menu)),
+            appBar: AppBar(
+                title: Text(_title,
+                    style: TextStyle(color: GlobalTheme.lightOnSky)),
+                leading: Builder(
+                    builder: (context) => IconButton(
+                        icon: Icon(Icons.menu, color: GlobalTheme.lightOnSky),
+                        onPressed: () {
+                          Scaffold.of(context).openDrawer();
+                        }))),
             body: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Column(
