@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import "dart:math";
+
+import "dart:math"; // 체감 온도 계산을 위한 연산 라이브러리
+import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
 
 // Weather 객체 클래스
 class Weather extends ChangeNotifier {
@@ -21,7 +23,7 @@ class Weather extends ChangeNotifier {
 
   final List<HourForecast> _forecastList = [];
   List<HourForecast> get forecastList => _forecastList; // get 필드
-  static const int predictMax = 6; // 객체는 6개 만들면 되니 예측 모델은 6개를 최대로 한다
+  static const int predictMax = 12; // 객체 12개 생성으로 인한 12시간의 날씨 데이터 보유
 
   // API Key값
   late String _myKey = '';
@@ -89,24 +91,33 @@ class Weather extends ChangeNotifier {
     var V = pow(windSpeed * 3.6, 0.16);
     // 체감온도 계산
     var res = 13.12 + (0.6215 * T) - (11.37 * V) + (0.3965 * V * T);
-    return res.toStringAsFixed(1);
+    return res.round().toString();
   }
 
   // API를 받아서 해당 날씨 데이터를 Weather 객체에 업데이트
-  void updateWeather(
-      String basedate, String basetime, String nx, String ny) async {
+  void updateWeather(String nx, String ny) async {
     /*
-    String basedate // 기준 날짜
-    String basetime // 기준 시간 값
-    String nx // 기준 위치 X좌표
-    String ny // 기준 위치 Y좌표
+    String basedate   // 기준 날짜    ex) 19700101
+    String basetime   // 기준 시간 값     ex) 1200
+    String nx   // 기준 위치 X좌표    ex) 59
+    String ny   // 기준 위치 Y좌표    ex) 125
     */
+
     if (_myKey == '') {
       bool isSuccess = await initKey();
     }
+
+    // 현재 시간기준, 1시간전 시간 구하기
+    var now = DateTime.now(); //현재일자
+    var _1hourBefore = now.subtract(const Duration(hours: 1));
+
+    String basedate = DateFormat("yyyyMMdd").format(_1hourBefore);
+    String basetime = DateFormat("hhmm").format(_1hourBefore);
+
     try {
       var getTime = predictMax; // 몇 시간의 정보를 가져올 것인가
 
+      // 날짜 데이터를 받아서 원하는 basetime, basedate 만들기
       // url 변환
       final url = Uri.https(_requestHost, _requestPath, {
         "serviceKey": _myKey,
@@ -150,7 +161,7 @@ class Weather extends ChangeNotifier {
                 double.parse(windSpeedList.elementAt(i)['fcstValue'])), // 체감 온도
             makeSky(skyList.elementAt(i)['fcstValue'],
                 rainList.elementAt(i)['fcstValue']), // 하늘 상태(구름 상태)
-            int.parse(rainRateList.elementAt(i)['fcstValue']), // 강수 확률
+            rainRateList.elementAt(i)['fcstValue'], // 강수 확률
             windSpeedList.elementAt(i)['fcstValue']); // 풍속
       }
       notifyListeners();
@@ -171,8 +182,8 @@ class HourForecast {
   String _time = "9999"; // 시간
   String _temp = "999"; // 기온
   String _sTemp = "999"; // 체감 온도
-  String _sky = ""; // 구름 상태(1,3,4) - 맑음(1), 구름많음(3), 흐림(4)
-  int _rainRate = -1; // 강수 확률
+  String _sky = ""; // 구름 상태 - 맑음, 구름많음, 흐림, 비, 비/눈, 눈, 소나기
+  String _rainRate = "-1"; // 강수 확률
   String _windSpeed = "-1"; // 풍속
 
   // Set 함수
@@ -196,7 +207,7 @@ class HourForecast {
     _sky = input;
   }
 
-  set rainRate(int input) {
+  set rainRate(String input) {
     _rainRate = input;
   }
 
@@ -206,7 +217,7 @@ class HourForecast {
 
   // 해당 객체 업데이트(갱신)
   void initHourForecast(String newDate, String newTime, String newTemp,
-      String newsTemp, String newSky, int newRainRate, String newWindSpeed) {
+      String newsTemp, String newSky, String newRainRate, String newWindSpeed) {
     date = newDate;
     time = newTime;
     temp = newTemp;
@@ -214,16 +225,5 @@ class HourForecast {
     rainRate = newRainRate;
     sTemp = newsTemp;
     windSpeed = newWindSpeed;
-  }
-
-  // 순수 출력 테스트 함수 (후에 이걸로 데이터 추출 가능)
-  void testPrint() {
-    print("날짜 : $_date");
-    print("시간 : $_time");
-    print("기온 : $_temp");
-    print("체감 온도 : $_sTemp");
-    print("구름 상태 : $_sky");
-    print("강수 확률 : $_rainRate");
-    print("풍속 : $_windSpeed");
   }
 }
