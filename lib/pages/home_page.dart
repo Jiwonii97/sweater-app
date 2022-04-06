@@ -18,6 +18,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final String _title = "SWEATER";
+  Color colorByWeather() {
+    return Colors.white;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +34,16 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.transparent,
             appBar: AppBar(
                 title: Text(_title,
-                    style: TextStyle(color: GlobalTheme.lightOnSky)),
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                        fontWeight: FontWeight.bold, color: colorByWeather())),
                 leading: Builder(
                     builder: (context) => IconButton(
-                        icon: Icon(Icons.menu, color: GlobalTheme.lightOnSky),
+                        icon: Icon(Icons.menu, color: colorByWeather()),
                         onPressed: () {
                           Scaffold.of(context).openDrawer();
                         }))),
             body: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: const <Widget>[
@@ -52,12 +56,11 @@ class _HomePageState extends State<HomePage> {
             drawer: Drawer(
                 child: ListView(
               children: <Widget>[
-                const DrawerHeader(
-                    child: Text(
-                      'SWEATER',
-                      style: TextStyle(fontSize: 36),
-                    ),
-                    decoration: BoxDecoration(color: Colors.blue)),
+                DrawerHeader(
+                    child: Text(_title,
+                        style: Theme.of(context).textTheme.headline4),
+                    decoration:
+                        BoxDecoration(color: Theme.of(context).primaryColor)),
                 ListTile(
                     leading: const Icon(Icons.location_on),
                     title: const Text("지역 관리"),
