@@ -9,6 +9,7 @@ import 'package:sweater/providers/user_info.dart';
 import 'package:sweater/providers/weather.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/location_info.dart';
+import 'package:sweater/theme/global_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); //비동기 처리를 위해 추가
@@ -42,9 +43,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
             title: 'Flutter Demo',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
+            theme: GlobalTheme.lightTheme,
             home: const HomePage()));
   }
 }

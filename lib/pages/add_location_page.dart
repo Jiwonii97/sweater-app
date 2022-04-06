@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sweater/components/go_back_app_bar.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:sweater/components/rw_data.dart';
 import 'package:sweater/providers/location_info.dart';
@@ -23,7 +22,7 @@ class _AddLocationPage extends State<AddLocationPage> {
   List<Widget> output = [];
   late Padding text;
   var select;
-
+  final _title = "위치 추가";
   @override
   void initState() {
     helper.init().then(
@@ -94,9 +93,11 @@ class _AddLocationPage extends State<AddLocationPage> {
         //   FocusScope.of(context).unfocus();
         // },
         child: Scaffold(
-            appBar: const GoBackAppBar(
-              title: '위치 추가',
-            ),
+            appBar: AppBar(
+                title: Text(_title),
+                leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.pop(context))),
             resizeToAvoidBottomInset: false,
             body: FutureBuilder(
                 future: test(),
