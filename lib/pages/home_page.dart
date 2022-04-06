@@ -5,6 +5,7 @@ import 'package:sweater/pages/manage_location_page.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/theme/global_theme.dart';
 import '../components/coordi_section.dart';
 import '../components/weather_view.dart';
@@ -38,7 +39,7 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold, color: colorByWeather())),
                 leading: Builder(
                     builder: (context) => IconButton(
-                        icon: Icon(Icons.menu, color: colorByWeather()),
+                        icon: Icon(SweaterIcons.bars, color: colorByWeather()),
                         onPressed: () {
                           Scaffold.of(context).openDrawer();
                         }))),

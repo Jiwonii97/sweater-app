@@ -82,14 +82,17 @@ flutter:
   fonts:
     - family: NotoSansKR
       fonts:
-        - asset: fonts/NotoSansKR-Regular.otf
+        - asset: assets/fonts/NotoSansKR-Regular.otf
           weight: 400
-        - asset: fonts/NotoSansKR-Bold.otf
+        - asset: assets/fonts/NotoSansKR-Bold.otf
           weight: 700
-        - asset: fonts/NotoSansKR-Medium.otf
+        - asset: assets/fonts/NotoSansKR-Medium.otf
           weight: 500
-        - asset: fonts/NotoSansKR-Thin.otf
+        - asset: assets/fonts/NotoSansKR-Thin.otf
           weight: 100
+    - family: SweaterIcons
+      fonts:
+        - asset: assets/fonts/icons/SweaterIcons.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
