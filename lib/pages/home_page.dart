@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> {
             ),
             drawer: Drawer(
                 child: ListView(
-              padding: EdgeInsets.zero,
               children: <Widget>[
                 const DrawerHeader(
                     child: Text(

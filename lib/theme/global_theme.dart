@@ -50,19 +50,26 @@ class GlobalTheme {
   static const Color _lightOnSurfaceColor = Color(0xff121212);
   static const Color _lightOnBackgroundColor = Color(0xff121212);
   static const Color _lightOnErrorColor = Color(0xffFEFEFE);
+  static Color get lightOnErrorColor => _lightOnErrorColor;
+
   static const Color _lightOnSky = Color(0xffFFFFFF);
   static Color get lightOnSky => _lightOnSky;
 
   static final ThemeData lightTheme = ThemeData(
       appBarTheme: const AppBarTheme(
-    centerTitle: true, // 텍스트 중앙 배치
-    backgroundColor: Colors.transparent, // 배경 투명하게
-    foregroundColor: _lightOnBackgroundColor,
-    elevation: 0, // 기본 degree는 0으로
-    titleTextStyle: TextStyle(
-        color: _lightOnBackgroundColor,
-        fontFamily: "Roboto",
-        fontWeight: FontWeight.bold,
-        fontSize: 20),
-  ));
+        centerTitle: true, // 텍스트 중앙 배치
+        backgroundColor: Colors.transparent, // 배경 투명하게
+        foregroundColor: _lightOnBackgroundColor,
+        elevation: 0, // 기본 degree는 0으로
+        titleTextStyle: TextStyle(
+            color: _lightOnBackgroundColor,
+            fontFamily: "Roboto",
+            fontWeight: FontWeight.bold,
+            fontSize: 20),
+      ),
+      drawerTheme: const DrawerThemeData(
+        backgroundColor: _lightBackgroundColor,
+        elevation: 16,
+      ),
+      errorColor: _lightErrorColor);
 }
