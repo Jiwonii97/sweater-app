@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweater/providers/location_info.dart';
 import 'dart:math';
 
 class WeatherView extends StatelessWidget {
@@ -24,7 +25,7 @@ class WeatherView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
         alignment: Alignment.topCenter,
         child: Column(children: [
           Row(
@@ -34,8 +35,8 @@ class WeatherView extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                   child: Image(
                       image: AssetImage(WeatherImage.get_image(weather)),
-                      width: 60,
-                      height: 60,
+                      width: 80,
+                      height: 80,
                       fit: BoxFit.fill)),
               SizedBox(
                 width: 80,
@@ -45,21 +46,21 @@ class WeatherView extends StatelessWidget {
                       Text("$temp°",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                            fontSize: 30, color: Colors.white,
+                            fontSize: 48, color: Colors.white,
                             // fontFamily: 'Binggre',
                             // fontWeight: FontWeight.w700
                           )),
                       Text("체감온도 ${calc_sensible(temp, wind)}°",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 10, color: Colors.white.withOpacity(0.7),
+                            fontSize: 12, color: Colors.white.withOpacity(0.7),
                             // fontFamily: 'Binggre',
                             // fontWeight: FontWeight.w700
                           )),
                       Text("바람 ${wind}m/s",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 10, color: Colors.white.withOpacity(0.7),
+                            fontSize: 12, color: Colors.white.withOpacity(0.7),
                             // fontFamily: 'Binggre',
                             // fontWeight: FontWeight.w700
                           ))

@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     context.read<CoordiProvider>().initCoordiList();
+    print(context.read<Location>().cur);
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
