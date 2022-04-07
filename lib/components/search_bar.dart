@@ -28,7 +28,6 @@ class SearchBar extends StatelessWidget {
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(20.0),
             filled: true,
-            // border: InputBorder.none,
             suffixIcon: IconButton(
                 onPressed: () => search(text_controller.text),
                 icon: const Icon(

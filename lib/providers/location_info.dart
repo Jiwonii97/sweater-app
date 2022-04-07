@@ -16,7 +16,11 @@ class Location extends ChangeNotifier {
   }
 
   set location(List new_) {
-    _location.add(new_.last);
+    bool dup = false;
+    for (var address in _location) {
+      if (address['name'] == new_.last['name']) dup = true;
+    }
+    if (!dup) _location.add(new_.last);
     notifyListeners();
   }
 
