@@ -25,7 +25,7 @@ class WeatherView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
         alignment: Alignment.topCenter,
         child: Column(children: [
           Row(
