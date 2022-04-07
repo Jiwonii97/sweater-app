@@ -14,7 +14,6 @@ class SearchList extends StatelessWidget {
         readOnly: true,
         autofocus: false,
         onTap: () {
-          // output = [search_textfield()];
           FocusManager.instance.primaryFocus?.unfocus();
           refresh(address);
         },

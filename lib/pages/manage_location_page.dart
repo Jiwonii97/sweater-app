@@ -23,7 +23,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   late SharedPreferences prefs;
 
   void delete_loc(String title) {
-    context.read<Location>().del_loc(title);
+    context.read<Location>().deleteLoc(title);
     // _long_press = false;
     setState(() {});
   }
@@ -38,7 +38,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
         onTap: () => setState(() {
           context.read<Location>().cur = location["name"];
           // select = location['name'];
-          context.read<Location>().save_all();
+          context.read<Location>().saveAll();
           setState(() {});
         }),
         child: context.read<Location>().cur == location['name']

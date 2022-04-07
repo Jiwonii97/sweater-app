@@ -34,15 +34,15 @@ class Location extends ChangeNotifier {
     notifyListeners();
   }
 
-  void save_all() async {
+  void saveAll() async {
     prefs = await SharedPreferences.getInstance();
     await prefs.setString(
         'my_location', json.encode({"selected": cur, "location": location}));
   }
 
-  void del_loc(String one) {
+  void deleteLoc(String one) {
     _location.removeWhere((element) => element['name'] == one);
-    save_all();
+    saveAll();
     notifyListeners();
   }
 }
