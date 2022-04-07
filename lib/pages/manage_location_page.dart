@@ -15,48 +15,45 @@ class ManageLocationPage extends StatefulWidget {
 }
 
 class _ManageLocationPage extends State<ManageLocationPage> {
-  bool _long_press = false;
   bool init = false;
-  List<Widget> loc_list = [];
-  // String select = "";
+  List<Widget> locList = [];
   List selects = [];
   late SharedPreferences prefs;
-  final String _title = "위치 관리";
 
-  void deleteLoc(BuildContext context, String title) {
-    context.read<Location>().del_loc(title);
-    // _long_press = false;
+  void deleteLoc(String title) {
+    context.read<Location>().deleteLoc(title);
     setState(() {});
   }
 
   List<Widget> readLocList() {
-    if (loc_list.isNotEmpty) {
-      loc_list = [];
+    if (locList.isNotEmpty) {
+      locList = [];
     }
 
     for (var location in context.watch<Location>().location) {
-      loc_list.add(GestureDetector(
-          onTap: () => setState(() {
-                context.read<Location>().cur = location["name"];
-                // select = location['name'];
-                context.read<Location>().save_all();
-                setState(() {});
-              }),
-          child: context.read<Location>().cur == location['name']
-              ? CheckMenu(
-                  leadingIcon: SweaterIcons.map_marker_alt,
-                  title: location['name'],
-                  checked: context.read<Location>().cur == location['name'],
-                )
-              : LocationTile(
-                  onPressButton: deleteLoc,
-                  title: location['name'],
-                  checked: context.read<Location>().cur == location['name'],
-                )));
+      locList.add(GestureDetector(
+        onTap: () => setState(() {
+          context.read<Location>().cur = location["name"];
+          context.read<Location>().saveAll();
+          setState(() {});
+        }),
+        child: context.read<Location>().cur == location['name']
+            ? CheckMenu(
+                isLocation: true,
+                leadingIcon: SweaterIcons.map_marker_alt,
+                title: location['name'],
+                checked: context.read<Location>().cur == location['name'],
+              )
+            : LocationTile(
+                onPressButton: deleteLoc,
+                title: location['name'],
+                checked: context.read<Location>().cur == location['name'],
+              ),
+      ));
     }
 
     setState(() {});
-    return loc_list;
+    return locList;
   }
 
   @override
@@ -64,18 +61,22 @@ class _ManageLocationPage extends State<ManageLocationPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-            title: Text(_title),
-            leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context)),
-            actions: [
-              IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () => Navigator.push(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.black,
+          elevation: 0,
+          title: const Text('위치 관리'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AddLocationPage())))
-            ]),
+                          builder: (context) => const AddLocationPage()));
+                },
+                icon: Icon(SweaterIcons.plus))
+          ],
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: readLocList(),

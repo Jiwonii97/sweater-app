@@ -4,11 +4,13 @@ class CheckMenu extends StatelessWidget {
   final leadingIcon;
   final String title;
   bool checked = false;
+  bool isLocation = false;
 
   CheckMenu({
     Key? key,
     this.leadingIcon = null,
     this.title = "menu",
+    this.isLocation = false,
     this.checked = false,
   }) : super(key: key);
 
@@ -27,7 +29,11 @@ class CheckMenu extends StatelessWidget {
                   color: checked ? Colors.blue[400] : Colors.grey[400]),
               title: Text(title,
                   style: checked
-                      ? TextStyle(color: Theme.of(context).primaryColor)
+                      ? isLocation
+                          ? TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold)
+                          : TextStyle(color: Theme.of(context).primaryColor)
                       : const TextStyle(color: Colors.grey)),
               trailing: checked
                   ? const Icon(Icons.check, color: Colors.blue)

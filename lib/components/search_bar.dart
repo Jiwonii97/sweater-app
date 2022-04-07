@@ -5,14 +5,12 @@ class SearchBar extends StatelessWidget {
   String text;
   bool choose;
   Function search;
-  Function save_loc;
 
   SearchBar({
     Key? key,
     this.text = "",
     this.choose = false,
     required this.search,
-    required this.save_loc,
   }) : super(key: key);
 
   @override
@@ -28,26 +26,14 @@ class SearchBar extends StatelessWidget {
           autofocus: false,
           showCursor: choose ? false : true,
           decoration: InputDecoration(
-            prefixIcon: choose
-                ? const Icon(
-                    Icons.location_on_outlined,
-                    color: Colors.black,
-                  )
-                : null,
             contentPadding: const EdgeInsets.all(20.0),
             filled: true,
-            // border: InputBorder.none,
-            suffixIcon: choose
-                ? TextButton(
-                    onPressed: () => save_loc(),
-                    child: const Text("확인"),
-                  )
-                : IconButton(
-                    onPressed: () => search(text_controller.text),
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    )),
+            suffixIcon: IconButton(
+                onPressed: () => search(text_controller.text),
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.black,
+                )),
             hintText: '주소를 입력해 주세요',
             fillColor: const Color.fromARGB(255, 232, 239, 243),
             border: const OutlineInputBorder(
