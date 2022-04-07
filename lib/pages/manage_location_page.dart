@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/components/location_tile.dart';
+import 'package:sweater/components/check_menu.dart';
 import 'package:sweater/components/location_app_bar.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -40,12 +41,18 @@ class _ManageLocationPage extends State<ManageLocationPage> {
           context.read<Location>().save_all();
           setState(() {});
         }),
-        child: LocationTile(
-            onPressButton: delete_loc,
-            slidableController: SlidableController(),
-            title: location['name'],
-            checked: context.read<Location>().cur == location['name'],
-            multi_select: _long_press),
+        child: context.read<Location>().cur == location['name']
+            ? CheckMenu(
+                leadingIcon: Icons.location_on_outlined,
+                title: location['name'],
+                checked: context.read<Location>().cur == location['name'],
+              )
+            : LocationTile(
+                onPressButton: delete_loc,
+                slidableController: SlidableController(),
+                title: location['name'],
+                checked: context.read<Location>().cur == location['name'],
+              ),
       ));
     }
     setState(() {});
