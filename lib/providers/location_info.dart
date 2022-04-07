@@ -43,5 +43,6 @@ class Location extends ChangeNotifier {
   void del_loc(String one) {
     _location.removeWhere((element) => element['name'] == one);
     save_all();
+    notifyListeners();
   }
 }
