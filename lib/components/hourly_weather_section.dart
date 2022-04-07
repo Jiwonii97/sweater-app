@@ -19,6 +19,14 @@ List<HourForecast> dummy = [
   HourForecast(),
 ];
 
+class NoGlowScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
+}
+
 class HourlyWeatherSection extends StatelessWidget {
   const HourlyWeatherSection({Key? key}) : super(key: key);
 
@@ -26,12 +34,14 @@ class HourlyWeatherSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.symmetric(vertical: 1.0),
-        height: 90.0,
-        child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: List.generate(
-              dummy.length,
-              (index) => HourlyWeatherCard(hourForecast: dummy[index]),
-            )));
+        height: 76.0,
+        child: ScrollConfiguration(
+            behavior: NoGlowScrollBehavior(),
+            child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: List.generate(
+                  dummy.length,
+                  (index) => HourlyWeatherCard(hourForecast: dummy[index]),
+                ))));
   }
 }
