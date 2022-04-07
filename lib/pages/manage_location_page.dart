@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/components/check_menu.dart';
 import 'package:sweater/components/rw_data.dart';
 import 'package:sweater/pages/add_location_page.dart';
+import 'package:sweater/components/location_tile.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,12 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   List selects = [];
   late SharedPreferences prefs;
   final String _title = "위치 관리";
+
+  void delete_loc(String title) {
+    context.read<Location>().del_loc(title);
+    // _long_press = false;
+    setState(() {});
+  }
 
   List<Widget> _read_loc_list() {
     if (loc_list.length != 0) {
@@ -41,7 +48,8 @@ class _ManageLocationPage extends State<ManageLocationPage> {
           context.read<Location>().cur = location["name"];
           setState(() {});
         }),
-        child: CheckMenu(
+        child: LocationTile(
+            onPressButton: delete_loc,
             leadingIcon: Icons.location_on_outlined,
             title: location['name'],
             checked: context.read<Location>().cur == location['name'],
