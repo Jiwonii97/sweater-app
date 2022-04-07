@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweater/components/check_menu.dart';
-import 'package:sweater/components/go_back_app_bar.dart';
+import 'package:sweater/theme/global_theme.dart';
 import 'package:sweater/providers/user_info.dart';
 import 'package:provider/provider.dart';
 
@@ -12,12 +12,15 @@ class GenderChangePage extends StatefulWidget {
 }
 
 class _GenderChangePage extends State<GenderChangePage> {
+  final String _title = "성별 관리";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const GoBackAppBar(
-          title: '성별 관리',
-        ),
+        appBar: AppBar(
+            title: Text(_title),
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context))),
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
