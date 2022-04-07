@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweater/components/card_container.dart';
+import 'package:sweater/components/hourly_weather_section.dart';
 import 'package:sweater/pages/gender_change_page.dart';
 import 'package:sweater/pages/manage_location_page.dart';
 import 'package:sweater/providers/location_info.dart';
@@ -49,8 +50,9 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: const <Widget>[
                     CardContainer(
-                      child: WeatherView(child: Text("what1")),
+                      child: Text("what1"),
                     ),
+                    HourlyWeatherSection(),
                     CardContainer(child: CoordiSection()),
                   ]),
             ),
