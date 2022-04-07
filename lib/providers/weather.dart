@@ -27,6 +27,7 @@ class Weather extends ChangeNotifier {
 
   // API Key값
   late String _myKey = '';
+  bool flagApi = false; // 키값을 1회만 불러오게 하기 위한 flag
 
   // 해당 API 주소
   final String _requestHost = "apis.data.go.kr";
@@ -40,6 +41,7 @@ class Weather extends ChangeNotifier {
     }
   }
 
+  // JSON을 통해 키값 불러오기
   Future<bool> initKey() async {
     try {
       _myKey = convert.json.decode(
@@ -50,7 +52,7 @@ class Weather extends ChangeNotifier {
     }
   }
 
-// 기상 정보(날씨 상태) 설정 함수
+  // 기상 정보(날씨 상태) 설정 함수
   String makeSky(String sky, String rain) {
     String res = "";
     // 오늘 비 예보가 없는 경우, 구름 상태에 따라 기상 정보 제공
@@ -89,6 +91,7 @@ class Weather extends ChangeNotifier {
   String makeSTemp(int temp, double windSpeed) {
     var T = temp;
     var V = pow(windSpeed * 3.6, 0.16);
+
     // 체감온도 계산
     var res = 13.12 + (0.6215 * T) - (11.37 * V) + (0.3965 * V * T);
     return res.round().toString();
@@ -103,21 +106,22 @@ class Weather extends ChangeNotifier {
     String ny   // 기준 위치 Y좌표    ex) 125
     */
 
-    if (_myKey == '') {
-      bool isSuccess = await initKey();
+    if ((_myKey == '') & (flagApi == false)) {
+      // api 키값을 제대로 받아오면 해당 flag를 true로 바꿔 1회만 실행되게 함
+      flagApi = await initKey();
     }
 
-    // 현재 시간기준, 1시간전 시간 구하기
+    // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
     var now = DateTime.now(); //현재일자
-    var _1hourBefore = now.subtract(const Duration(hours: 1));
+    var anHourBefore = now.subtract(const Duration(hours: 1));
 
-    String basedate = DateFormat("yyyyMMdd").format(_1hourBefore);
-    String basetime = DateFormat("hhmm").format(_1hourBefore);
+    // 날짜 데이터를 받아서 원하는 basetime, basedate 만들기
+    String basedate = DateFormat("yyyyMMdd").format(anHourBefore);
+    String basetime = DateFormat("hhmm").format(anHourBefore);
 
     try {
       var getTime = predictMax; // 몇 시간의 정보를 가져올 것인가
 
-      // 날짜 데이터를 받아서 원하는 basetime, basedate 만들기
       // url 변환
       final url = Uri.https(_requestHost, _requestPath, {
         "serviceKey": _myKey,
@@ -130,7 +134,6 @@ class Weather extends ChangeNotifier {
         "ny": ny
       });
       final response = await http.get(url); // http 호출
-      // print(url);
 
       // http 호출이 안되면 예외 처리
       if (response.statusCode != 200) {
@@ -140,6 +143,8 @@ class Weather extends ChangeNotifier {
       // 전체 item 항목을 list로 바꾸고, 해당 카테고리에 맞는 정보만 따로 추출
       final List itemList = (convert.jsonDecode(response.body))['response']
           ['body']['items']['item'];
+
+      // 순서대로 온도, 기상상태, 강수상태, 강수확률, 풍속, 날짜, 시간 데이터를 가져온다
       final Iterable tempList = itemList.where((el) => el['category'] == 'TMP');
       final Iterable skyList = itemList.where((el) => el['category'] == 'SKY');
       final Iterable rainList = itemList.where((el) => el['category'] == 'PTY');
