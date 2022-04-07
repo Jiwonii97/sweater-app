@@ -56,18 +56,43 @@ class LocationTile extends StatelessWidget {
                         ),
                       ))
                 ],
-                child: ListTile(
-                  leading: Icon(Icons.location_on_outlined,
-                      color: checked ? Colors.blue[400] : Colors.grey[400]),
-                  title: Text(title,
-                      style: checked
-                          ? TextStyle(color: Theme.of(context).primaryColor)
-                          : const TextStyle(color: Colors.grey)),
-                  trailing: checked
-                      ? multi_select
-                          ? const Icon(Icons.check_circle, color: Colors.blue)
-                          : const Icon(Icons.check, color: Colors.blue)
-                      : const Icon(null),
-                ))));
+                child: LocTile(
+                    title: title,
+                    checked: checked,
+                    multi_select: multi_select))));
+  }
+}
+
+class LocTile extends StatelessWidget {
+  final String title;
+  bool checked = false;
+  bool multi_select = false;
+
+  LocTile(
+      {Key? key,
+      this.title = "menu",
+      this.checked = false,
+      this.multi_select = false})
+      : super(key: key);
+
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onLongPress: () {
+        Slidable.of(context)!.open(actionType: SlideActionType.secondary);
+      },
+      child: ListTile(
+        leading: Icon(Icons.location_on_outlined,
+            color: checked ? Colors.blue[400] : Colors.grey[400]),
+        title: Text(title,
+            style: checked
+                ? TextStyle(color: Theme.of(context).primaryColor)
+                : const TextStyle(color: Colors.grey)),
+        trailing: checked
+            ? multi_select
+                ? const Icon(Icons.check_circle, color: Colors.blue)
+                : const Icon(Icons.check, color: Colors.blue)
+            : const Icon(null),
+      ),
+    );
   }
 }

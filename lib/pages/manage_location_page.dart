@@ -43,12 +43,6 @@ class _ManageLocationPage extends State<ManageLocationPage> {
           context.read<Location>().save_all();
           setState(() {});
         }),
-        onLongPress: () => setState(() {
-          _long_press = !_long_press;
-          // select = location['name'];
-          context.read<Location>().cur = location["name"];
-          setState(() {});
-        }),
         child: LocationTile(
             onPressButton: delete_loc,
             slidableController: SlidableController(),
@@ -56,18 +50,6 @@ class _ManageLocationPage extends State<ManageLocationPage> {
             checked: context.read<Location>().cur == location['name'],
             multi_select: _long_press),
       ));
-    }
-    if (_long_press) {
-      loc_list.add(Expanded(flex: 1, child: Container()));
-      loc_list.add(ButtonBar(alignment: MainAxisAlignment.center, children: [
-        IconButton(
-            onPressed: () {
-              context.read<Location>().del_loc(context.read<Location>().cur);
-              _long_press = false;
-              setState(() {});
-            },
-            icon: Icon(Icons.delete_forever))
-      ]));
     }
     setState(() {});
     return loc_list;
