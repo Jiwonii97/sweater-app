@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/components/location_tile.dart';
 import 'package:sweater/components/location_app_bar.dart';
 import 'package:sweater/providers/location_info.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class ManageLocationPage extends StatefulWidget {
@@ -47,7 +48,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
         }),
         child: LocationTile(
             onPressButton: delete_loc,
-            leadingIcon: Icons.location_on_outlined,
+            slidableController: SlidableController(),
             title: location['name'],
             checked: context.read<Location>().cur == location['name'],
             multi_select: _long_press),
@@ -72,6 +73,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: const LocationAppBar(
           title: '위치 관리',
         ),
