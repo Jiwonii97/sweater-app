@@ -5,6 +5,7 @@ import 'package:sweater/components/rw_data.dart';
 import 'package:sweater/pages/add_location_page.dart';
 import 'package:sweater/components/location_tile.dart';
 import 'package:sweater/providers/location_info.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class ManageLocationPage extends StatefulWidget {
@@ -50,7 +51,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
         }),
         child: LocationTile(
             onPressButton: delete_loc,
-            leadingIcon: Icons.location_on_outlined,
+            slidableController: SlidableController(),
             title: location['name'],
             checked: context.read<Location>().cur == location['name'],
             multi_select: _long_press),
