@@ -14,8 +14,9 @@ class CheckMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        margin: const EdgeInsets.only(bottom: 8.0),
         child: Material(
             color: checked ? Colors.blue[200] : Colors.grey[200],
             shape:

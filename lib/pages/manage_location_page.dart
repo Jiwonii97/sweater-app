@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/components/location_tile.dart';
 import 'package:sweater/components/check_menu.dart';
-import 'package:sweater/components/location_app_bar.dart';
 import 'package:sweater/pages/add_location_page.dart';
-import 'package:sweater/components/location_tile.dart';
 import 'package:sweater/providers/location_info.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/theme/sweater_icons.dart';
 
 class ManageLocationPage extends StatefulWidget {
   const ManageLocationPage({Key? key}) : super(key: key);
@@ -25,39 +23,38 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   late SharedPreferences prefs;
   final String _title = "위치 관리";
 
-  void delete_loc(String title) {
+  void deleteLoc(BuildContext context, String title) {
     context.read<Location>().del_loc(title);
     // _long_press = false;
     setState(() {});
   }
 
-  List<Widget> _read_loc_list() {
-    if (loc_list.length != 0) {
+  List<Widget> readLocList() {
+    if (loc_list.isNotEmpty) {
       loc_list = [];
     }
 
     for (var location in context.watch<Location>().location) {
       loc_list.add(GestureDetector(
-        onTap: () => setState(() {
-          context.read<Location>().cur = location["name"];
-          // select = location['name'];
-          context.read<Location>().save_all();
-          setState(() {});
-        }),
-        child: context.read<Location>().cur == location['name']
-            ? CheckMenu(
-                leadingIcon: Icons.location_on_outlined,
-                title: location['name'],
-                checked: context.read<Location>().cur == location['name'],
-              )
-            : LocationTile(
-                onPressButton: delete_loc,
-                slidableController: SlidableController(),
-                title: location['name'],
-                checked: context.read<Location>().cur == location['name'],
-              ),
-      ));
+          onTap: () => setState(() {
+                context.read<Location>().cur = location["name"];
+                // select = location['name'];
+                context.read<Location>().save_all();
+                setState(() {});
+              }),
+          child: context.read<Location>().cur == location['name']
+              ? CheckMenu(
+                  leadingIcon: SweaterIcons.map_marker_alt,
+                  title: location['name'],
+                  checked: context.read<Location>().cur == location['name'],
+                )
+              : LocationTile(
+                  onPressButton: deleteLoc,
+                  title: location['name'],
+                  checked: context.read<Location>().cur == location['name'],
+                )));
     }
+
     setState(() {});
     return loc_list;
   }
@@ -66,9 +63,6 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: const LocationAppBar(
-          title: '위치 관리',
-        ),
         appBar: AppBar(
             title: Text(_title),
             leading: IconButton(
@@ -84,7 +78,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
             ]),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: _read_loc_list(),
+          children: readLocList(),
         ));
   }
 }
