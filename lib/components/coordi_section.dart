@@ -34,11 +34,25 @@ class CoordiSection extends StatelessWidget {
                       builder: (context, value, child) => SizedBox(
                         height: 150,
                         child: Column(children: <Widget>[
-                          const Text("오늘의 추천 코디!"),
-                          Text(context.read<CoordiProvider>().getTop()),
-                          Text(context.read<CoordiProvider>().getBottom()),
-                          // Text(context.read<CoordiProvider>().getBottom()),
-                          Text('어때요?')
+                          value.initCoordiState
+                              ? Column(
+                                  children: [
+                                    const Text("오늘의 추천 코디!"),
+                                    Text(context
+                                        .read<CoordiProvider>()
+                                        .getTopCloth()),
+                                    Text(context
+                                        .read<CoordiProvider>()
+                                        .getBottomCloth()),
+                                    const Text('어때요?'),
+                                  ],
+                                )
+                              : CircularProgressIndicator(
+                                  valueColor:
+                                      new AlwaysStoppedAnimation<Color?>(
+                                          Colors.blue[100]),
+                                  backgroundColor: Colors.blue[600],
+                                ),
                         ]),
                       ),
                     ),

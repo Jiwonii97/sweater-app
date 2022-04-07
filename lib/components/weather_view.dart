@@ -10,7 +10,7 @@ class WeatherView extends StatelessWidget {
       this.address = '내곡동',
       this.date = '4월 1일 금요일 17:00',
       this.temp = "16",
-      this.weather = "assets/weather/sunny.jpg",
+      this.weather = "assets/weather/sunny.png",
       this.etc = '화창\n 16°/3°\n체감온도 15°'})
       : super(key: key);
 

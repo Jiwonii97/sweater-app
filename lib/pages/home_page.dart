@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:sweater/components/home_app_bar.dart';
 import 'package:sweater/components/card_container.dart';
 import 'package:sweater/pages/gender_change_page.dart';
 import 'package:sweater/pages/manage_location_page.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:sweater/theme/sweater_icons.dart';
+import 'package:sweater/theme/global_theme.dart';
 import '../components/coordi_section.dart';
 import '../components/weather_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  final String title = "SWEATER";
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final String _title = "SWEATER";
+  Color colorByWeather() {
+    return Colors.white;
+  }
+
   @override
   Widget build(BuildContext context) {
     context.read<CoordiProvider>().initCoordiList();
@@ -30,10 +33,18 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.cover)),
         child: Scaffold(
             backgroundColor: Colors.transparent,
-            appBar: HomeAppBar(
-                title: widget.title, leading: const Icon(Icons.menu)),
+            appBar: AppBar(
+                title: Text(_title,
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                        fontWeight: FontWeight.bold, color: colorByWeather())),
+                leading: Builder(
+                    builder: (context) => IconButton(
+                        icon: Icon(SweaterIcons.bars, color: colorByWeather()),
+                        onPressed: () {
+                          Scaffold.of(context).openDrawer();
+                        }))),
             body: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: const <Widget>[
@@ -45,14 +56,12 @@ class _HomePageState extends State<HomePage> {
             ),
             drawer: Drawer(
                 child: ListView(
-              padding: EdgeInsets.zero,
               children: <Widget>[
-                const DrawerHeader(
-                    child: Text(
-                      'SWEATER',
-                      style: TextStyle(fontSize: 36),
-                    ),
-                    decoration: BoxDecoration(color: Colors.blue)),
+                DrawerHeader(
+                    child: Text(_title,
+                        style: Theme.of(context).textTheme.headline4),
+                    decoration:
+                        BoxDecoration(color: Theme.of(context).primaryColor)),
                 ListTile(
                     leading: const Icon(Icons.location_on),
                     title: const Text("지역 관리"),
