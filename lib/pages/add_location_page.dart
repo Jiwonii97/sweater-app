@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sweater/components/go_back_app_bar.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:sweater/providers/location_info.dart';
 import 'package:provider/provider.dart';
@@ -21,14 +20,16 @@ class _AddLocationPage extends State<AddLocationPage> {
   List<Widget> output = [];
   late Padding text;
   var select;
-
+  final _title = "위치 추가";
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Scaffold(
-            appBar: const GoBackAppBar(
-              title: '위치 추가',
-            ),
+            appBar: AppBar(
+                title: Text(_title),
+                leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.pop(context))),
             resizeToAvoidBottomInset: false,
             body: FutureBuilder(
                 future: loadAddress(),

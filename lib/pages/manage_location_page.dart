@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/components/location_tile.dart';
 import 'package:sweater/components/check_menu.dart';
 import 'package:sweater/components/location_app_bar.dart';
+import 'package:sweater/pages/add_location_page.dart';
+import 'package:sweater/components/location_tile.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +23,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   // String select = "";
   List selects = [];
   late SharedPreferences prefs;
+  final String _title = "위치 관리";
 
   void delete_loc(String title) {
     context.read<Location>().deleteLoc(title);
@@ -67,6 +70,19 @@ class _ManageLocationPage extends State<ManageLocationPage> {
         appBar: const LocationAppBar(
           title: '위치 관리',
         ),
+        appBar: AppBar(
+            title: Text(_title),
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context)),
+            actions: [
+              IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddLocationPage())))
+            ]),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: _read_loc_list(),
