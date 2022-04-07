@@ -1,93 +1,83 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class WeatherView extends StatelessWidget {
-  final Widget child;
-  final String address, date, temp, etc, weather;
-  const WeatherView(
-      {Key? key,
-      required this.child,
-      this.address = '내곡동',
-      this.date = '4월 1일 금요일 17:00',
-      this.temp = "16",
-      this.weather = "assets/weather/sunny.png",
-      this.etc = '화창\n 16°/3°\n체감온도 15°'})
-      : super(key: key);
+  String weather;
+  int temp, wind;
+
+  WeatherView({
+    Key? key,
+    this.temp = 17, // °C
+    this.wind = 5, // m/s
+    this.weather = "맑음", // 맑음, 흐림 등등
+  }) : super(key: key);
+
+  int calc_sensible(int temp, int wind_speed) {
+    wind_speed = (wind_speed * 60 * 60) ~/ 1000;
+    return (13.12 +
+            0.6215 * temp -
+            11.37 * pow(wind_speed, 0.16) +
+            0.3965 * pow(wind_speed, 0.16) * temp)
+        .round();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
-        height: 155,
-        child: Card(
-            elevation: 0.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            color: Colors.white.withOpacity(0.5),
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
-                  height: 38,
-                  width: MediaQuery.of(context).size.width - 25,
-                  child: Row(children: [
-                    Icon(Icons.location_on_sharp),
-                    Text(
-                      '' + address,
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        // fontFamily: 'Binggre',
-                        // fontWeight: FontWeight.w700
-                      ),
-                    )
-                  ]),
-                ),
-                Container(
-                    padding: EdgeInsets.fromLTRB(13, 0, 5, 10),
-                    height: 25,
-                    width: MediaQuery.of(context).size.width - 25,
-                    child: Text(
-                      date,
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(
-                        fontSize: 10,
-                        // fontFamily: 'Binggre',
-                      ),
-                    )),
-                Row(
-                  children: [
-                    Container(
-                        padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-                        child: Image(
-                            image: AssetImage(weather),
-                            width: 70,
-                            height: 70,
-                            fit: BoxFit.fill)),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: Text(temp + "°c",
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                              fontSize: 40,
-                              // fontFamily: 'Binggre',
-                              // fontWeight: FontWeight.w700
-                            ))),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: Text(etc,
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              // fontFamily: 'Binggre',
-                              // fontWeight: FontWeight.w700
-                            ))),
-                  ],
-                )
-              ],
-            )));
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+        alignment: Alignment.topCenter,
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Image(
+                      image: AssetImage(WeatherImage.get_image(weather)),
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.fill)),
+              SizedBox(
+                width: 80,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("$temp°",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 30, color: Colors.white,
+                            // fontFamily: 'Binggre',
+                            // fontWeight: FontWeight.w700
+                          )),
+                      Text("체감온도 ${calc_sensible(temp, wind)}°",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 10, color: Colors.white.withOpacity(0.7),
+                            // fontFamily: 'Binggre',
+                            // fontWeight: FontWeight.w700
+                          )),
+                      Text("바람 ${wind}m/s",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 10, color: Colors.white.withOpacity(0.7),
+                            // fontFamily: 'Binggre',
+                            // fontWeight: FontWeight.w700
+                          ))
+                    ]),
+              )
+            ],
+          ),
+          Container() // 여기에 시간별 날씨 넣으면 됨
+        ]));
+  }
+}
+
+class WeatherImage {
+  static Map _weather = {
+    "맑음": "assets/weather/sunny.jpg",
+  };
+
+  static get_image(String now) {
+    return _weather[now];
   }
 }

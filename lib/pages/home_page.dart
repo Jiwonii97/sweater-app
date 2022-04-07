@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
-                title: Text(_title,
+                title: Text(context.watch<Location>().cur.split(' ').last,
                     style: Theme.of(context).textTheme.headline6!.copyWith(
                         fontWeight: FontWeight.bold, color: colorByWeather())),
                 leading: Builder(
@@ -48,10 +48,8 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: const <Widget>[
-                    CardContainer(
-                      child: Text("what1"),
-                    ),
+                  children: <Widget>[
+                    WeatherView(),
                     HourlyWeatherSection(),
                     CardContainer(child: CoordiSection()),
                   ]),
