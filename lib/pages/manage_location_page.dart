@@ -43,12 +43,18 @@ class _ManageLocationPage extends State<ManageLocationPage> {
           context.read<Location>().save_all();
           setState(() {});
         }),
-        child: LocationTile(
-            onPressButton: delete_loc,
-            slidableController: SlidableController(),
-            title: location['name'],
-            checked: context.read<Location>().cur == location['name'],
-            multi_select: _long_press),
+        child: context.read<Location>().cur == location['name']
+            ? CheckMenu(
+                leadingIcon: Icons.location_on_outlined,
+                title: location['name'],
+                checked: context.read<Location>().cur == location['name'],
+              )
+            : LocationTile(
+                onPressButton: delete_loc,
+                slidableController: SlidableController(),
+                title: location['name'],
+                checked: context.read<Location>().cur == location['name'],
+              ),
       ));
     }
     setState(() {});
