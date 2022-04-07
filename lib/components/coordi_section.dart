@@ -40,10 +40,10 @@ class CoordiSection extends StatelessWidget {
                                     const Text("오늘의 추천 코디!"),
                                     Text(context
                                         .read<CoordiProvider>()
-                                        .getTop()),
+                                        .getTopCloth()),
                                     Text(context
                                         .read<CoordiProvider>()
-                                        .getBottom()),
+                                        .getBottomCloth()),
                                     const Text('어때요?'),
                                   ],
                                 )
