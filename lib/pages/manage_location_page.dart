@@ -43,6 +43,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
         }),
         child: context.read<Location>().cur == location['name']
             ? CheckMenu(
+                isLocation: true,
                 leadingIcon: Icons.location_on_outlined,
                 title: location['name'],
                 checked: context.read<Location>().cur == location['name'],
