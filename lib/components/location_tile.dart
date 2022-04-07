@@ -34,12 +34,13 @@ class LocationTile extends StatelessWidget {
             child: Slidable(
                 actionPane: SlidableDrawerActionPane(),
                 controller: slidableController,
-                actionExtentRatio: 0.15,
+                actionExtentRatio: 0.2,
                 key: const ValueKey(0),
                 secondaryActions: <Widget>[
                   SlideAction(
                       color: Colors.white,
                       onTap: () => onPressButton(title),
+                      closeOnTap: true,
                       child: Container(
                         height: 100.0,
                         width: 100.0,
@@ -78,7 +79,10 @@ class LocTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () {
-        Slidable.of(context)!.open(actionType: SlideActionType.secondary);
+        if (Slidable.of(context)!.overallMoveAnimation.isCompleted)
+          Slidable.of(context)!.close();
+        else
+          Slidable.of(context)!.open(actionType: SlideActionType.secondary);
       },
       child: ListTile(
         leading: Icon(Icons.location_on_outlined,
