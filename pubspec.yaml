@@ -73,6 +73,7 @@ flutter:
     - assets/weather/mostly_cloudy.png
     - assets/weather/rain.png
     - assets/saved_location.json
+    - assets/weather-api.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
