@@ -7,7 +7,9 @@ import 'package:sweater/providers/location_info.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/theme/sweater_icons.dart';
+import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/theme/global_theme.dart';
+import 'package:sweater/providers/user_info.dart';
 import '../components/coordi_section.dart';
 import '../components/weather_view.dart';
 
@@ -65,7 +67,14 @@ class _HomePageState extends State<HomePage> {
                     decoration:
                         BoxDecoration(color: Theme.of(context).primaryColor)),
                 ListTile(
-                    leading: const Icon(Icons.location_on),
+                    leading: Icon(
+                      context.watch<User>().gender == 1
+                          ? SweaterIcons.mars
+                          : SweaterIcons.venus,
+                      color: context.watch<User>().gender == 1
+                          ? Colors.blue
+                          : Colors.red,
+                    ),
                     title: const Text("지역 관리"),
                     onTap: () => {
                           Navigator.push(
