@@ -8,6 +8,8 @@ class Location extends ChangeNotifier {
   static String _cur = "";
   String get cur => _cur;
   List get location => _location;
+  int get X => getX();
+  int get Y => getY();
   var prefs;
 
   set cur(String new_) {
@@ -22,6 +24,20 @@ class Location extends ChangeNotifier {
 
   Location() {
     initLocation();
+  }
+
+  int getX() {
+    for (var loc in _location) {
+      if (loc['name'] == _cur) return loc['X'];
+    }
+    return 0;
+  }
+
+  int getY() {
+    for (var loc in _location) {
+      if (loc['name'] == _cur) return loc['Y'];
+    }
+    return 0;
   }
 
   void initLocation() async {
