@@ -1,12 +1,13 @@
 import 'dart:ui';
+import 'package:provider/provider.dart';
+import 'package:sweater/providers/weather.dart';
 import 'package:flutter/material.dart';
+import 'package:sweater/module/decide_weather_icon.dart';
 
 class WeatherView extends StatelessWidget {
-  final Widget child;
   final String address, date, temp, etc, weather;
   const WeatherView(
       {Key? key,
-      required this.child,
       this.address = '내곡동',
       this.date = '4월 1일 금요일 17:00',
       this.temp = "16",
@@ -16,6 +17,9 @@ class WeatherView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _weatherConsumer = Provider.of<Weather>(context);
+    HourForecast nowWeather = _weatherConsumer.forecastList[0];
+
     return Container(
         margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
         height: 155,
@@ -60,11 +64,7 @@ class WeatherView extends StatelessWidget {
                   children: [
                     Container(
                         padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-                        child: Image(
-                            image: AssetImage(weather),
-                            width: 70,
-                            height: 70,
-                            fit: BoxFit.fill)),
+                        child: decideWeatherIcon(nowWeather)),
                     Container(
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         width: MediaQuery.of(context).size.width / 3,
