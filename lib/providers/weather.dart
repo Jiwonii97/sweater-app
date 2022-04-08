@@ -120,9 +120,30 @@ class Weather extends ChangeNotifier {
     String baseHour = DateFormat("HH").format(anHourBefore);
     String curHour = DateFormat("HH").format(now);
 
-    // 원하는 시간값을 불러올 수 있도록 계산
-    var predHour = (((int.parse(baseHour) - 2) ~/ 3) * 3) + 2;
+    /*
+      Q. 왜 계산을 이렇게 진행 하였는가?
+      A. 우리가 날씨 정보를 구하는 단기예보의 데이터의 경우,
+      날씨 정보를 업데이트 하는 Base_time이 0200, 0500, 0800, 1100, 1400, 1700, 2000, 2300 총 6개로 구성되어 있다.
+      그래서 현재 날씨 정보를 얻으려면 가장 가깝게 업데이트 된 날씨 정보 데이터를 얻어와야 하므로 추가적인 연산을 진행하게 된다
+      - 계산 과정 : 0200, 0500, 0800, 1100, 1400, 1700, 2000, 2300 -> 0000, 0300, 0600, 0900, 1200, 1500, 1800, 2100으로 우선 바꾼다
+        3으로 나눠 원하는 시간대가 언제인지 구한다 -> 원래 baseTime으로 돌리기 위해 연산을 역으로 진행하기 위해 (*3)+2를 수행한다
+      ex) 현재시간 : 1300 -> 13 -> 11-> ~/3 몫 : 3 -> 3*3+2 = 11 -> 1100의 날씨 정보를 받아오면 된다
+          따라서 우리가 날씨 정보를 얻기위해 가져올 최신 날씨 정보는 1100 시간의 날씨 정보이다
+    */
+    int predHour; // 예측 시간값
+
+    // 만약 현재시간이 2시 이전이라면 BaseTime은 전날에 2300이므로 시간과 더불어 날짜도 하루전으로 바꿔야 한다
+    if (int.parse(baseHour) < 2) {
+      predHour =
+          (((int.parse(baseHour) + 22) ~/ 3) * 3) + 2; // 원하는 시간값을 불러올 수 있도록 계산
+      anHourBefore = anHourBefore.subtract(const Duration(days: 1));
+      basedate = DateFormat("yyyyMMdd").format(anHourBefore);
+    } else {
+      predHour =
+          (((int.parse(baseHour) - 2) ~/ 3) * 3) + 2; // 원하는 시간값을 불러올 수 있도록 계산
+    }
     String basetime = predHour.toString().padLeft(2, "0") + "30";
+    // 30분으로 시간을 설정한 이유 : API 제공 시간(~이후)이 각 BaseTime +10분이기 때문이다
 
     try {
       var getTime = predictMax; // 몇 시간의 정보를 가져올 것인가
@@ -131,7 +152,8 @@ class Weather extends ChangeNotifier {
       final url = Uri.https(_requestHost, _requestPath, {
         "serviceKey": _myKey,
         "pageNo": "1",
-        "numOfRows": ((getTime + 2) * 12).toString(),
+        "numOfRows": ((getTime + 2) * 12)
+            .toString(), // 원래 구하는 시간을 기준보다 +2를 하여 BaseTime에 묶여 있는 3시간의 값을 불러와 원하는 시간대의 12시간 데이터를 뽑아내려고 함
         "dataType": "JSON",
         "base_date": basedate,
         "base_time": basetime,
@@ -171,25 +193,27 @@ class Weather extends ChangeNotifier {
         if (idx == predictMax) {
           break;
         }
-
-        // 기준 시간과 얼마나 차이나는지 나머지 연산을 통한 계산 진행
-        if ((predHour - tmp) % 3 != 0) {
+        /* 기준 시간과 얼마나 차이나는지 나머지 연산을 통한 계산 진행
+          predHour의 나머지만큼 BaseTime 기준 이후 시간을 구해야 하므로 tmp를 통해 나머지가 0이 될때 까지를 구해 원하는 시간대의 12시간 데이터를 추출한다
+          ex) 현재시간 = 1300 -> BaseTime = 1100 -> tmp가 2가 될때 까지 값을 받지 않고, 11시의 2시간 후부터 값을 가져온다
+        */
+        if ((int.parse(curHour) - tmp) % 3 != 0) {
           tmp++;
           continue;
         } else {
           // 조건에 맞으면 클래스 리스트에 값을 갱신
           forecastList[idx].initHourForecast(
-              dateList.elementAt(idx), // 날짜
-              timeList.elementAt(idx), // 시간
-              tempList.elementAt(idx)['fcstValue'], // 온도
+              dateList.elementAt(i), // 날짜
+              timeList.elementAt(i), // 시간
+              tempList.elementAt(i)['fcstValue'], // 온도
               makeSTemp(
-                  int.parse(tempList.elementAt(idx)['fcstValue']),
+                  int.parse(tempList.elementAt(i)['fcstValue']),
                   double.parse(
-                      windSpeedList.elementAt(idx)['fcstValue'])), // 체감 온도
-              makeSky(skyList.elementAt(idx)['fcstValue'],
-                  rainList.elementAt(idx)['fcstValue']), // 하늘 상태(구름 상태)
-              rainRateList.elementAt(idx)['fcstValue'], // 강수 확률
-              windSpeedList.elementAt(idx)['fcstValue']); // 풍속
+                      windSpeedList.elementAt(i)['fcstValue'])), // 체감 온도
+              makeSky(skyList.elementAt(i)['fcstValue'],
+                  rainList.elementAt(i)['fcstValue']), // 하늘 상태(구름 상태)
+              rainRateList.elementAt(i)['fcstValue'], // 강수 확률
+              windSpeedList.elementAt(i)['fcstValue']); // 풍속
           idx++; // 다음 인덱스
         }
       }
