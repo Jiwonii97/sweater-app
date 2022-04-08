@@ -117,7 +117,12 @@ class Weather extends ChangeNotifier {
 
     // 날짜 데이터를 받아서 원하는 basetime, basedate 만들기
     String basedate = DateFormat("yyyyMMdd").format(anHourBefore);
-    String basetime = DateFormat("hhmm").format(anHourBefore);
+    String baseHour = DateFormat("HH").format(anHourBefore);
+    String curHour = DateFormat("HH").format(now);
+
+    // 원하는 시간값을 불러올 수 있도록 계산
+    var predHour = (((int.parse(baseHour) - 2) ~/ 3) * 3) + 2;
+    String basetime = predHour.toString().padLeft(2, "0") + "30";
 
     try {
       var getTime = predictMax; // 몇 시간의 정보를 가져올 것인가
@@ -126,7 +131,7 @@ class Weather extends ChangeNotifier {
       final url = Uri.https(_requestHost, _requestPath, {
         "serviceKey": _myKey,
         "pageNo": "1",
-        "numOfRows": (getTime * 12).toString(),
+        "numOfRows": ((getTime + 2) * 12).toString(),
         "dataType": "JSON",
         "base_date": basedate,
         "base_time": basetime,
@@ -134,6 +139,7 @@ class Weather extends ChangeNotifier {
         "ny": ny
       });
       final response = await http.get(url); // http 호출
+      // print(url);
 
       // http 호출이 안되면 예외 처리
       if (response.statusCode != 200) {
@@ -156,18 +162,36 @@ class Weather extends ChangeNotifier {
       final Iterable dateList = windSpeedList.map((el) => el['fcstDate']);
       final Iterable timeList = windSpeedList.map((el) => el['fcstTime']);
 
+      int tmp = 0; // 기준 시간으로 부터 차이 나는 시간을 구할때 사용하는 임시 변수
+      int idx = 0; // 인덱스 부여용 변수
+
       // 데이터 업데이트
-      for (var i = 0; i < predictMax; i++) {
-        forecastList[i].initHourForecast(
-            dateList.elementAt(i), // 날짜
-            timeList.elementAt(i), // 시간
-            tempList.elementAt(i)['fcstValue'], // 온도
-            makeSTemp(int.parse(tempList.elementAt(i)['fcstValue']),
-                double.parse(windSpeedList.elementAt(i)['fcstValue'])), // 체감 온도
-            makeSky(skyList.elementAt(i)['fcstValue'],
-                rainList.elementAt(i)['fcstValue']), // 하늘 상태(구름 상태)
-            rainRateList.elementAt(i)['fcstValue'], // 강수 확률
-            windSpeedList.elementAt(i)['fcstValue']); // 풍속
+      for (var i = 0; i < (predictMax + 2); i++) {
+        // 12시간 데이터를 전부 받으면 데이터 업데이트 작업을 종료
+        if (idx == predictMax) {
+          break;
+        }
+
+        // 기준 시간과 얼마나 차이나는지 나머지 연산을 통한 계산 진행
+        if ((predHour - tmp) % 3 != 0) {
+          tmp++;
+          continue;
+        } else {
+          // 조건에 맞으면 클래스 리스트에 값을 갱신
+          forecastList[idx].initHourForecast(
+              dateList.elementAt(idx), // 날짜
+              timeList.elementAt(idx), // 시간
+              tempList.elementAt(idx)['fcstValue'], // 온도
+              makeSTemp(
+                  int.parse(tempList.elementAt(idx)['fcstValue']),
+                  double.parse(
+                      windSpeedList.elementAt(idx)['fcstValue'])), // 체감 온도
+              makeSky(skyList.elementAt(idx)['fcstValue'],
+                  rainList.elementAt(idx)['fcstValue']), // 하늘 상태(구름 상태)
+              rainRateList.elementAt(idx)['fcstValue'], // 강수 확률
+              windSpeedList.elementAt(idx)['fcstValue']); // 풍속
+          idx++; // 다음 인덱스
+        }
       }
       notifyListeners();
     } on SocketException {
@@ -176,6 +200,8 @@ class Weather extends ChangeNotifier {
       print("Couldn't find the post 😱");
     } on FormatException {
       print("Bad response format 👎");
+    } catch (e) {
+      print(e);
     }
   }
 }
@@ -231,4 +257,14 @@ class HourForecast {
     sTemp = newsTemp;
     windSpeed = newWindSpeed;
   }
+
+  // void testPrint() {
+  //   print("날짜 : $_date");
+  //   print("시간 : $_time");
+  //   print("기온 : $_temp");
+  //   print("체감 온도 : $_sTemp");
+  //   print("구름 상태 : $_sky");
+  //   print("강수 확률 : $_rainRate");
+  //   print("풍속 : $_windSpeed");
+  // }
 }
