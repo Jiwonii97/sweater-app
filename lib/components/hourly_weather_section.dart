@@ -28,9 +28,9 @@ class HourlyWeatherSection extends StatelessWidget {
                 child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: List.generate(
-                      weatherPrediction.length,
+                      weatherPrediction.length - 1,
                       (index) => HourlyWeatherCard(
-                          hourForecast: weatherPrediction[index]),
+                          hourForecast: weatherPrediction[index + 1]),
                     ))))
         : Container(
             height: 76.0,
