@@ -18,7 +18,11 @@ class Location extends ChangeNotifier {
   }
 
   set location(List new_) {
-    _location.add(new_.last);
+    bool dup = false;
+    for (var address in _location) {
+      if (address['name'] == new_.last['name']) dup = true;
+    }
+    if (!dup) _location.add(new_.last);
     notifyListeners();
   }
 
@@ -50,14 +54,15 @@ class Location extends ChangeNotifier {
     notifyListeners();
   }
 
-  void save_all() async {
+  void saveAll() async {
     prefs = await SharedPreferences.getInstance();
     await prefs.setString(
         'my_location', json.encode({"selected": cur, "location": location}));
   }
 
-  void del_loc(String one) {
+  void deleteLoc(String one) {
     _location.removeWhere((element) => element['name'] == one);
-    save_all();
+    saveAll();
+    notifyListeners();
   }
 }

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CoordiProvider with ChangeNotifier {
-  List<QuerySnapshot> coordiLists = [];
+  QuerySnapshot? coordiLists;
 
   int _idx = 0;
   bool _initCoordiState = false;
@@ -22,42 +22,39 @@ class CoordiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  String getTop() {
-    QueryDocumentSnapshot temp = coordiLists[0].docs[_idx];
+  String getTopCloth() {
+    QueryDocumentSnapshot temp = coordiLists!.docs[_idx];
     String topCategory = temp.get('items')[0]['category'];
-    // Map<String, dynamic>.from(temp);
-    // if (temp != null) print(temp.runtimeType);
-    // return temp.get('items')[0].get('category');
     return topCategory;
   }
 
-  String getBottom() {
-    QueryDocumentSnapshot temp = coordiLists[0].docs[_idx];
+  String getBottomCloth() {
+    QueryDocumentSnapshot temp = coordiLists!.docs[_idx];
     String bottomCategory = temp.get('items')[1]['category'];
     return bottomCategory;
   }
 
-  void idxIncrease() {
+  void nextCoordi() {
     _idx++;
-    if (_idx >= coordiLists[0].docs.length) _idx = 0;
+    if (_idx >= coordiLists!.docs.length) _idx = 0;
     notifyListeners();
   }
 
-  void idxDecrease() {
+  void prevCoordi() {
     _idx--;
     if (_idx < 0) {
-      _idx = coordiLists[0].docs.length - 1;
+      _idx = coordiLists!.docs.length - 1;
     }
     notifyListeners();
   }
 
-  void resetIdx() {
+  void goFirstCoordi() {
     _idx = 0;
     notifyListeners();
   }
 
-  void addCoordiList(QuerySnapshot newCordi) {
-    coordiLists.add(newCordi);
+  void addCoordiList(QuerySnapshot? newCoordi) {
+    coordiLists = newCoordi;
     notifyListeners();
   }
 }
