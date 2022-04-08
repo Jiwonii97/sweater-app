@@ -19,7 +19,7 @@ class WeatherView extends StatelessWidget {
   Widget build(BuildContext context) {
     var _weatherConsumer = Provider.of<Weather>(context);
     HourForecast nowWeather = _weatherConsumer.forecastList[0];
-
+    bool isNow = true;
     return Container(
         margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
         height: 155,
@@ -64,7 +64,7 @@ class WeatherView extends StatelessWidget {
                   children: [
                     Container(
                         padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-                        child: decideWeatherIcon(nowWeather)),
+                        child: decideWeatherIcon(nowWeather, isNow)),
                     Container(
                         padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                         width: MediaQuery.of(context).size.width / 3,

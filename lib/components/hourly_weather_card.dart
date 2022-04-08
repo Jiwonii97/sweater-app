@@ -11,6 +11,7 @@ class HourlyWeatherCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isNow = false;
     return Container(
         width: 88.0,
         child: Card(
@@ -41,7 +42,7 @@ class HourlyWeatherCard extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              decideWeatherIcon(hourForecast),
+                              decideWeatherIcon(hourForecast, isNow),
                               Column(
                                 children: [
                                   Text("${hourForecast.getTemp}°",
