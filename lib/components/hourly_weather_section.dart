@@ -3,22 +3,6 @@ import 'package:sweater/components/hourly_weather_card.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/weather.dart';
 
-List<HourForecast> weatherPrediction = []; //시간별 날씨 상태 담을 리스트
-List<HourForecast> dummy = [
-  HourForecast(),
-  HourForecast(),
-  HourForecast(),
-  HourForecast(),
-  HourForecast(),
-  HourForecast(),
-  HourForecast(),
-  HourForecast(),
-  HourForecast(),
-  HourForecast(),
-  HourForecast(),
-  HourForecast(),
-];
-
 class NoGlowScrollBehavior extends ScrollBehavior {
   @override
   Widget buildViewportChrome(
@@ -32,6 +16,9 @@ class HourlyWeatherSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _weatherProvider = Provider.of<Weather>(context);
+    List<HourForecast> weatherPrediction =
+        _weatherProvider.forecastList; //시간별 날씨 상태 담을 리스트
     return Container(
         margin: EdgeInsets.symmetric(vertical: 1.0),
         height: 76.0,
@@ -40,8 +27,9 @@ class HourlyWeatherSection extends StatelessWidget {
             child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: List.generate(
-                  dummy.length,
-                  (index) => HourlyWeatherCard(hourForecast: dummy[index]),
+                  weatherPrediction.length,
+                  (index) =>
+                      HourlyWeatherCard(hourForecast: weatherPrediction[index]),
                 ))));
   }
 }
