@@ -148,6 +148,7 @@ class Weather extends ChangeNotifier {
     try {
       var getTime = predictMax; // 몇 시간의 정보를 가져올 것인가
 
+      // 날짜 데이터를 받아서 원하는 basetime, basedate 만들기
       // url 변환
       final url = Uri.https(_requestHost, _requestPath, {
         "serviceKey": _myKey,
@@ -241,7 +242,16 @@ class HourForecast {
   String _rainRate = "-1"; // 강수 확률
   String _windSpeed = "-1"; // 풍속
 
-  // Set 함수
+  //getter
+  String get getDate => _date;
+  String get getTime => _time;
+  String get getTemp => _temp;
+  String get getSTemp => _sTemp;
+  String get getSky => _sky;
+  String get getRainRate => _rainRate;
+  String get getWindSpeed => _windSpeed;
+
+  // Setter 함수
   set date(String input) {
     _date = input;
   }
