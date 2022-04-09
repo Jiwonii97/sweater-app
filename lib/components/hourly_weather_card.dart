@@ -36,7 +36,8 @@ class HourlyWeatherCard extends StatelessWidget {
                       child: ListView(
                         children: [
                           Center(
-                            child: Text(hourForecast.getTime,
+                            child: Text(
+                                hourForecast.getTime.substring(0, 2) + ":00",
                                 style: TextStyle(fontSize: 12)),
                           ),
                           Row(
