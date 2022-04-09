@@ -26,7 +26,7 @@ class LocationTile extends StatelessWidget {
               motion: const StretchMotion(),
               children: [
                 MyCustomSlidableAction(
-                    onPressed: (context) => onPressButton(context, title),
+                    onPressed: (context) => onPressButton(title),
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
                     child: const Icon(
