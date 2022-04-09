@@ -4,20 +4,18 @@ import 'dart:math';
 
 class WeatherView extends StatelessWidget {
   String weather;
-  int temp, sTemp;
-  double wind;
+  String temp, sTemp, wind;
 
   WeatherView({
     Key? key,
-    this.temp = 27, // °C
-    this.sTemp = 99,
-    this.wind = 99, // m/s
+    this.temp = "27", // °C
+    this.sTemp = "99", // 체감온도
+    this.wind = "99", // m/s
     this.weather = "맑음", // 맑음, 흐림 등등
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String wind_output = wind % 1 == 0 ? "${wind.round()}" : "$wind";
     return Container(
         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
         alignment: Alignment.topCenter,
@@ -52,7 +50,7 @@ class WeatherView extends StatelessWidget {
                             color: Colors.white.withOpacity(0.7), height: 1),
                       ),
                       Text(
-                        "바람 ${wind_output}m/s ",
+                        "바람 ${wind}m/s ",
                         style: Theme.of(context)
                             .textTheme
                             .caption

@@ -107,7 +107,6 @@ class Weather extends ChangeNotifier {
     if (_myKey == '') {
       bool isSuccess = await initKey();
     }
-
     // 현재 시간기준, 1시간전 시간 구하기
     var now = DateTime.now(); //현재일자
     var _1hourBefore = now.subtract(const Duration(hours: 1));
@@ -181,7 +180,7 @@ class HourForecast {
   // 초기값(Default) 설정
   String _date = "19700101";
   String _time = "9999"; // 시간
-  String _temp = "999"; // 기온
+  String _temp = "99"; // 기온
   String _sTemp = "999"; // 체감 온도
   String _sky = "맑음"; // 구름 상태 - 맑음, 구름많음, 흐림, 비, 비/눈, 눈, 소나기
   String _rainRate = "-1"; // 강수 확률

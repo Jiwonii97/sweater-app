@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sweater/components/card_container.dart';
 import 'package:sweater/components/hourly_weather_section.dart';
@@ -6,6 +7,7 @@ import 'package:sweater/pages/manage_location_page.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/providers/weather.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/theme/global_theme.dart';
 import '../components/coordi_section.dart';
@@ -25,8 +27,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void iniState() {
+    print(context.read<Location>().cur);
+    print("hi");
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     context.read<CoordiProvider>().initCoordiList();
+    var weather = context.watch<Weather>().forecastList[0];
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -53,7 +63,12 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    WeatherView(),
+                    WeatherView(
+                      temp: weather.getTemp,
+                      sTemp: weather.getSTemp,
+                      wind: weather.getWindSpeed,
+                      weather: weather.getSky,
+                    ),
                     HourlyWeatherSection(),
                     CardContainer(child: CoordiSection()),
                   ]),

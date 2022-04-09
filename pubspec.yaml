@@ -68,6 +68,7 @@ flutter:
   assets:
     - assets/asset_list.json
     - assets/background-sky.png
+    - assets/weather-api.json
     - assets/weather/sunny.png
     - assets/weather/cloudy.png
     - assets/weather/mostly_cloudy.png
