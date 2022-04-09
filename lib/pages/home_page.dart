@@ -67,14 +67,7 @@ class _HomePageState extends State<HomePage> {
                     decoration:
                         BoxDecoration(color: Theme.of(context).primaryColor)),
                 ListTile(
-                    leading: Icon(
-                      context.watch<User>().gender == 1
-                          ? SweaterIcons.mars
-                          : SweaterIcons.venus,
-                      color: context.watch<User>().gender == 1
-                          ? Colors.blue
-                          : Colors.red,
-                    ),
+                    leading: Icon(SweaterIcons.map_marker_alt),
                     title: const Text("지역 관리"),
                     onTap: () => {
                           Navigator.push(
@@ -84,7 +77,14 @@ class _HomePageState extends State<HomePage> {
                                       const ManageLocationPage()))
                         }),
                 ListTile(
-                    leading: const Icon(Icons.wc),
+                    leading: Icon(
+                      context.watch<User>().gender == 1
+                          ? SweaterIcons.mars
+                          : SweaterIcons.venus,
+                      color: context.watch<User>().gender == 1
+                          ? Colors.blue
+                          : Colors.red,
+                    ),
                     title: const Text("성별 설정"),
                     onTap: () => {
                           Navigator.push(
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       const GenderChangePage()))
-                        })
+                        }),
               ],
             ))));
   }
