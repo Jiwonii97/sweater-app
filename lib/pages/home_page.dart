@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     context.read<CoordiProvider>().initCoordiList();
-    print(context.read<Location>().cur);
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -36,9 +35,13 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
-                title: Text(context.watch<Location>().cur.split(' ').last,
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                        fontWeight: FontWeight.bold, color: colorByWeather())),
+                title: Text(
+                  context.watch<Location>().cur.split(' ').last,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .copyWith(color: colorByWeather()),
+                ),
                 leading: Builder(
                     builder: (context) => IconButton(
                         icon: Icon(SweaterIcons.bars, color: colorByWeather()),
