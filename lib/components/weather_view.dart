@@ -9,7 +9,7 @@ class WeatherView extends StatelessWidget {
 
   WeatherView({
     Key? key,
-    this.temp = 99, // °C
+    this.temp = 27, // °C
     this.sTemp = 99,
     this.wind = 99, // m/s
     this.weather = "맑음", // 맑음, 흐림 등등
@@ -26,7 +26,7 @@ class WeatherView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
                 child: Image(
                     image: AssetImage(WeatherImage.get_image(weather)),
                     width: 80,
@@ -48,14 +48,14 @@ class WeatherView extends StatelessWidget {
                       Text(
                         "체감 온도 ${sTemp}°",
                         // textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        style: Theme.of(context).textTheme.caption?.copyWith(
                             color: Colors.white.withOpacity(0.7), height: 1),
                       ),
                       Text(
                         "바람 ${wind_output}m/s ",
                         style: Theme.of(context)
                             .textTheme
-                            .bodySmall
+                            .caption
                             ?.copyWith(color: Colors.white.withOpacity(0.7)),
                       )
                     ]),
