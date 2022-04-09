@@ -65,16 +65,17 @@ class WeatherView extends StatelessWidget {
                     Container(
                         padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
                         child: decideWeatherIcon(nowWeather, isNow)),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: Text(temp + "°c",
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                              fontSize: 40,
-                              // fontFamily: 'Binggre',
-                              // fontWeight: FontWeight.w700
-                            ))),
+                    // Container(
+                    //     padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    //     width: MediaQuery.of(context).size.width / 3,
+                    //     child: Text(temp + "°c",
+                    //         textAlign: TextAlign.left,
+                    //         style: const TextStyle(
+                    //           fontSize: 40,
+                    //           // fontFamily: 'Binggre',
+                    //           // fontWeight: FontWeight.w700
+                    //         ))),
+                    Text("풍속 : ${nowWeather.getWindSpeed}"),
                     Container(
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                         width: MediaQuery.of(context).size.width / 3,
