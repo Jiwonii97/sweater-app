@@ -1,19 +1,18 @@
-import 'dart:ui';
-import 'package:provider/provider.dart';
-import 'package:sweater/providers/weather.dart';
 import 'package:flutter/material.dart';
-import 'package:sweater/module/decide_weather_icon.dart';
+import 'package:sweater/providers/location_info.dart';
+import 'dart:math';
 
 class WeatherView extends StatelessWidget {
-  final String address, date, temp, etc, weather;
-  const WeatherView(
-      {Key? key,
-      this.address = '내곡동',
-      this.date = '4월 1일 금요일 17:00',
-      this.temp = "16",
-      this.weather = "assets/weather/sunny.png",
-      this.etc = '화창\n 16°/3°\n체감온도 15°'})
-      : super(key: key);
+  String weather;
+  String temp, sTemp, wind;
+
+  WeatherView({
+    Key? key,
+    this.temp = "27", // °C
+    this.sTemp = "99", // 체감온도
+    this.wind = "99", // m/s
+    this.weather = "맑음", // 맑음, 흐림 등등
+  }) : super(key: key)
 
   @override
   Widget build(BuildContext context) {
@@ -21,74 +20,63 @@ class WeatherView extends StatelessWidget {
     HourForecast nowWeather = _weatherConsumer.forecastList[0];
     bool isNow = true;
     return Container(
-        margin: EdgeInsets.fromLTRB(5, 0, 5, 10),
-        height: 155,
-        child: Card(
-            elevation: 0.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            color: Colors.white.withOpacity(0.5),
-            child: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
-                  height: 38,
-                  width: MediaQuery.of(context).size.width - 25,
-                  child: Row(children: [
-                    Icon(Icons.location_on_sharp),
-                    Text(
-                      '' + address,
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        // fontFamily: 'Binggre',
-                        // fontWeight: FontWeight.w700
+        padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+        alignment: Alignment.topCenter,
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+                child: Image(
+                    image: AssetImage(WeatherImage.get_image(weather)),
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.fill),
+              ),
+              SizedBox(
+                width: 80,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "$temp°",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall
+                            ?.copyWith(color: Colors.white, height: 1.1),
                       ),
-                    )
-                  ]),
-                ),
-                Container(
-                    padding: EdgeInsets.fromLTRB(13, 0, 5, 10),
-                    height: 25,
-                    width: MediaQuery.of(context).size.width - 25,
-                    child: Text(
-                      date,
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(
-                        fontSize: 10,
-                        // fontFamily: 'Binggre',
+                      Text(
+                        "체감 온도 ${sTemp}°",
+                        // textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.caption?.copyWith(
+                            color: Colors.white.withOpacity(0.7), height: 1),
                       ),
-                    )),
-                Row(
-                  children: [
-                    Container(
-                        padding: EdgeInsets.fromLTRB(20, 0, 0, 5),
-                        child: decideWeatherIcon(nowWeather, isNow)),
-                    // Container(
-                    //     padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    //     width: MediaQuery.of(context).size.width / 3,
-                    //     child: Text(temp + "°c",
-                    //         textAlign: TextAlign.left,
-                    //         style: const TextStyle(
-                    //           fontSize: 40,
-                    //           // fontFamily: 'Binggre',
-                    //           // fontWeight: FontWeight.w700
-                    //         ))),
-                    Text("풍속 : ${nowWeather.getWindSpeed}"),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: Text(etc,
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              // fontFamily: 'Binggre',
-                              // fontWeight: FontWeight.w700
-                            ))),
-                  ],
-                )
-              ],
-            )));
+                      Text(
+                        "바람 ${wind}m/s ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .caption
+                            ?.copyWith(color: Colors.white.withOpacity(0.7)),
+                      )
+                    ]),
+              )
+            ],
+          ),
+          Container() // 여기에 시간별 날씨 넣으면 됨
+        ]));
+  }
+}
+
+class WeatherImage {
+  static const Map _weather = {
+    "맑음": "assets/weather/sunny.png",
+    "흐림": "assets/weather/cloudy.png",
+    "구름 많음": "assets/weather/mostly_cloudy.png",
+    "비": "assets/weather/rain.png",
+  };
+
+  static get_image(String now) {
+    return _weather[now];
   }
 }

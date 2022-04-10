@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sweater/components/card_container.dart';
 import 'package:sweater/components/hourly_weather_section.dart';
@@ -7,6 +8,7 @@ import 'package:sweater/providers/location_info.dart';
 import 'package:sweater/providers/weather.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/providers/weather.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/theme/global_theme.dart';
 import '../components/coordi_section.dart';
@@ -33,6 +35,7 @@ class _HomePageState extends State<HomePage> {
     var locationConsumer = Provider.of<Location>(context);
     var weatherConsumer = Provider.of<Weather>(context);
     context.read<Weather>().updateWeather(xValue, yValue);
+    var currentWeather = context.watch<Weather>().forecastList[0];
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -41,9 +44,13 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
-                title: Text(_title,
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                        fontWeight: FontWeight.bold, color: colorByWeather())),
+                title: Text(
+                  context.watch<Location>().cur.split(' ').last,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .copyWith(color: colorByWeather()),
+                ),
                 leading: Builder(
                     builder: (context) => IconButton(
                         icon: Icon(SweaterIcons.bars, color: colorByWeather()),
@@ -54,9 +61,12 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: const <Widget>[
-                    CardContainer(
-                      child: WeatherView(),
+                  children: <Widget>[
+                    WeatherView(
+                      temp: weather.getTemp,
+                      sTemp: weather.getSTemp,
+                      wind: weather.getWindSpeed,
+                      weather: weather.getSky,
                     ),
                     HourlyWeatherSection(),
                     CardContainer(child: CoordiSection()),
