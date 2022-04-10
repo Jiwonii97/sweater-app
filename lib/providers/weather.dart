@@ -3,15 +3,13 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-
-import "dart:math"; // 체감 온도 계산을 위한 연산 라이브러리
-import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
-
 import "dart:math"; // 체감 온도 계산을 위한 연산 라이브러리
 import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
 
 // Weather 객체 클래스
 class Weather extends ChangeNotifier {
+  bool initWeatherFlag = false;
+
   // 구름 상태 인덱스
   static const _sunny = "1";
   static const _cloudiness = "3";
@@ -65,7 +63,7 @@ class Weather extends ChangeNotifier {
           res = "맑음";
           break;
         case _cloudiness:
-          res = "구름 많음";
+          res = "구름많음";
           break;
         case _cloudy:
           res = "흐림";
@@ -108,7 +106,6 @@ class Weather extends ChangeNotifier {
     String nx   // 기준 위치 X좌표    ex) 59
     String ny   // 기준 위치 Y좌표    ex) 125
     */
-
     if ((_myKey == '') & (flagApi == false)) {
       // api 키값을 제대로 받아오면 해당 flag를 true로 바꿔 1회만 실행되게 함
       flagApi = await initKey();
@@ -151,7 +148,6 @@ class Weather extends ChangeNotifier {
     try {
       var getTime = predictMax; // 몇 시간의 정보를 가져올 것인가
 
-      // 날짜 데이터를 받아서 원하는 basetime, basedate 만들기
       // url 변환
       final url = Uri.https(_requestHost, _requestPath, {
         "serviceKey": _myKey,
@@ -221,6 +217,7 @@ class Weather extends ChangeNotifier {
           idx++; // 다음 인덱스
         }
       }
+      initWeatherFlag = true;
       notifyListeners();
     } on SocketException {
       print('No Internet connection 😑');
@@ -238,10 +235,10 @@ class Weather extends ChangeNotifier {
 class HourForecast {
   // 초기값(Default) 설정
   String _date = "19700101";
-  String _time = "9999"; // 시간
-  String _temp = "999"; // 기온
-  String _sTemp = "999"; // 체감 온도
-  String _sky = ""; // 구름 상태 - 맑음, 구름많음, 흐림, 비, 비/눈, 눈, 소나기
+  String _time = "10:00"; // 시간
+  String _temp = "99"; // 기온
+  String _sTemp = "99"; // 체감 온도
+  String _sky = "눈"; // 구름 상태 - 맑음, 구름많음, 흐림, 비, 비/눈, 눈, 소나기
   String _rainRate = "-1"; // 강수 확률
   String _windSpeed = "-1"; // 풍속
 
@@ -254,7 +251,7 @@ class HourForecast {
   String get getRainRate => _rainRate;
   String get getWindSpeed => _windSpeed;
 
-  // Setter 함수
+  // Set 함수
   set date(String input) {
     _date = input;
   }
@@ -294,14 +291,4 @@ class HourForecast {
     sTemp = newsTemp;
     windSpeed = newWindSpeed;
   }
-
-  // void testPrint() {
-  //   print("날짜 : $_date");
-  //   print("시간 : $_time");
-  //   print("기온 : $_temp");
-  //   print("체감 온도 : $_sTemp");
-  //   print("구름 상태 : $_sky");
-  //   print("강수 확률 : $_rainRate");
-  //   print("풍속 : $_windSpeed");
-  // }
 }
