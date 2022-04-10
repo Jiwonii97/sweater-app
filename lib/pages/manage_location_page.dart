@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sweater/components/location_tile.dart';
 import 'package:sweater/components/check_menu.dart';
-import 'package:sweater/components/rw_data.dart';
 import 'package:sweater/pages/add_location_page.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/theme/sweater_icons.dart';
 
 class ManageLocationPage extends StatefulWidget {
   const ManageLocationPage({Key? key}) : super(key: key);
@@ -14,75 +15,71 @@ class ManageLocationPage extends StatefulWidget {
 }
 
 class _ManageLocationPage extends State<ManageLocationPage> {
-  bool _long_press = false;
   bool init = false;
-  List<Widget> loc_list = [];
-  // String select = "";
+  List<Widget> locList = [];
   List selects = [];
   late SharedPreferences prefs;
-  final String _title = "위치 관리";
 
-  List<Widget> _read_loc_list() {
-    if (loc_list.length != 0) {
-      loc_list = [];
+  void deleteLoc(String title) {
+    context.read<Location>().deleteLoc(title);
+    setState(() {});
+  }
+
+  List<Widget> readLocList() {
+    if (locList.isNotEmpty) {
+      locList = [];
     }
 
     for (var location in context.watch<Location>().location) {
-      loc_list.add(GestureDetector(
+      locList.add(GestureDetector(
         onTap: () => setState(() {
           context.read<Location>().cur = location["name"];
-          // select = location['name'];
-          context.read<Location>().save_all();
+          context.read<Location>().saveAll();
           setState(() {});
         }),
-        onLongPress: () => setState(() {
-          _long_press = !_long_press;
-          // select = location['name'];
-          context.read<Location>().cur = location["name"];
-          setState(() {});
-        }),
-        child: CheckMenu(
-            leadingIcon: Icons.location_on_outlined,
-            title: location['name'],
-            checked: context.read<Location>().cur == location['name'],
-            multi_select: _long_press),
+        child: context.read<Location>().cur == location['name']
+            ? CheckMenu(
+                isLocation: true,
+                leadingIcon: SweaterIcons.map_marker_alt,
+                title: location['name'],
+                checked: context.read<Location>().cur == location['name'],
+              )
+            : LocationTile(
+                onPressButton: deleteLoc,
+                title: location['name'],
+                checked: context.read<Location>().cur == location['name'],
+              ),
       ));
     }
-    if (_long_press) {
-      loc_list.add(Expanded(flex: 1, child: Container()));
-      loc_list.add(ButtonBar(alignment: MainAxisAlignment.center, children: [
-        IconButton(
-            onPressed: () {
-              context.read<Location>().del_loc(context.read<Location>().cur);
-              _long_press = false;
-              setState(() {});
-            },
-            icon: Icon(Icons.delete_forever))
-      ]));
-    }
+
     setState(() {});
-    return loc_list;
+    return locList;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-            title: Text(_title),
-            leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context)),
-            actions: [
-              IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: () => Navigator.push(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.black,
+          elevation: 0,
+          title: const Text('위치 관리'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AddLocationPage())))
-            ]),
+                          builder: (context) => const AddLocationPage()));
+                },
+                icon: Icon(SweaterIcons.plus))
+          ],
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: _read_loc_list(),
+          children: readLocList(),
         ));
   }
 }

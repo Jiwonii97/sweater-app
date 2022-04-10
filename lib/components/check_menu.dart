@@ -4,20 +4,21 @@ class CheckMenu extends StatelessWidget {
   final leadingIcon;
   final String title;
   bool checked = false;
-  bool multi_select = false;
+  bool isLocation = false;
 
   CheckMenu({
     Key? key,
     this.leadingIcon = null,
     this.title = "menu",
+    this.isLocation = false,
     this.checked = false,
-    this.multi_select = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        margin: const EdgeInsets.only(bottom: 8.0),
         child: Material(
             color: checked ? Colors.blue[200] : Colors.grey[200],
             shape:
@@ -28,12 +29,14 @@ class CheckMenu extends StatelessWidget {
                   color: checked ? Colors.blue[400] : Colors.grey[400]),
               title: Text(title,
                   style: checked
-                      ? TextStyle(color: Theme.of(context).primaryColor)
+                      ? isLocation
+                          ? TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold)
+                          : TextStyle(color: Theme.of(context).primaryColor)
                       : const TextStyle(color: Colors.grey)),
               trailing: checked
-                  ? multi_select
-                      ? const Icon(Icons.check_circle, color: Colors.blue)
-                      : const Icon(Icons.check, color: Colors.blue)
+                  ? const Icon(Icons.check, color: Colors.blue)
                   : const Icon(null),
             ))));
   }

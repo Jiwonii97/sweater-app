@@ -14,9 +14,9 @@ class AddLocationPage extends StatefulWidget {
 }
 
 class _AddLocationPage extends State<AddLocationPage> {
-  bool data_loaded = false;
+  bool dataLoaded = false;
   bool choose = false;
-  late Map search_list;
+  late Map searchList;
   List<Widget> output = [];
   late Padding text;
   var select;
@@ -32,13 +32,13 @@ class _AddLocationPage extends State<AddLocationPage> {
                     onPressed: () => Navigator.pop(context))),
             resizeToAvoidBottomInset: false,
             body: FutureBuilder(
-                future: load_address(),
+                future: loadAddress(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    if (!data_loaded) {
-                      init_output("");
-                      search_list = json.decode(snapshot.data);
-                      data_loaded = true;
+                    if (!dataLoaded) {
+                      initOutput("");
+                      searchList = json.decode(snapshot.data);
+                      dataLoaded = true;
                     }
                   }
                   //error가 발생하게 될 경우 반환하게 되는 부분
@@ -58,46 +58,32 @@ class _AddLocationPage extends State<AddLocationPage> {
                 })));
   }
 
-  Future load_address() async {
-    if (!data_loaded) {
+
+  Future loadAddress() async {
+    if (!dataLoaded) {
+
       return await rootBundle.loadString('assets/saved_location.json');
     }
     return 1;
   }
 
-  void save_new_loc() async {
+  void selectOne(address) {
+    select = {"name": address['주소'], "X": address['X'], "Y": address['Y']};
     context.read<Location>().location = [select];
-    context.read<Location>().save_all();
+    context.read<Location>().saveAll();
     Navigator.pop(this.context);
   }
 
-  void select_one(address) {
-    select = {"name": address['주소'], "X": address['X'], "Y": address['Y']};
-    choose = true;
-    output = [
-      SearchBar(
-          choose: choose,
-          text: address['주소'],
-          search: search,
-          save_loc: save_new_loc)
-    ];
-    FocusManager.instance.primaryFocus?.unfocus();
-    setState(() {});
+  void initOutput(String text) {
+    output = [SearchBar(choose: choose, text: text, search: search)];
   }
 
-  void init_output(String text) {
-    output = [
-      SearchBar(
-          choose: choose, text: text, search: search, save_loc: save_new_loc)
-    ];
-  }
-
-  List<Widget> search(String search_word) {
-    init_output(search_word);
-    for (var a in search_list['location']) {
+  List<Widget> search(String searchWord) {
+    initOutput(searchWord);
+    for (var address in searchList['location']) {
       if (output.length > 6) break;
-      if (a['주소'].contains(search_word)) {
-        output.add(SearchList(refresh: select_one, address: a));
+      if (address['주소'].contains(searchWord)) {
+        output.add(SearchList(refresh: selectOne, address: address));
       }
     }
     setState(() {});

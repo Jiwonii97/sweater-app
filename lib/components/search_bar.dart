@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatelessWidget {
-  final TextEditingController text_controller = TextEditingController();
+  final TextEditingController textController = TextEditingController();
   String text;
   bool choose;
   Function search;
-  Function save_loc;
+  Function saveLoc;
 
   SearchBar({
     Key? key,
     this.text = "",
     this.choose = false,
     required this.search,
-    required this.save_loc,
+    required this.saveLoc,
   }) : super(key: key);
 
   @override
@@ -39,11 +39,11 @@ class SearchBar extends StatelessWidget {
             // border: InputBorder.none,
             suffixIcon: choose
                 ? TextButton(
-                    onPressed: () => save_loc(),
+                    onPressed: () => saveLoc(),
                     child: const Text("확인"),
                   )
                 : IconButton(
-                    onPressed: () => search(text_controller.text),
+                    onPressed: () => search(textController.text),
                     icon: const Icon(
                       Icons.search,
                       color: Colors.black,
