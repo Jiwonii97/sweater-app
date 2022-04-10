@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-
 import "dart:math"; // 체감 온도 계산을 위한 연산 라이브러리
 import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
 
@@ -101,6 +100,12 @@ class Weather extends ChangeNotifier {
 
   // API를 받아서 해당 날씨 데이터를 Weather 객체에 업데이트
   void updateWeather(String nx, String ny) async {
+    /*
+    String basedate   // 기준 날짜    ex) 19700101
+    String basetime   // 기준 시간 값     ex) 1200
+    String nx   // 기준 위치 X좌표    ex) 59
+    String ny   // 기준 위치 Y좌표    ex) 125
+    */
     if ((_myKey == '') & (flagApi == false)) {
       // api 키값을 제대로 받아오면 해당 flag를 true로 바꿔 1회만 실행되게 함
       flagApi = await initKey();
