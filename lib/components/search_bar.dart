@@ -5,23 +5,21 @@ class SearchBar extends StatelessWidget {
   String text;
   bool choose;
   Function search;
-  Function saveLoc;
 
   SearchBar({
     Key? key,
     this.text = "",
     this.choose = false,
     required this.search,
-    required this.saveLoc,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    text_controller.text = text;
+    textController.text = text;
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
         child: TextField(
-          controller: text_controller,
+          controller: textController,
           onTap: choose
               ? () => FocusManager.instance.primaryFocus?.unfocus()
               : () {},
@@ -37,17 +35,12 @@ class SearchBar extends StatelessWidget {
             contentPadding: const EdgeInsets.all(20.0),
             filled: true,
             // border: InputBorder.none,
-            suffixIcon: choose
-                ? TextButton(
-                    onPressed: () => saveLoc(),
-                    child: const Text("확인"),
-                  )
-                : IconButton(
-                    onPressed: () => search(textController.text),
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    )),
+            suffixIcon: IconButton(
+                onPressed: () => search(textController.text),
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.black,
+                )),
             hintText: '주소를 입력해 주세요',
             fillColor: const Color.fromARGB(255, 232, 239, 243),
             border: const OutlineInputBorder(

@@ -65,10 +65,10 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     WeatherView(
-                      temp: weather.getTemp,
-                      sTemp: weather.getSTemp,
-                      wind: weather.getWindSpeed,
-                      weather: weather.getSky,
+                      temp: currentWeather.getTemp,
+                      sTemp: currentWeather.getSTemp,
+                      wind: currentWeather.getWindSpeed,
+                      weather: currentWeather.getSky,
                     ),
                     HourlyWeatherSection(),
                     CardContainer(child: CoordiSection()),

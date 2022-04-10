@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'dart:math';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WeatherView extends StatelessWidget {
   String weather;
@@ -12,13 +13,10 @@ class WeatherView extends StatelessWidget {
     this.sTemp = "99", // 체감온도
     this.wind = "99", // m/s
     this.weather = "맑음", // 맑음, 흐림 등등
-  }) : super(key: key)
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var _weatherConsumer = Provider.of<Weather>(context);
-    HourForecast nowWeather = _weatherConsumer.forecastList[0];
-    bool isNow = true;
     return Container(
         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
         alignment: Alignment.topCenter,
@@ -28,11 +26,8 @@ class WeatherView extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
-                child: Image(
-                    image: AssetImage(WeatherImage.get_image(weather)),
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.fill),
+                child: SvgPicture.asset(WeatherImage.getImage(weather),
+                    width: 80.0, height: 80.0),
               ),
               SizedBox(
                 width: 80,
@@ -70,13 +65,16 @@ class WeatherView extends StatelessWidget {
 
 class WeatherImage {
   static const Map _weather = {
-    "맑음": "assets/weather/sunny.png",
-    "흐림": "assets/weather/cloudy.png",
-    "구름 많음": "assets/weather/mostly_cloudy.png",
-    "비": "assets/weather/rain.png",
+    "맑음": "assets/weather/sunny.svg",
+    "구름많음": "assets/weather/cloudy.svg",
+    "흐림": "assets/weather/mostlyCloudy.svg",
+    "비": "assets/weather/rainy.svg",
+    "비/눈": "assets/weather/rainAndSnow.svg",
+    "눈": "assets/weather/snow.svg",
+    "소나기": "assets/weather/shower.svg",
   };
 
-  static get_image(String now) {
+  static getImage(String now) {
     return _weather[now];
   }
 }
