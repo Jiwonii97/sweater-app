@@ -12,10 +12,13 @@ class WeatherView extends StatelessWidget {
     this.sTemp = "99", // 체감온도
     this.wind = "99", // m/s
     this.weather = "맑음", // 맑음, 흐림 등등
-  }) : super(key: key);
+  }) : super(key: key)
 
   @override
   Widget build(BuildContext context) {
+    var _weatherConsumer = Provider.of<Weather>(context);
+    HourForecast nowWeather = _weatherConsumer.forecastList[0];
+    bool isNow = true;
     return Container(
         padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
         alignment: Alignment.topCenter,

@@ -5,6 +5,7 @@ import 'package:sweater/components/hourly_weather_section.dart';
 import 'package:sweater/pages/gender_change_page.dart';
 import 'package:sweater/pages/manage_location_page.dart';
 import 'package:sweater/providers/location_info.dart';
+import 'package:sweater/providers/weather.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/weather.dart';
@@ -27,16 +28,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void iniState() {
-    print(context.read<Location>().cur);
-    print("hi");
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     context.read<CoordiProvider>().initCoordiList();
-    var weather = context.watch<Weather>().forecastList[0];
+    String xValue = context.read<Location>().X.toString();
+    String yValue = context.read<Location>().Y.toString();
+    var locationConsumer = Provider.of<Location>(context);
+    var weatherConsumer = Provider.of<Weather>(context);
+    context.read<Weather>().updateWeather(xValue, yValue);
+    var currentWeather = context.watch<Weather>().forecastList[0];
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
