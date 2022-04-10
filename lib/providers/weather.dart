@@ -7,6 +7,9 @@ import 'package:flutter/services.dart' show rootBundle;
 import "dart:math"; // 체감 온도 계산을 위한 연산 라이브러리
 import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
 
+import "dart:math"; // 체감 온도 계산을 위한 연산 라이브러리
+import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
+
 // Weather 객체 클래스
 class Weather extends ChangeNotifier {
   // 구름 상태 인덱스
