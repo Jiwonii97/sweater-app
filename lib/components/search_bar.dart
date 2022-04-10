@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatelessWidget {
-  final TextEditingController text_controller = TextEditingController();
+  final TextEditingController textController = TextEditingController();
   String text;
   bool choose;
   Function search;
+  Function saveLoc;
 
   SearchBar({
     Key? key,
     this.text = "",
     this.choose = false,
     required this.search,
+    required this.saveLoc,
   }) : super(key: key);
 
   @override
@@ -26,14 +28,26 @@ class SearchBar extends StatelessWidget {
           autofocus: false,
           showCursor: choose ? false : true,
           decoration: InputDecoration(
+            prefixIcon: choose
+                ? const Icon(
+                    Icons.location_on_outlined,
+                    color: Colors.black,
+                  )
+                : null,
             contentPadding: const EdgeInsets.all(20.0),
             filled: true,
-            suffixIcon: IconButton(
-                onPressed: () => search(text_controller.text),
-                icon: const Icon(
-                  Icons.search,
-                  color: Colors.black,
-                )),
+            // border: InputBorder.none,
+            suffixIcon: choose
+                ? TextButton(
+                    onPressed: () => saveLoc(),
+                    child: const Text("확인"),
+                  )
+                : IconButton(
+                    onPressed: () => search(textController.text),
+                    icon: const Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    )),
             hintText: '주소를 입력해 주세요',
             fillColor: const Color.fromARGB(255, 232, 239, 243),
             border: const OutlineInputBorder(

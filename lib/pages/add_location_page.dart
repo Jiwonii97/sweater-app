@@ -58,8 +58,10 @@ class _AddLocationPage extends State<AddLocationPage> {
                 })));
   }
 
+
   Future loadAddress() async {
     if (!dataLoaded) {
+
       return await rootBundle.loadString('assets/saved_location.json');
     }
     return 1;
