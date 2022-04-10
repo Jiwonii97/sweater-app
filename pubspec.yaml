@@ -38,7 +38,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   cloud_firestore: ^3.1.11
-  http: ^0.13.4
+
+  http: ^0.13.4 # API 추출용
+  intl: ^0.15.7 # 날짜 계산용
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +74,7 @@ flutter:
     - assets/weather/mostly_cloudy.png
     - assets/weather/rain.png
     - assets/saved_location.json
+    - assets/weather-api.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
