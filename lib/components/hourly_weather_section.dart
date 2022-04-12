@@ -19,27 +19,17 @@ class HourlyWeatherSection extends StatelessWidget {
     var _weatherProvider = Provider.of<Weather>(context);
     List<HourForecast> weatherPrediction =
         _weatherProvider.forecastList; //시간별 날씨 상태 담을 리스트
-    return _weatherProvider.initWeatherFlag
-        ? Container(
-            margin: EdgeInsets.symmetric(vertical: 1.0),
-            height: 76.0,
-            child: ScrollConfiguration(
-                behavior: NoGlowScrollBehavior(),
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: List.generate(
-                      weatherPrediction.length - 1,
-                      (index) => HourlyWeatherCard(
-                          hourForecast: weatherPrediction[index + 1]),
-                    ))))
-        : Container(
-            height: 76.0,
-            child: Center(
-              child: CircularProgressIndicator(
-                valueColor:
-                    new AlwaysStoppedAnimation<Color?>(Colors.blue[100]),
-                backgroundColor: Colors.blue[600],
-              ),
-            ));
+    return Container(
+        margin: const EdgeInsets.symmetric(vertical: 1.0),
+        height: 76.0,
+        child: ScrollConfiguration(
+            behavior: NoGlowScrollBehavior(),
+            child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: List.generate(
+                  weatherPrediction.length - 1,
+                  (index) => HourlyWeatherCard(
+                      hourForecast: weatherPrediction[index + 1]),
+                ))));
   }
 }
