@@ -8,8 +8,6 @@ import 'package:sweater/providers/location_info.dart';
 import 'package:sweater/providers/weather.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:sweater/providers/weather.dart';
-import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/theme/global_theme.dart';
 import 'package:sweater/providers/user_info.dart';
@@ -34,8 +32,7 @@ class _HomePageState extends State<HomePage> {
     context.read<CoordiProvider>().initCoordiList();
     String xValue = context.read<Location>().X.toString();
     String yValue = context.read<Location>().Y.toString();
-    var locationConsumer = Provider.of<Location>(context);
-    var weatherConsumer = Provider.of<Weather>(context);
+
     context.read<Weather>().updateWeather(xValue, yValue);
     var currentWeather = context.watch<Weather>().forecastList[0];
     return Container(
@@ -65,10 +62,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     WeatherView(
-                      temp: currentWeather.getTemp,
-                      sTemp: currentWeather.getSTemp,
-                      wind: currentWeather.getWindSpeed,
-                      weather: currentWeather.getSky,
+                      hourForecast: currentWeather,
                     ),
                     HourlyWeatherSection(),
                     CardContainer(child: CoordiSection()),

@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<Location>(create: (context) => Location()),
         ],
         child: MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: GlobalTheme.lightTheme,
             home: const HomePage()));
