@@ -22,10 +22,10 @@ class User extends ChangeNotifier {
   String get genderString => _gender == man ? "man" : "woman";
 
   User() {
-    initInfo();
+    initUserInfo();
   }
 
-  void initInfo() async {
+  void initUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
     gender = prefs.getInt('gender') ?? man;
     _constitution = prefs.getInt('constitution') ?? 0;
