@@ -23,61 +23,63 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () => Navigator.pop(context))),
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  context.read<User>().constitution = ConstitutionValue.veryHot;
-                },
-                child: CheckMenu(
-                  title: "더위를 많이 타요",
-                  checked: context.watch<User>().constitution ==
-                      ConstitutionValue.veryHot,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.read<User>().constitution = ConstitutionValue.hot;
-                },
-                child: CheckMenu(
-                  title: "더위를 조금 타요",
-                  checked: context.watch<User>().constitution ==
-                      ConstitutionValue.hot,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.read<User>().constitution = ConstitutionValue.normal;
-                },
-                child: CheckMenu(
-                  title: "보통이에요",
-                  checked: context.watch<User>().constitution ==
-                      ConstitutionValue.normal,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.read<User>().constitution = ConstitutionValue.cold;
-                },
-                child: CheckMenu(
-                  title: "추위를 조금 타요",
-                  checked: context.watch<User>().constitution ==
-                      ConstitutionValue.cold,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.read<User>().constitution =
-                      ConstitutionValue.veryCold;
-                },
-                child: CheckMenu(
-                  title: "추위를 많이 타요",
-                  checked: context.watch<User>().constitution ==
-                      ConstitutionValue.veryCold,
-                ),
-              ),
-            ]));
+        body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <
+            Widget>[
+          GestureDetector(
+            onTap: () {
+              context
+                  .read<User>()
+                  .changeConstitution(ConstitutionValue.veryHot);
+            },
+            child: CheckMenu(
+              title: "더위를 많이 타요",
+              checked: context.watch<User>().constitution ==
+                  ConstitutionValue.veryHot,
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              context.read<User>().changeConstitution(ConstitutionValue.hot);
+            },
+            child: CheckMenu(
+              title: "더위를 조금 타요",
+              checked:
+                  context.watch<User>().constitution == ConstitutionValue.hot,
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              context.read<User>().changeConstitution(ConstitutionValue.normal);
+            },
+            child: CheckMenu(
+              title: "보통이에요",
+              checked: context.watch<User>().constitution ==
+                  ConstitutionValue.normal,
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              context.read<User>().changeConstitution(ConstitutionValue.cold);
+            },
+            child: CheckMenu(
+              title: "추위를 조금 타요",
+              checked:
+                  context.watch<User>().constitution == ConstitutionValue.cold,
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              context
+                  .read<User>()
+                  .changeConstitution(ConstitutionValue.veryCold);
+            },
+            child: CheckMenu(
+              title: "추위를 많이 타요",
+              checked: context.watch<User>().constitution ==
+                  ConstitutionValue.veryCold,
+            ),
+          ),
+        ]));
   }
 }
 

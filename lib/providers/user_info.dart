@@ -19,26 +19,30 @@ class User extends ChangeNotifier {
     notifyListeners();
   }
 
-  set constitution(int constitution) {
-    _constitution = constitution;
-    notifyListeners();
-  }
-
   String get genderString => _gender == man ? "man" : "woman";
 
   User() {
-    initGender();
+    initInfo();
   }
 
-  void initGender() async {
+  void initInfo() async {
     final prefs = await SharedPreferences.getInstance();
     gender = prefs.getInt('gender') ?? man;
+    _constitution = prefs.getInt('constitution') ?? 0;
+    notifyListeners();
   }
 
   void changeGender(int newGender) async {
     gender = newGender;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('gender', gender);
+    notifyListeners();
+  }
+
+  void changeConstitution(int constitution) async {
+    _constitution = constitution;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('constitution', _constitution);
     notifyListeners();
   }
 }
