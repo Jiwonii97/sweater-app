@@ -4,6 +4,7 @@ import 'package:sweater/components/card_container.dart';
 // import 'package:sweater/components/hourly_weather_section.dart';
 import 'package:sweater/pages/gender_change_page.dart';
 import 'package:sweater/pages/manage_location_page.dart';
+import 'package:sweater/pages/constitution_page.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:sweater/providers/weather.dart';
 import 'package:sweater/providers/coordi_provider.dart';
@@ -102,6 +103,16 @@ class _HomePageState extends State<HomePage> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       const GenderChangePage()))
+                        }),
+                ListTile(
+                    leading: const Icon(SweaterIcons.tint),
+                    title: const Text("체질 관리"),
+                    onTap: () => {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ConstitutionManagePage()))
                         }),
               ],
             ))));
