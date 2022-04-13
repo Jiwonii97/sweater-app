@@ -20,13 +20,15 @@ class CheckMenu extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         margin: const EdgeInsets.only(bottom: 8.0),
         child: Material(
-            color: checked ? Colors.blue[200] : Colors.grey[200],
+            color: checked ? Colors.blue[100] : Colors.grey[200],
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: InkWell(
                 child: ListTile(
-              leading: Icon(leadingIcon != null ? leadingIcon : null,
-                  color: checked ? Colors.blue[400] : Colors.grey[400]),
+              leading: leadingIcon != null
+                  ? Icon(leadingIcon,
+                      color: checked ? Colors.blue[400] : Colors.grey[400])
+                  : null,
               title: Text(title,
                   style: checked
                       ? isLocation

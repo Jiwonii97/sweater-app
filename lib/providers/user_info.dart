@@ -3,17 +3,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // User 클래스 정의
 class User extends ChangeNotifier {
+  static int _constitution = 0;
   static int man = 1;
   static int woman = 2;
   static String manString = "남자";
   static String womanString = "여자";
   int _gender = man;
+  int get constitution => _constitution;
   int get gender => _gender;
   set gender(int gender) {
     if (gender != man && gender != woman) {
       return;
     }
     _gender = gender;
+    notifyListeners();
+  }
+
+  set constitution(int constitution) {
+    _constitution = constitution;
     notifyListeners();
   }
 
