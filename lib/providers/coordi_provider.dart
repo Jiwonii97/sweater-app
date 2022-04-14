@@ -1,6 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+class Cloth {
+  String _mainCategory;
+  String _subCategory;
+  Color _color;
+  List<String> _features;
+
+  Cloth(this._mainCategory, this._subCategory, this._color, this._features);
+
+  String getClothInfo() {
+    return '흰 크롭 반팔티';
+  }
+}
+
+class Coordi {
+  String _url;
+  List<Cloth> _clothes;
+
+  Coordi(this._url, this._clothes);
+
+  List<String> getCoordiInfo() {
+    return ['흰 크롭 반팔티'];
+  }
+}
+
 class CoordiProvider with ChangeNotifier {
   QuerySnapshot? coordiLists;
 
