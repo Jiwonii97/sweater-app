@@ -8,6 +8,8 @@ import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
 
 // Weather 객체 클래스
 class Weather extends ChangeNotifier {
+  bool activeFlag = true; // API 요청 무한 루프 방지를 위한 flag
+
   bool initWeatherFlag = false;
 
   // 구름 상태 인덱스
@@ -40,6 +42,7 @@ class Weather extends ChangeNotifier {
     for (var i = 0; i < predictMax; i++) {
       forecastList.add(HourForecast());
     }
+    activeFlag = true;
   }
 
   // JSON을 통해 키값 불러오기
@@ -98,6 +101,10 @@ class Weather extends ChangeNotifier {
     return res.round().toString();
   }
 
+  void changeActiveFlag() {
+    activeFlag = true;
+  }
+
   // API를 받아서 해당 날씨 데이터를 Weather 객체에 업데이트
   void updateWeather(String nx, String ny) async {
     /*
@@ -109,6 +116,10 @@ class Weather extends ChangeNotifier {
     if ((_myKey == '') & (flagApi == false)) {
       // api 키값을 제대로 받아오면 해당 flag를 true로 바꿔 1회만 실행되게 함
       flagApi = await initKey();
+    }
+
+    if (activeFlag == false) {
+      return;
     }
 
     // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
@@ -161,7 +172,6 @@ class Weather extends ChangeNotifier {
         "ny": ny
       });
       final response = await http.get(url); // http 호출
-      // print(url);
 
       // http 호출이 안되면 예외 처리
       if (response.statusCode != 200) {
@@ -217,7 +227,10 @@ class Weather extends ChangeNotifier {
           idx++; // 다음 인덱스
         }
       }
+
       initWeatherFlag = true;
+      activeFlag = false;
+
       notifyListeners();
     } on SocketException {
       print('No Internet connection 😑');
@@ -228,6 +241,7 @@ class Weather extends ChangeNotifier {
     } catch (e) {
       print(e);
     }
+    return;
   }
 }
 
