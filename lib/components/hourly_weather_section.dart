@@ -20,8 +20,7 @@ class HourlyWeatherSection extends StatelessWidget {
     List<HourForecast> weatherPrediction =
         _weatherProvider.forecastList; //시간별 날씨 상태 담을 리스트
     return Container(
-        margin: const EdgeInsets.symmetric(vertical: 1.0),
-        height: 76.0,
+        height: 132.0,
         child: ScrollConfiguration(
             behavior: NoGlowScrollBehavior(),
             child: ListView(
