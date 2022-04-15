@@ -204,12 +204,12 @@ class GlobalTheme {
         onError: Color(0xffFFFFFF),
         brightness: Brightness.light,
       ),
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         centerTitle: true, // 텍스트 중앙 배치
         backgroundColor: Colors.transparent, // 배경 투명하게
         foregroundColor: _lightOnBackgroundColor,
         elevation: 0, // 기본 degree는 0으로
-        titleTextStyle: _headline6Text,
+        titleTextStyle: _headline6Text.copyWith(color: const Color(0xffffffff)),
       ),
       drawerTheme: const DrawerThemeData(
         backgroundColor: _lightBackgroundColor,
