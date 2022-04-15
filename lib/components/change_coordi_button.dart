@@ -8,7 +8,7 @@ class ChangeCoordiButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _coordiIndexConsumer = Provider.of<CoordiProvider>(context);
-    int idx = _coordiIndexConsumer.idx;
+    int coordiIdx = _coordiIndexConsumer.coordiIdx;
     return Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,

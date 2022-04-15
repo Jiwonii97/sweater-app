@@ -1,5 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:sweater/components/card_container.dart';
 // import 'package:sweater/components/hourly_weather_section.dart';
 import 'package:sweater/pages/gender_change_page.dart';
@@ -24,18 +25,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final String _title = "SWEATER";
+  var currentWeather;
   Color colorByWeather() {
     return Colors.white;
   }
 
+  void initState() {
+    super.initState();
+    var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);
+    var weatherConsumer = Provider.of<Weather>(context, listen: false);
+    var userConsumer = Provider.of<User>(context, listen: false);
+
+    coordiConsumer.initCoordiList(
+        weatherConsumer.forecastList, userConsumer.gender);
+  }
+
   @override
   Widget build(BuildContext context) {
-    context.read<CoordiProvider>().initCoordiList();
     String xValue = context.read<Location>().X.toString();
     String yValue = context.read<Location>().Y.toString();
-
     context.read<Weather>().updateWeather(xValue, yValue);
-    var currentWeather = context.watch<Weather>().forecastList[0];
+    currentWeather = context.watch<Weather>().forecastList[0];
 
     return Container(
         decoration: const BoxDecoration(
