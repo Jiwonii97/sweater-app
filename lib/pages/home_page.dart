@@ -29,7 +29,12 @@ class _HomePageState extends State<HomePage> {
   ThemeData themeByWeather() {
     // return Random().nextInt(2) == 1
     // ? GlobalTheme.darkTheme
-    return GlobalTheme.lightTheme;
+    return GlobalTheme.darkTheme;
+  }
+
+  List<Color> backgroundByWeather() {
+    // return [Color(0xff039be5), Color(0xffffffff)];
+    return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
   }
 
   @override
@@ -51,37 +56,38 @@ class _HomePageState extends State<HomePage> {
     context.read<Weather>().updateWeather(xValue, yValue);
     var currentWeather = context.watch<Weather>().forecastList[0];
 
-    return Theme(
-        data: themeByWeather(),
+    return Container(
+        color: Colors.white,
         child: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xff039be5), Color(0xffffffff)]),
+                  colors: backgroundByWeather()),
             ),
             child: Scaffold(
                 backgroundColor: Colors.transparent,
                 appBar: AppBar(
-                    title: Text(context.watch<Location>().cur.split(' ').last,
-                        style: Theme.of(context).textTheme.headline6),
+                    title: const Text('SWETAER'),
                     leading: Builder(
                         builder: (context) => IconButton(
                             icon: const Icon(SweaterIcons.bars),
                             onPressed: () {
                               Scaffold.of(context).openDrawer();
                             }))),
-                body: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        WeatherView(
-                          hourForecast: currentWeather,
-                        ),
-                        const CardContainer(child: CoordiSection()),
-                      ]),
-                ),
+                body: Theme(
+                    data: themeByWeather(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            WeatherView(
+                              hourForecast: currentWeather,
+                            ),
+                            const CardContainer(child: CoordiSection()),
+                          ]),
+                    )),
                 drawer: Drawer(
                     child: ListView(
                   children: <Widget>[

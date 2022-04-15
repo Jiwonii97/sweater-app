@@ -40,15 +40,24 @@ class WeatherView extends StatelessWidget {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Row(children: [
-                              Icon(
-                                SweaterIcons.map_marker_alt,
-                                size: 16,
-                                color: Theme.of(context).colorScheme.surface,
-                              ),
-                              Text(context.watch<Location>().currentDong,
-                                  style: Theme.of(context).textTheme.caption),
-                            ]),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    SweaterIcons.map_marker_alt,
+                                    size: 14,
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
+                                  ),
+                                  Container(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                                      child: Text(
+                                          context.watch<Location>().currentDong,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .caption)),
+                                ]),
                             Text(
                               "체감 온도 ${hourForecast.getSTemp}°",
                               style: Theme.of(context)
