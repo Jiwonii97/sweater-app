@@ -36,7 +36,6 @@ dependencies:
   flutter_svg: ^0.19.0
   flutter_slidable: ^1.0.0
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -77,8 +76,9 @@ flutter:
     - assets/weather/snow.svg
     - assets/weather/cloudy.svg
     - assets/weather/mostlyCloudy.svg
+    - assets/weather/cloudyNight.svg
+    - assets/weather/night.svg
     - assets/weather/rainy.svg
-    - assets/weather/rainAndSnow.svg
     - assets/saved_location.json
     - assets/weather-api.json
 
