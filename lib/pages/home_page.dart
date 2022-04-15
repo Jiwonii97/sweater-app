@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
     return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
   }
 
+  @override
   void initState() {
     super.initState();
     var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);
