@@ -153,7 +153,7 @@ class GlobalTheme {
 
   static final ThemeData lightTheme = ThemeData(
       colorScheme: const ColorScheme.light(
-        surface: Color(0x51FFFFFF),
+        surface: Color(0xffFFFFFF),
         background: Color(0xffFFFFFF),
         error: _error500,
         onPrimary: Color(0xff121212),
@@ -194,8 +194,8 @@ class GlobalTheme {
       errorColor: _lightErrorColor);
   static final ThemeData darkTheme = ThemeData(
       colorScheme: const ColorScheme.dark(
-        surface: Color(0x51000000),
-        background: Color(0xff212121),
+        surface: _gray900,
+        background: Color(0xffffffff),
         error: _error500,
         onPrimary: Color(0xffffffff),
         onSecondary: Color(0xffffffff),
@@ -207,7 +207,7 @@ class GlobalTheme {
       appBarTheme: AppBarTheme(
         centerTitle: true, // 텍스트 중앙 배치
         backgroundColor: Colors.transparent, // 배경 투명하게
-        foregroundColor: _lightOnBackgroundColor,
+        foregroundColor: const Color(0xffffffff),
         elevation: 0, // 기본 degree는 0으로
         titleTextStyle: _headline6Text.copyWith(color: const Color(0xffffffff)),
       ),
