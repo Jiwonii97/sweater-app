@@ -31,10 +31,16 @@ class CoordiSection extends StatelessWidget {
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
         context.watch<CoordiProvider>().initCoordiState
-            ? CoordiView(coordi: [
+            ? CoordiView(coordi:
+                    // context.watch<CoordiManager>().coordiList[index].getCoor,iInfo()
+                    [
                 context.watch<CoordiProvider>().getTopCloth(),
                 context.watch<CoordiProvider>().getBottomCloth()
-              ])
+              ]
+
+                // coordiIllust : context.watch<CoordiManager>().coordiList[index].getIllustUrl(),
+                //coordiIllust :context.watch<CoordiManager>().coordiList[index].getCoordiInfo()
+                )
             : CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[100]),
                 backgroundColor: Colors.blue[600],
@@ -104,13 +110,16 @@ class CoordiButton extends StatelessWidget {
 
 class CoordiView extends StatelessWidget {
   List coordi;
+  //List coordiIllust
   CoordiView({
     Key? key,
     required this.coordi,
+    // required this.coordiIllust
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String outer, top, bottomt;
     return Container(
       // color: Colors.pink,
       width: 288,
@@ -127,41 +136,41 @@ class CoordiView extends StatelessWidget {
               children: [
                 // 아우터
                 illustView("assets/weather/rainy.svg"),
+                // illustView(coordiIllust[0]),
                 // 상의
                 illustView("assets/weather/sunny.svg"),
+                // coordiIllust[3] == "" ? illustView(coordiIllust[1]) : illustView(coordiIllust[3]),
               ],
             ),
           ),
           Expanded(
             flex: 1,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  // color: Colors.green,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  width: 144,
-                  height: 144,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(
-                      coordi.length,
-                      (index) => Container(
-                        margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                        padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                        color: Theme.of(context).colorScheme.surface,
-                        child: Text("# ${coordi[index]}",
-                            style: Theme.of(context).textTheme.bodyText2),
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    // color: Colors.green,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    width: 144,
+                    height: 144,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(
+                        coordi.length,
+                        (index) => Container(
+                          margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                          padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                          color: Theme.of(context).colorScheme.surface,
+                          child: Text("# ${coordi[index]}",
+                              style: Theme.of(context).textTheme.bodyText2),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                // 하의
-                illustView("assets/weather/cloudy.svg"),
-              ],
-            ),
-          ),
+                  illustView("assets/weather/cloudy.svg"),
+                ]),
+          )
         ],
       ),
     );
@@ -169,23 +178,9 @@ class CoordiView extends StatelessWidget {
 
   Widget illustView(String illust) {
     return SizedBox(
-      // color: Colors.grey,
       width: 144,
+      child: illust != "" ? SvgPicture.asset(illust) : Container(),
       height: 144,
-      child: SvgPicture.asset(illust),
     );
-  }
-
-  List<Widget> clothList() {
-    List<Widget> clothList = [];
-    for (var cloth in coordi) {
-      clothList.add(Container(
-          padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-          color: Colors.white,
-          child: Text("# ${cloth}",
-              style: GlobalTheme.lightTheme.textTheme.bodyText2)));
-      clothList.add(const SizedBox(height: 8));
-    }
-    return clothList;
   }
 }

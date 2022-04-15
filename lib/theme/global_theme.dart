@@ -119,12 +119,12 @@ class GlobalTheme {
       fontWeight: FontWeight.normal,
       fontSize: 16,
       letterSpacing: 0.15,
-      color: Color(0xff616161));
+      color: Color(0xff212121));
   static const _subtitle2Text = TextStyle(
       fontWeight: FontWeight.w500,
       fontSize: 14,
       letterSpacing: 0.1,
-      color: Color(0xff616161));
+      color: Color(0xff212121));
   static const _body1Text = TextStyle(
       fontWeight: FontWeight.normal,
       fontSize: 16,
@@ -171,7 +171,7 @@ class GlobalTheme {
         titleTextStyle: _headline6Text,
       ),
       drawerTheme: const DrawerThemeData(
-        backgroundColor: _lightBackgroundColor,
+        backgroundColor: Color(0xffFFFFFF),
         elevation: 16,
       ),
       textTheme: const TextTheme(
@@ -195,13 +195,13 @@ class GlobalTheme {
   static final ThemeData darkTheme = ThemeData(
       colorScheme: const ColorScheme.dark(
         surface: _gray900,
-        background: Color(0xffffffff),
+        background: _gray900,
         error: _error500,
-        onPrimary: Color(0xffffffff),
-        onSecondary: Color(0xffffffff),
-        onSurface: Color(0xffffffff),
-        onBackground: Color(0xffffffff),
-        onError: Color(0xffFFFFFF),
+        onPrimary: _gray50,
+        onSecondary: _gray50,
+        onSurface: _gray50,
+        onBackground: _gray50,
+        onError: _gray50,
         brightness: Brightness.light,
       ),
       appBarTheme: AppBarTheme(
@@ -212,23 +212,23 @@ class GlobalTheme {
         titleTextStyle: _headline6Text.copyWith(color: const Color(0xffffffff)),
       ),
       drawerTheme: const DrawerThemeData(
-        backgroundColor: _lightBackgroundColor,
+        backgroundColor: _gray900,
         elevation: 16,
       ),
       textTheme: TextTheme(
-        headline1: _headline1Text.copyWith(color: const Color(0xffffffff)),
-        headline2: _headline2Text.copyWith(color: const Color(0xffffffff)),
-        headline3: _headline3Text.copyWith(color: const Color(0xffffffff)),
-        headline4: _headline4Text.copyWith(color: const Color(0xffffffff)),
-        headline5: _headline5Text.copyWith(color: const Color(0xffffffff)),
-        headline6: _headline6Text.copyWith(color: const Color(0xffffffff)),
-        subtitle1: _subtitle1Text.copyWith(color: const Color(0xffffffff)),
-        subtitle2: _subtitle2Text.copyWith(color: const Color(0xffffffff)),
-        bodyText1: _body1Text.copyWith(color: const Color(0xffffffff)),
-        bodyText2: _body2Text.copyWith(color: const Color(0xffffffff)),
-        button: _buttonText.copyWith(color: const Color(0xffffffff)),
-        caption: _captionText.copyWith(color: const Color(0xffffffff)),
-        overline: _overlineText.copyWith(color: const Color(0xffffffff)),
+        headline1: _headline1Text.copyWith(color: _gray50),
+        headline2: _headline2Text.copyWith(color: _gray50),
+        headline3: _headline3Text.copyWith(color: _gray50),
+        headline4: _headline4Text.copyWith(color: _gray50),
+        headline5: _headline5Text.copyWith(color: _gray50),
+        headline6: _headline6Text.copyWith(color: _gray50),
+        subtitle1: _subtitle1Text.copyWith(color: _gray50),
+        subtitle2: _subtitle2Text.copyWith(color: _gray50),
+        bodyText1: _body1Text.copyWith(color: _gray50),
+        bodyText2: _body2Text.copyWith(color: _gray50),
+        button: _buttonText.copyWith(color: _gray50),
+        caption: _captionText.copyWith(color: _gray200),
+        overline: _overlineText.copyWith(color: _gray50),
       ),
       fontFamily: 'NotoSansKR',
       primaryColor: _lightPrimaryColor,

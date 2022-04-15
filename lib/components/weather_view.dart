@@ -29,16 +29,14 @@ class WeatherView extends StatelessWidget {
                   decideWeatherIcon(hourForecast, isNow),
                   Text(
                     "${hourForecast.getTemp}°",
-                    style: Theme.of(context)
-                        .textTheme
-                        .displaySmall
-                        ?.copyWith(color: Colors.white, height: 1.1),
+                    style: Theme.of(context).textTheme.headline3,
                   ),
                   const Spacer(),
                   SizedBox(
                       width: 80,
                       child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -46,34 +44,25 @@ class WeatherView extends StatelessWidget {
                                   Icon(
                                     SweaterIcons.map_marker_alt,
                                     size: 14,
-                                    color:
-                                        Theme.of(context).colorScheme.surface,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
-                                  Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(4, 0, 0, 0),
-                                      child: Text(
-                                          context.watch<Location>().currentDong,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption)),
+                                  const SizedBox(width: 4),
+                                  Text(context.watch<Location>().currentDong,
+                                      style:
+                                          Theme.of(context).textTheme.caption),
                                 ]),
                             Text(
                               "체감 온도 ${hourForecast.getSTemp}°",
                               style: Theme.of(context)
                                   .textTheme
                                   .caption
-                                  ?.copyWith(
-                                      color: Colors.white.withOpacity(0.7),
-                                      height: 1),
+                                  ?.copyWith(height: 1.5),
                             ),
                             Text(
                               "바람 ${hourForecast.getWindSpeed}m/s ",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  ?.copyWith(
-                                      color: Colors.white.withOpacity(0.7)),
+                              style: Theme.of(context).textTheme.caption,
                             )
                           ]))
                 ],
