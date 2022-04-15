@@ -1,5 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:sweater/components/card_container.dart';
 import 'package:sweater/theme/global_theme.dart';
 // import 'package:sweater/components/hourly_weather_section.dart';
@@ -46,21 +47,22 @@ class _HomePageState extends State<HomePage> {
     return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
   }
 
-  @override
   void initState() {
     super.initState();
-    context.read<CoordiProvider>().initCoordiList();
-    String xValue = context.read<Location>().X.toString();
-    String yValue = context.read<Location>().Y.toString();
+    var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);
+    var weatherConsumer = Provider.of<Weather>(context, listen: false);
+    var userConsumer = Provider.of<User>(context, listen: false);
 
-    context.read<Weather>().updateWeather(xValue, yValue);
+    coordiConsumer.initCoordiList(
+        weatherConsumer.forecastList, userConsumer.gender);
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<CoordiProvider>().initCoordiList();
     String xValue = context.read<Location>().X.toString();
     String yValue = context.read<Location>().Y.toString();
+    context.read<Weather>().updateWeather(xValue, yValue);
+    var currentWeather = context.watch<Weather>().forecastList[0];
 
     context.read<Weather>().updateWeather(xValue, yValue);
     return Container(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
+import 'package:sweater/providers/weather.dart';
+import 'package:sweater/providers/user_info.dart';
 import 'package:sweater/components/change_coordi_button.dart';
 import 'package:sweater/providers/weather.dart';
 import 'package:sweater/theme/global_theme.dart';
@@ -11,7 +13,7 @@ import 'package:sweater/theme/sweater_icons.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CoordiSection extends StatelessWidget {
-  static int coordiIndex = 0;
+  // static int coordiIndex = 0;
   const CoordiSection({
     Key? key,
   }) : super(key: key);
@@ -19,7 +21,7 @@ class CoordiSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _coordiIndexConsumer = Provider.of<CoordiProvider>(context);
-    int idx = _coordiIndexConsumer.idx;
+    int coordiIdx = _coordiIndexConsumer.coordiIdx;
     return Padding(
       padding: const EdgeInsets.all(16),
       // color: Colors.green,
@@ -32,15 +34,16 @@ class CoordiSection extends StatelessWidget {
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
         context.watch<CoordiProvider>().initCoordiState
-            ? CoordiView(coordi:
+            ? CoordiView(
+                coordi:
                     // context.watch<CoordiManager>().coordiList[coordiIndex].getCoordiInfo(),
                     [
-                context.watch<CoordiProvider>().getTopCloth(),
-                context.watch<CoordiProvider>().getBottomCloth()
-              ]
-
-                //coordiIllust :context.watch<CoordiManager>().coordiList[coordiIndex].getillustInfo()
-                )
+                    context.watch<CoordiProvider>().getOuter(),
+                    context.watch<CoordiProvider>().getTopCloth(),
+                    context.watch<CoordiProvider>().getBottomCloth()
+                  ],
+                coordiIllust:
+                    context.watch<CoordiProvider>().coordi.getIllustUrl())
             : CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[100]),
                 backgroundColor: Colors.blue[600],
@@ -123,12 +126,9 @@ class CoordiButton extends StatelessWidget {
 
 class CoordiView extends StatelessWidget {
   List coordi;
-  //List coordiIllust
-  CoordiView({
-    Key? key,
-    required this.coordi,
-    // required this.coordiIllust
-  }) : super(key: key);
+  List coordiIllust;
+  CoordiView({Key? key, required this.coordi, required this.coordiIllust})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
