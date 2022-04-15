@@ -10,9 +10,9 @@ class ChangeCoordiButton extends StatelessWidget {
     var _coordiIndexConsumer = Provider.of<CoordiProvider>(context);
     int idx = _coordiIndexConsumer.idx;
     return Row(
-        mainAxisSize: MainAxisSize.max,
+        // mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        // crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           IconButton(
               icon: const Icon(Icons.navigate_before, color: Colors.black),

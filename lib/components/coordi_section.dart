@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/components/change_coordi_button.dart';
+import 'package:sweater/theme/global_theme.dart';
 import 'dart:ui';
+import 'package:sweater/theme/sweater_icons.dart';
+
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CoordiSection extends StatelessWidget {
   // final Widget child;
@@ -14,44 +19,167 @@ class CoordiSection extends StatelessWidget {
   Widget build(BuildContext context) {
     var _coordiIndexConsumer = Provider.of<CoordiProvider>(context);
     int idx = _coordiIndexConsumer.idx;
-    return SizedBox(
-        child: Card(
-            elevation: 0.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      // color: Colors.green,
+      child: Column(children: <Widget>[
+        Text(
+          "오늘의 추천 코디",
+          style: Theme.of(context).textTheme.headline5?.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              color: Colors.blueGrey[700]),
+        ),
+        context.watch<CoordiProvider>().initCoordiState
+            ? CoordiView(coordi: [
+                context.watch<CoordiProvider>().getTopCloth(),
+                context.watch<CoordiProvider>().getBottomCloth()
+              ])
+            : CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[100]),
+                backgroundColor: Colors.blue[600],
+              ),
+        CoordiButtons(
+          prevAction: context.read<CoordiProvider>().prevCoordi,
+          nextAction: context.read<CoordiProvider>().nextCoordi,
+          isRight: false,
+        ),
+      ]),
+    );
+  }
+}
+
+class CoordiView extends StatelessWidget {
+  List coordi;
+  CoordiView({
+    Key? key,
+    required this.coordi,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // color: Colors.pink,
+      width: 288,
+      height: 288,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                // 아우터
+                illustView("assets/weather/rainy.svg"),
+                // 상의
+                illustView("assets/weather/sunny.svg"),
+              ],
             ),
-            color: Colors.white.withOpacity(0.6),
-            child: Center(
-                child: SizedBox(
-              height: 200,
-              child: Column(children: [
-                Consumer<CoordiProvider>(
-                  builder: (context, value, child) => SizedBox(
-                    height: 150,
-                    child: Column(children: <Widget>[
-                      value.initCoordiState
-                          ? Column(
-                              children: [
-                                const Text("오늘의 추천 코디!"),
-                                Text(context
-                                    .read<CoordiProvider>()
-                                    .getTopCloth()),
-                                Text(context
-                                    .read<CoordiProvider>()
-                                    .getBottomCloth()),
-                                const Text('어때요?'),
-                              ],
-                            )
-                          : CircularProgressIndicator(
-                              valueColor: new AlwaysStoppedAnimation<Color?>(
-                                  Colors.blue[100]),
-                              backgroundColor: Colors.blue[600],
-                            ),
-                    ]),
-                  ),
-                ),
-                const ChangeCoordiButton(),
-              ]),
-            ))));
+          ),
+          Expanded(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    // color: Colors.green,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    width: 144,
+                    height: 144,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: clothList())),
+                // 하의
+                illustView("assets/weather/cloudy.svg"),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget illustView(String illust) {
+    return SizedBox(
+      // color: Colors.grey,
+      width: 144,
+      height: 144,
+      child: SvgPicture.asset(illust),
+    );
+  }
+
+  List<Widget> clothList() {
+    List<Widget> clothList = [];
+    for (var cloth in coordi) {
+      clothList.add(Container(
+          padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+          color: Colors.white,
+          child: Text("# ${cloth}",
+              style: GlobalTheme.lightTheme.textTheme.bodyText2)));
+      clothList.add(const SizedBox(height: 8));
+    }
+    return clothList;
+  }
+}
+
+class CoordiButtons extends StatelessWidget {
+  Function nextAction;
+  Function prevAction;
+  bool isRight;
+
+  CoordiButtons({
+    Key? key,
+    required this.nextAction,
+    required this.prevAction,
+    required this.isRight,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 120,
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        coordiButton(prevAction, SweaterIcons.arrow_left),
+        const Spacer(
+          flex: 1,
+        ),
+        coordiButton(nextAction, SweaterIcons.arrow_right),
+      ]),
+    );
+  }
+
+  Widget coordiButton(Function onPressed, IconData icon) {
+    const buttonWidth = 40;
+    return Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(buttonWidth / 2),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.25),
+            spreadRadius: 0,
+            blurRadius: 6,
+            offset: const Offset(0, 3), // changes position of shadow
+          )
+        ],
+      ),
+      child: IconButton(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        padding: EdgeInsets.zero,
+        icon: Icon(
+          icon,
+          size: 16,
+        ),
+        color: Colors.black,
+        onPressed: () => onPressed(),
+      ),
+    );
   }
 }
