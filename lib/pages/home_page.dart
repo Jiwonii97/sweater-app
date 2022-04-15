@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
     return Colors.white;
   }
 
+  @override
   void initState() {
     super.initState();
     var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);

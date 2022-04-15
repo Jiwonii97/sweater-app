@@ -5,70 +5,54 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/weather.dart';
 import 'package:sweater/providers/user_info.dart';
+import 'package:sweater/module/cloth.dart';
 
 import 'package:http/http.dart' as http;
 
-class Coordi {
-  String _url;
-  // List<Cloth> _clothes;
-  List<dynamic> _clothes;
-
-  Coordi(this._url, this._clothes);
-
-  String get url => _url;
-  List<dynamic> get clothes => _clothes;
-  Coordi.fromJson(Map<String, dynamic> json)
-      : _url = json['url'],
-        _clothes = json['items'];
-
-  List<String> getCoordiInfo() {
-    return ['흰 크롭 반팔티'];
-  }
-}
-
-class Cloth {
-  // String _mainCategory;
-  // String _subCategory;
-  String _category;
-  Color _color;
-  List<String> _features;
-
-  // Cloth(this._mainCategory, this._subCategory, this._color, this._features);
-  Cloth(this._category, this._color, this._features);
-
-  String get category => _category;
-  Color get color => _color;
-  List<String> get features => _features;
-
-  String getClothInfo() {
-    return '흰 크롭 반팔티';
-  }
-}
-
 class CoordiProvider with ChangeNotifier {
+  List<Coordi> _coordiList = [];
   Coordi _coordi = Coordi("", []); //String url, List<dynamic> clothes
-  Cloth _cloth = Cloth("", Color(0x0000), []);
-  String _coordiLists = "";
+  Cloth _outer = Cloth("", "", []);
+  Cloth _topCloth = Cloth("", "", []);
+  Cloth _bottomCloth = Cloth("", "", []);
 
   int _coordiIdx = 0;
   bool _initCoordiState = false;
 
   Coordi get coordi => _coordi;
-  Cloth get cloth => _cloth;
-  String get coordiLists => _coordiLists;
+  Cloth get outer => _outer;
+  Cloth get topCloth => _topCloth;
+  Cloth get bottomCloth => _bottomCloth;
+  List<Coordi> get coordiList => _coordiList;
   int get coordiIdx => _coordiIdx;
   bool get initCoordiState => _initCoordiState;
 
-  set setCoordi(Coordi input) {
-    _coordi = Coordi(input._url, input._clothes);
+  set setCoordiLists(List<Coordi> input) {
+    _coordiList = input;
   }
 
-  set setCoordiLists(String input) {
-    _coordiLists = input;
+  set setCoordi(Coordi input) {
+    _coordi = Coordi(input.url, input.items);
+  }
+
+  set setOuter(Cloth input) {
+    _outer = Cloth(input.category, input.color, input.features);
+  }
+
+  set setTopCloth(Cloth input) {
+    _topCloth = Cloth(input.category, input.color, input.features);
+  }
+
+  set setBottomCloth(Cloth input) {
+    _bottomCloth = Cloth(input.category, input.color, input.features);
   }
 
   set setInitCoordiState(bool input) {
     _initCoordiState = input;
+  }
+
+  void addCoordiListElement(Coordi input) {
+    coordiList.add(input);
   }
 
   Future<String> requestCoordis(
@@ -82,8 +66,7 @@ class CoordiProvider with ChangeNotifier {
 
   void initCoordiList(List<HourForecast> forecastList, int userGender) async {
     String result = await requestCoordis(forecastList, userGender);
-    print(result);
-    setInitCoordiState = true;
+    setInitCoordiState = true; //코디 요청 완료 플래그
     await Future.doWhile(() async {
       await Future.delayed(Duration(milliseconds: 100)); //100ms씩 대기
       if (initCoordiState) {
@@ -93,44 +76,54 @@ class CoordiProvider with ChangeNotifier {
       }
     });
     List<dynamic> coordiLists = convert.jsonDecode(result);
-    setCoordi = Coordi.fromJson(coordiLists[0]);
-
+    for (int i = 0; i < coordiLists.length; i++) {
+      //코디 리스트 생성
+      addCoordiListElement(
+          Coordi(coordiLists[i]['url'], coordiLists[i]['items']));
+    }
     notifyListeners();
   }
 
   String getOuter() {
-    return coordi.clothes[0]['category'];
+    setCoordi = coordiList[coordiIdx]; //index로 교체해야함
+    setOuter = Cloth.fromJson(coordi.items[0]);
+    String result = outer.getClothInfo();
+
+    return result;
   }
 
   String getTopCloth() {
-    return coordi.clothes[1]['category'];
+    setCoordi = coordiList[coordiIdx]; //index로 교체해야함
+    setTopCloth = Cloth.fromJson(coordi.items[1]);
+
+    String result = topCloth.getClothInfo();
+
+    return result;
   }
 
   String getBottomCloth() {
-    return coordi.clothes[2]['category'];
+    setCoordi = coordiList[coordiIdx]; //index로 교체해야함
+    if (coordi.items.length == 3)
+      setBottomCloth = Cloth.fromJson(coordi.items[2]);
+    else
+      return "";
+
+    String result = bottomCloth.getClothInfo();
+
+    return result;
   }
 
   void nextCoordi() {
     _coordiIdx++;
-    // if (_coordiIdx >= coordiLists!.docs.length) _coordiIdx = 0;
+    if (_coordiIdx >= coordiList.length) _coordiIdx = 0;
     notifyListeners();
   }
 
   void prevCoordi() {
     _coordiIdx--;
     if (_coordiIdx < 0) {
-      // _coordiIdx = coordiLists!.docs.length - 1;
+      _coordiIdx = coordiList.length - 1;
     }
     notifyListeners();
   }
-
-  void goFirstCoordi() {
-    _coordiIdx = 0;
-    notifyListeners();
-  }
-
-  // void addCoordiList(QuerySnapshot? newCoordi) {
-  //   coordiLists = newCoordi;
-  //   notifyListeners();
-  // }
 }

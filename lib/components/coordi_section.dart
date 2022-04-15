@@ -49,11 +49,6 @@ class CoordiSection extends StatelessWidget {
                                   Text(context
                                       .watch<CoordiProvider>()
                                       .getBottomCloth()),
-                                  // Text(context
-                                  //     .read<CoordiProvider>()
-                                  //     .getBottomCloth()),
-                                  // const Text('어때요?'),
-                                  // ReqCoordiInfo(),
                                 ],
                               )
                             : CircularProgressIndicator(
