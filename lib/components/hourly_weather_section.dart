@@ -29,7 +29,9 @@ class HourlyWeatherSection extends StatelessWidget {
                 children: List.generate(
                   weatherPrediction.length - 1,
                   (index) => HourlyWeatherCard(
-                      hourForecast: weatherPrediction[index + 1]),
+                    hourForecast: weatherPrediction[index + 1],
+                    cardIdx: index,
+                  ),
                 ))));
   }
 }

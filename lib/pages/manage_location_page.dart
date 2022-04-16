@@ -5,6 +5,7 @@ import 'package:sweater/components/check_menu.dart';
 import 'package:sweater/pages/add_location_page.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/providers/weather.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 
 class ManageLocationPage extends StatefulWidget {
@@ -35,6 +36,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
         onTap: () => setState(() {
           context.read<Location>().cur = location["name"];
           context.read<Location>().saveAll();
+          context.read<Weather>().changeActiveFlag();
           setState(() {});
         }),
         child: context.read<Location>().cur == location['name']

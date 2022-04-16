@@ -1,6 +1,5 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:sweater/components/card_container.dart';
 // import 'package:sweater/components/hourly_weather_section.dart';
 import 'package:sweater/pages/gender_change_page.dart';
@@ -25,20 +24,31 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final String _title = "SWEATER";
-  var currentWeather;
+  HourForecast currentWeather = HourForecast();
   Color colorByWeather() {
     return Colors.white;
+  }
+
+  void initCoordi() {
+    var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);
+    var weatherConsumer = Provider.of<Weather>(context, listen: false);
+    var userConsumer = Provider.of<User>(context, listen: false);
+
+    weatherConsumer.initWeatherFlag
+        ? coordiConsumer.initCoordiList(
+            weatherConsumer.forecastList, 0, userConsumer.gender)
+        : debugPrint("not initialize weather yet");
   }
 
   @override
   void initState() {
     super.initState();
-    var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);
-    var weatherConsumer = Provider.of<Weather>(context, listen: false);
-    var userConsumer = Provider.of<User>(context, listen: false);
 
-    coordiConsumer.initCoordiList(
-        weatherConsumer.forecastList, userConsumer.gender);
+    String xValue = context.read<Location>().X.toString();
+    String yValue = context.read<Location>().Y.toString();
+
+    context.read<Weather>().updateWeather(xValue, yValue).then((value) =>
+        value == 0 ? initCoordi() : debugPrint("fail getting weather api"));
   }
 
   @override

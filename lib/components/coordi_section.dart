@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
-import 'package:sweater/providers/weather.dart';
-import 'package:sweater/providers/user_info.dart';
 import 'package:sweater/components/change_coordi_button.dart';
 import 'dart:ui';
 
 class CoordiSection extends StatelessWidget {
-  // final Widget child;
   const CoordiSection({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var _coordiConsumer = Provider.of<CoordiProvider>(context);
-    int coordiIdx = _coordiConsumer.coordiIdx;
-
     return SizedBox(
         child: Card(
             elevation: 0.0,
@@ -36,10 +30,9 @@ class CoordiSection extends StatelessWidget {
                     SizedBox(
                       height: 150,
                       child: Column(children: <Widget>[
-                        _coordiConsumer.initCoordiState
+                        context.watch<CoordiProvider>().isReadyCoordiState
                             ? Column(
                                 children: [
-                                  // const Text("오늘의 추천 코디!"),
                                   Text(context
                                       .watch<CoordiProvider>()
                                       .getOuter()),
@@ -58,7 +51,6 @@ class CoordiSection extends StatelessWidget {
                               ),
                       ]),
                     ),
-                    // ),
                     const ChangeCoordiButton(),
                   ])),
             ))));
