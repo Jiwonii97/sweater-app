@@ -31,21 +31,26 @@ class CoordiSection extends StatelessWidget {
                       height: 150,
                       child: Column(children: <Widget>[
                         context.watch<CoordiProvider>().isReadyCoordiState
-                            ? Column(
-                                children: [
-                                  Text(context
-                                      .watch<CoordiProvider>()
-                                      .getOuter()),
-                                  Text(context
-                                      .watch<CoordiProvider>()
-                                      .getTopCloth()),
-                                  Text(context
-                                      .watch<CoordiProvider>()
-                                      .getBottomCloth()),
-                                ],
-                              )
+                            ? (context
+                                    .watch<CoordiProvider>()
+                                    .coordiList
+                                    .isNotEmpty
+                                ? Column(
+                                    children: [
+                                      Text(context
+                                          .watch<CoordiProvider>()
+                                          .getOuter()),
+                                      Text(context
+                                          .watch<CoordiProvider>()
+                                          .getTopCloth()),
+                                      Text(context
+                                          .watch<CoordiProvider>()
+                                          .getBottomCloth()),
+                                    ],
+                                  )
+                                : const Text("코디 정보가 없어요 :("))
                             : CircularProgressIndicator(
-                                valueColor: new AlwaysStoppedAnimation<Color?>(
+                                valueColor: AlwaysStoppedAnimation<Color?>(
                                     Colors.blue[100]),
                                 backgroundColor: Colors.blue[600],
                               ),

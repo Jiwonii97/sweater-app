@@ -27,7 +27,7 @@ class CoordiProvider with ChangeNotifier {
   }
 
   set setCoordi(Coordi input) {
-    _coordi = Coordi(input.url, input.items, input.temperature, input.gender);
+    _coordi = Coordi(input.url, input.clothes, input.temperature, input.gender);
   }
 
   set setOuter(Cloth input) {
@@ -73,6 +73,7 @@ class CoordiProvider with ChangeNotifier {
 
   Future<String> requestCoordis(
       List<HourForecast> forecastList, int forecastIdx, int userGender) async {
+    // print("!");
     Uri uri = Uri.parse(
         "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand?gender=$userGender&stemp=${forecastList[forecastIdx].getSTemp}&isRain=${forecastList[forecastIdx].getRainRate == '0' ? false : true}&isSnow=${forecastList[forecastIdx].getRainRate == '0' ? false : true}&windSpeed=${forecastList[forecastIdx].getWindSpeed}");
     var response = await http.get(uri);
@@ -112,7 +113,6 @@ class CoordiProvider with ChangeNotifier {
     // String result = await requestDummy(forecastList, forecastIdx, userGender);
     List<dynamic> coordiLists = convert.jsonDecode(result);
     clearCoordiList();
-
     for (int i = 0; i < coordiLists.length; i++) {
       //코디 리스트 생성
       addCoordiListElement(Coordi(
@@ -125,10 +125,13 @@ class CoordiProvider with ChangeNotifier {
   }
 
   String getOuter() {
-    setCoordi = coordiList[coordiIdx];
-    if (coordiList[coordiIdx].items.length == 2) return "";
+    print(coordiList.length);
+    if (coordiList.length != 0) {
+      setCoordi = coordiList[coordiIdx];
+      if (coordiList[coordiIdx].clothes.length == 2) return "";
 
-    setOuter = Cloth.fromJson(coordi.items[0]);
+      setOuter = Cloth.fromJson(coordi.clothes[0]);
+    }
     String result = outer.getClothInfo();
     return result;
   }
@@ -136,13 +139,13 @@ class CoordiProvider with ChangeNotifier {
   String getTopCloth() {
     setCoordi = coordiList[coordiIdx];
     int itemIdx = 0;
-    for (int i = 0; i < coordiList[coordiIdx].items.length; i++) {
-      if (coordiList[coordiIdx].items[i]['major'] == 'top') {
+    for (int i = 0; i < coordiList[coordiIdx].clothes.length; i++) {
+      if (coordiList[coordiIdx].clothes[i]['major'] == 'top') {
         itemIdx = i;
         break;
       }
     }
-    setTopCloth = Cloth.fromJson(coordi.items[itemIdx]);
+    setTopCloth = Cloth.fromJson(coordi.clothes[itemIdx]);
     String result = topCloth.getClothInfo();
     return result;
   }
@@ -150,13 +153,13 @@ class CoordiProvider with ChangeNotifier {
   String getBottomCloth() {
     setCoordi = coordiList[coordiIdx];
     int itemIdx = 0;
-    for (int i = 0; i < coordiList[coordiIdx].items.length; i++) {
-      if (coordiList[coordiIdx].items[i]['major'] == 'bottom') {
+    for (int i = 0; i < coordiList[coordiIdx].clothes.length; i++) {
+      if (coordiList[coordiIdx].clothes[i]['major'] == 'bottom') {
         itemIdx = i;
         break;
       }
     }
-    setBottomCloth = Cloth.fromJson(coordi.items[itemIdx]);
+    setBottomCloth = Cloth.fromJson(coordi.clothes[itemIdx]);
     String result = bottomCloth.getClothInfo();
     return result;
   }
