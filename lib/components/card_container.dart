@@ -16,20 +16,7 @@ class CardContainer extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            color: Colors.white.withOpacity(0.6),
-            child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16),
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16)),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 24.0,
-                    sigmaY: 24.0,
-                  ),
-                  child: Padding(
-                      padding: const EdgeInsets.all(16.0), child: child),
-                ))));
+            color: Theme.of(context).colorScheme.surface,
+            child: child));
   }
 }

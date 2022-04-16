@@ -21,10 +21,30 @@ class CoordiSection extends StatelessWidget {
             child: Center(
                 child: SizedBox(
               height: 200,
-              child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 24.0,
-                    sigmaY: 24.0,
+              child: Column(children: [
+                Consumer<CoordiProvider>(
+                  builder: (context, value, child) => SizedBox(
+                    height: 150,
+                    child: Column(children: <Widget>[
+                      value.initCoordiState
+                          ? Column(
+                              children: [
+                                const Text("오늘의 추천 코디!"),
+                                Text(context
+                                    .read<CoordiProvider>()
+                                    .getTopCloth()),
+                                Text(context
+                                    .read<CoordiProvider>()
+                                    .getBottomCloth()),
+                                const Text('어때요?'),
+                              ],
+                            )
+                          : CircularProgressIndicator(
+                              valueColor: new AlwaysStoppedAnimation<Color?>(
+                                  Colors.blue[100]),
+                              backgroundColor: Colors.blue[600],
+                            ),
+                    ]),
                   ),
                   child: Column(children: [
                     SizedBox(
@@ -58,6 +78,7 @@ class CoordiSection extends StatelessWidget {
                     ),
                     const ChangeCoordiButton(),
                   ])),
+
             ))));
   }
 }

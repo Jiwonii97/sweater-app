@@ -120,6 +120,10 @@ class Weather extends ChangeNotifier {
       return 1;
     }
 
+    if (activeFlag == false) {
+      return;
+    }
+
     // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
     var now = DateTime.now(); //현재일자
     var anHourBefore = now.subtract(const Duration(hours: 1));
@@ -170,7 +174,6 @@ class Weather extends ChangeNotifier {
         "ny": ny
       });
       final response = await http.get(url); // http 호출
-      // print(url);
 
       // http 호출이 안되면 예외 처리
       if (response.statusCode != 200) {
@@ -226,6 +229,7 @@ class Weather extends ChangeNotifier {
           idx++; // 다음 인덱스
         }
       }
+
       initWeatherFlag = true;
       activeFlag = false;
       notifyListeners();
