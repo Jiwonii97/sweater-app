@@ -33,6 +33,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    context.read<CoordiProvider>().initCoordiList();
+    String xValue = context.read<Location>().X.toString();
+    String yValue = context.read<Location>().Y.toString();
+
+    context.read<Weather>().updateWeather(xValue, yValue);
+  }
+
+  @override
   Widget build(BuildContext context) {
     context.read<CoordiProvider>().initCoordiList();
     String xValue = context.read<Location>().X.toString();
