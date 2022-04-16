@@ -16,10 +16,10 @@ class ChangeCoordiButton extends StatelessWidget {
         children: <Widget>[
           IconButton(
               icon: const Icon(Icons.navigate_before, color: Colors.black),
-              onPressed: () => _coordiIndexConsumer.nextCoordi()),
+              onPressed: () => _coordiIndexConsumer.prevCoordi()),
           IconButton(
               icon: const Icon(Icons.navigate_next, color: Colors.black),
-              onPressed: () => _coordiIndexConsumer.prevCoordi())
+              onPressed: () => _coordiIndexConsumer.nextCoordi())
         ]);
   }
 }

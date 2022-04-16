@@ -6,11 +6,15 @@ class Coordi {
   String _url;
   // List<Cloth> _clothes;
   List<dynamic> _items;
+  List<int> _temperature;
+  int _gender;
 
-  Coordi(this._url, this._items);
+  Coordi(this._url, this._items, this._temperature, this._gender);
 
   String get url => _url;
   List<dynamic> get items => _items;
+  List<int> get temperature => _temperature;
+  int get gender => _gender;
 
   List<String> getCoordiInfo() {
     List<String> result = [];
@@ -20,34 +24,49 @@ class Coordi {
 }
 
 class Cloth {
-  // String _mainCategory;
-  // String _subCategory;
-  String _category;
+  String _majorCategory;
+  String _minorCategory;
   String _color;
   List<dynamic> _features;
+  String _thickness;
 
-  // Cloth(this._mainCategory, this._subCategory, this._color, this._features);
-  Cloth(this._category, this._color, this._features);
+  Cloth(this._majorCategory, this._minorCategory, this._color, this._features,
+      this._thickness);
 
-  String get category => _category;
+  String get majorCategory => _majorCategory;
+  String get minorCategory => _minorCategory;
   String get color => _color;
   List<dynamic> get features => _features;
+  String get thickness => _thickness;
 
   Cloth.fromJson(Map<String, dynamic> json)
-      : _category = json['category'],
+      : _majorCategory = json['major'],
+        _minorCategory = json['minor'],
         _color = json['color'],
-        _features = json['features'];
+        _features = json['features'],
+        _thickness = json['thickness'];
 
   String getClothInfo() {
+    // print(this.category);
     // String color = convertColorEngToKor(this.color);
     // String features = convertFeaturesEngtoKor(this.features);
     // String category = convertCategoryEngtoKor(this.category);
     // String result = color + " " + features + " " + category;
     String features = "";
-    if (this.features != null)
+    String result = "";
+    if (this.majorCategory != "outer") {
       for (int i = 0; i < this.features.length; i++)
         features += (this.features[i] + " ");
-    String result = this.color + " " + features + " " + this.category;
+      result = this.color +
+          " " +
+          features +
+          " " +
+          this.thickness +
+          " " +
+          this.minorCategory;
+    } else
+      result = this.color + " " + this.thickness + " " + this.minorCategory;
+    // return "a";
     return result;
   }
 }

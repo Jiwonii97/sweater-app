@@ -11,10 +11,10 @@ import 'package:http/http.dart' as http;
 
 class CoordiProvider with ChangeNotifier {
   List<Coordi> _coordiList = [];
-  Coordi _coordi = Coordi("", []); //String url, List<dynamic> clothes
-  Cloth _outer = Cloth("", "", []);
-  Cloth _topCloth = Cloth("", "", []);
-  Cloth _bottomCloth = Cloth("", "", []);
+  Coordi _coordi = Coordi("", [], [], 0); //String url, List<dynamic> clothes
+  Cloth _outer = Cloth("", "", "", [], "");
+  Cloth _topCloth = Cloth("", "", "", [], "");
+  Cloth _bottomCloth = Cloth("", "", "", [], "");
 
   int _coordiIdx = 0;
   bool _initCoordiState = false;
@@ -32,19 +32,22 @@ class CoordiProvider with ChangeNotifier {
   }
 
   set setCoordi(Coordi input) {
-    _coordi = Coordi(input.url, input.items);
+    _coordi = Coordi(input.url, input.items, input.temperature, input.gender);
   }
 
   set setOuter(Cloth input) {
-    _outer = Cloth(input.category, input.color, input.features);
+    _outer = Cloth(input.majorCategory, input.minorCategory, input.color,
+        input.features, input.thickness);
   }
 
   set setTopCloth(Cloth input) {
-    _topCloth = Cloth(input.category, input.color, input.features);
+    _topCloth = Cloth(input.majorCategory, input.minorCategory, input.color,
+        input.features, input.thickness);
   }
 
   set setBottomCloth(Cloth input) {
-    _bottomCloth = Cloth(input.category, input.color, input.features);
+    _bottomCloth = Cloth(input.majorCategory, input.minorCategory, input.color,
+        input.features, input.thickness);
   }
 
   set setInitCoordiState(bool input) {
@@ -67,46 +70,73 @@ class CoordiProvider with ChangeNotifier {
   void initCoordiList(List<HourForecast> forecastList, int userGender) async {
     String result = await requestCoordis(forecastList, userGender);
     setInitCoordiState = true; //코디 요청 완료 플래그
-    await Future.doWhile(() async {
-      await Future.delayed(Duration(milliseconds: 100)); //100ms씩 대기
-      if (initCoordiState) {
-        return false;
-      } else {
-        return true;
-      }
-    });
+    // await Future.doWhile(() async {
+    //   await Future.delayed(Duration(milliseconds: 100)); //100ms씩 대기
+    //   if (initCoordiState) {
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // });
     List<dynamic> coordiLists = convert.jsonDecode(result);
     for (int i = 0; i < coordiLists.length; i++) {
       //코디 리스트 생성
-      addCoordiListElement(
-          Coordi(coordiLists[i]['url'], coordiLists[i]['items']));
+      addCoordiListElement(Coordi(
+          coordiLists[i]['url'],
+          coordiLists[i]['items'],
+          coordiLists[i]['temperature'],
+          coordiLists[i]['gender']));
     }
     notifyListeners();
   }
 
   String getOuter() {
+    // print(coordiList.length);
     setCoordi = coordiList[coordiIdx]; //index로 교체해야함
+    int itemIdx = 0;
+    // print(coordiList[coordiIdx].items.length);
+    // for (int i = 0; i < coordiList[coordiIdx].items.length; i++) {
+    //   if (coordiList[coordiIdx].items[i]['major'] == 'outer') {
+    //     itemIdx = i;
+    //     break;
+    //   }
+    // }
+    // print(itemIdx);
+    // if (itemIdx == coordiList[coordiIdx].items.length) return "";
+    if (coordiList[coordiIdx].items.length == 2) return " ";
+
     setOuter = Cloth.fromJson(coordi.items[0]);
     String result = outer.getClothInfo();
 
+    // return "aa";
     return result;
   }
 
   String getTopCloth() {
     setCoordi = coordiList[coordiIdx]; //index로 교체해야함
-    setTopCloth = Cloth.fromJson(coordi.items[1]);
-
+    int itemIdx = 0;
+    for (int i = 0; i < coordiList[coordiIdx].items.length; i++) {
+      if (coordiList[coordiIdx].items[i]['major'] == 'top') {
+        itemIdx = i;
+        break;
+      }
+    }
+    setTopCloth = Cloth.fromJson(coordi.items[itemIdx]);
     String result = topCloth.getClothInfo();
-
     return result;
   }
 
   String getBottomCloth() {
     setCoordi = coordiList[coordiIdx]; //index로 교체해야함
-    if (coordi.items.length == 3)
-      setBottomCloth = Cloth.fromJson(coordi.items[2]);
-    else
-      return "";
+    int itemIdx = 0;
+    for (int i = 0; i < coordiList[coordiIdx].items.length; i++) {
+      if (coordiList[coordiIdx].items[i]['major'] == 'bottom') {
+        itemIdx = i;
+        break;
+      }
+    }
+
+    setBottomCloth = Cloth.fromJson(coordi.items[itemIdx]);
 
     String result = bottomCloth.getClothInfo();
 
