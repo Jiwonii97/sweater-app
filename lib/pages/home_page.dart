@@ -1,6 +1,5 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:sweater/components/card_container.dart';
 import 'package:sweater/theme/global_theme.dart';
 // import 'package:sweater/components/hourly_weather_section.dart';
@@ -56,6 +55,17 @@ class _HomePageState extends State<HomePage> {
         ? coordiConsumer.initCoordiList(
             weatherConsumer.forecastList, 0, userConsumer.gender)
         : debugPrint("not initialize weather yet");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    String xValue = context.read<Location>().X.toString();
+    String yValue = context.read<Location>().Y.toString();
+
+    context.read<Weather>().updateWeather(xValue, yValue).then((value) =>
+        value == 0 ? initCoordi() : debugPrint("fail getting weather api"));
   }
 
   @override
