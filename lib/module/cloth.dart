@@ -12,6 +12,12 @@ class Coordi {
   List<int> get temperature => _temperature;
   int get gender => _gender;
 
+  // List<String> getCoordiInfo() {
+  //   List<String> result = [];
+
+  //   return result;
+  // }
+
   List<String> getIllustUrl() {
     List<String> result = []; //[아우터, 상의, 하의] 순으로 일러스트 주소 저장
     if (clothes.length == 3) {
