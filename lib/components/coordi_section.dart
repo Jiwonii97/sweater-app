@@ -33,7 +33,7 @@ class CoordiSection extends StatelessWidget {
               .headline5
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
-        context.watch<CoordiProvider>().initCoordiState
+        context.watch<CoordiProvider>().isReadyCoordiState
             ? CoordiView(
                 coordi:
                     // context.watch<CoordiManager>().coordiList[coordiIndex].getCoordiInfo(),
