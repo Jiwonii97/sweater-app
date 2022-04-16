@@ -73,7 +73,6 @@ class CoordiProvider with ChangeNotifier {
 
   Future<String> requestCoordis(
       List<HourForecast> forecastList, int forecastIdx, int userGender) async {
-    // print("!");
     Uri uri = Uri.parse(
         "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand?gender=$userGender&stemp=${forecastList[forecastIdx].getSTemp}&isRain=${forecastList[forecastIdx].getRainRate == '0' ? false : true}&isSnow=${forecastList[forecastIdx].getRainRate == '0' ? false : true}&windSpeed=${forecastList[forecastIdx].getWindSpeed}");
     var response = await http.get(uri);
@@ -125,7 +124,6 @@ class CoordiProvider with ChangeNotifier {
   }
 
   String getOuter() {
-    print(coordiList.length);
     if (coordiList.length != 0) {
       setCoordi = coordiList[coordiIdx];
       if (coordiList[coordiIdx].clothes.length == 2) return "";
