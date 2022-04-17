@@ -7,6 +7,7 @@ class Location extends ChangeNotifier {
   static List _location = [];
   static String _cur = "";
   String get cur => _cur;
+  String get currentDong => _cur.split(' ').last;
   List get location => _location;
   int get X => getX();
   int get Y => getY();
