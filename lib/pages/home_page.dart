@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
     String xValue = context.read<Location>().X.toString();
     String yValue = context.read<Location>().Y.toString();
     context.read<Weather>().updateWeather(xValue, yValue);
-    var currentWeather = context.watch<Weather>().forecastList[0];
+    HourForecast currentWeather = context.watch<Weather>().forecastList[0];
 
     context.read<Weather>().updateWeather(xValue, yValue);
     return Container(
