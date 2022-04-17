@@ -33,16 +33,6 @@ class _HomePageState extends State<HomePage> {
     return GlobalTheme.lightTheme;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<CoordiProvider>().initCoordiList();
-    String xValue = context.read<Location>().X.toString();
-    String yValue = context.read<Location>().Y.toString();
-
-    context.read<Weather>().updateWeather(xValue, yValue);
-  }
-
   void initCoordi() {
     var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);
     var weatherConsumer = Provider.of<Weather>(context, listen: false);
@@ -70,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     String xValue = context.read<Location>().X.toString();
     String yValue = context.read<Location>().Y.toString();
     context.read<Weather>().updateWeather(xValue, yValue);
-    currentWeather = context.watch<Weather>().forecastList[0];
+    HourForecast currentWeather = context.watch<Weather>().forecastList[0];
 
     return Theme(
         data: themeByWeather(),

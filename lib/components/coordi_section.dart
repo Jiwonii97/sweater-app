@@ -19,33 +19,8 @@ class CoordiSection extends StatelessWidget {
             ),
             color: Colors.white.withOpacity(0.6),
             child: Center(
-                child: SizedBox(
-              height: 200,
-              child: Column(children: [
-                Consumer<CoordiProvider>(
-                  builder: (context, value, child) => SizedBox(
-                    height: 150,
-                    child: Column(children: <Widget>[
-                      value.initCoordiState
-                          ? Column(
-                              children: [
-                                const Text("오늘의 추천 코디!"),
-                                Text(context
-                                    .read<CoordiProvider>()
-                                    .getTopCloth()),
-                                Text(context
-                                    .read<CoordiProvider>()
-                                    .getBottomCloth()),
-                                const Text('어때요?'),
-                              ],
-                            )
-                          : CircularProgressIndicator(
-                              valueColor: new AlwaysStoppedAnimation<Color?>(
-                                  Colors.blue[100]),
-                              backgroundColor: Colors.blue[600],
-                            ),
-                    ]),
-                  ),
+              child: SizedBox(
+                  height: 200,
                   child: Column(children: [
                     SizedBox(
                       height: 150,
@@ -78,7 +53,6 @@ class CoordiSection extends StatelessWidget {
                     ),
                     const ChangeCoordiButton(),
                   ])),
-
-            ))));
+            )));
   }
 }

@@ -120,10 +120,6 @@ class Weather extends ChangeNotifier {
       return 1;
     }
 
-    if (activeFlag == false) {
-      return;
-    }
-
     // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
     var now = DateTime.now(); //현재일자
     var anHourBefore = now.subtract(const Duration(hours: 1));
