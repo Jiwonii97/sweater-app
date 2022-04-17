@@ -45,6 +45,12 @@ class Weather extends ChangeNotifier {
     activeFlag = true;
   }
 
+  // 현재 날씨 정보를 반환
+
+  HourForecast getCurrentWeather() {
+    return _forecastList[0];
+  }
+
   // JSON을 통해 키값 불러오기
   Future<bool> initKey() async {
     try {
@@ -252,7 +258,8 @@ class HourForecast {
   String _time = "10:00"; // 시간
   String _temp = "99"; // 기온
   String _sTemp = "99"; // 체감 온도
-  String _sky = "눈"; // 구름 상태 - 맑음, 구름많음, 흐림, 비, 비/눈, 눈, 소나기
+  String _sky =
+      ""; // 구름 상태 - 맑음, 구름많음, 흐림, 비, 비/눈, 눈, 소나기 <- 초기화 되지 않았을 때는 "" 나오도록 수정했어요
   String _rainRate = "-1"; // 강수 확률
   String _windSpeed = "-1"; // 풍속
 
