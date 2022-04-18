@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Location extends ChangeNotifier {
   static List _location = [];
-  static String _cur = "동작구";
+  static String _cur = "";
   String get cur => _cur;
   String get currentDong => _cur.split(' ').last;
   List get location => _location;
@@ -35,14 +35,14 @@ class Location extends ChangeNotifier {
     for (var loc in _location) {
       if (loc['name'] == _cur) return loc['X'];
     }
-    return 59;
+    return 0;
   }
 
   int getY() {
     for (var loc in _location) {
       if (loc['name'] == _cur) return loc['Y'];
     }
-    return 125;
+    return 0;
   }
 
   void initLocation() async {
@@ -51,6 +51,12 @@ class Location extends ChangeNotifier {
     if (list != "") {
       _location = json.decode(list)['location'];
       _cur = json.decode(list)['selected'];
+    }
+    if (_cur == "") {
+      _location = [
+        {'name': "서울특별시 동작구", 'X': 59, "Y": 125}
+      ];
+      _cur = "서울특별시 동작구";
     }
     notifyListeners();
   }
