@@ -32,9 +32,7 @@ class CoordiSection extends StatelessWidget {
         ),
         context.watch<CoordiProvider>().isReadyCoordiState
             ? CoordiView(
-                coordi:
-                    // context.watch<CoordiManager>().coordiList[coordiIndex].getCoordiInfo(),
-                    [
+                coordi: [
                     context.watch<CoordiProvider>().getOuter(),
                     context.watch<CoordiProvider>().getTopCloth(),
                     context.watch<CoordiProvider>().getBottomCloth()
@@ -50,25 +48,12 @@ class CoordiSection extends StatelessWidget {
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             CoordiButton(
                 onPressed: context.read<CoordiProvider>().prevCoordi,
-                // onPressed: () {
-                //   if (coordiIndex != 0)
-                //     coordiIndex -= 1;
-                // },
                 icon: SweaterIcons.arrow_left),
             const Spacer(
               flex: 1,
             ),
             CoordiButton(
                 onPressed: context.read<CoordiProvider>().nextCoordi,
-                // onPressed: () {
-                //   if (context.read<CoordiManager>().coordiList.length >
-                //       coordiIndex)
-                //     coordiIndex += 1;
-                //   else {
-                //     context.read<CoordiManager>().addCoordi();
-                //     coordiIndex += 1;
-                //   }
-                // },
                 icon: SweaterIcons.arrow_right),
           ]),
         ),
@@ -140,19 +125,10 @@ class CoordiView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  // 아우터
-                  illustView("assets/weather/rainy.svg"),
-                  // illustView(coordiIllust[0]),
-                  // 상의
-                  illustView("assets/weather/sunny.svg"),
-                  // coordiIllust[3] == "" ? illustView(coordiIllust[1]) : illustView(coordiIllust[3]),
-                  // 하의
-                  illustView("assets/weather/night.svg"),
-                ],
-              ),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: List.generate(coordiIllust.length,
+                      (index) => illustView(coordiIllust[index]))),
               Container(
                 // color: Colors.green,
                 padding: const EdgeInsets.symmetric(vertical: 12),
