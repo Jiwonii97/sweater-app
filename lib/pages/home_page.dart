@@ -26,6 +26,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final String _title = "SWEATER";
+
   ThemeData themeByWeather() {
     // return Random().nextInt(2) == 1
     // ? GlobalTheme.darkTheme
