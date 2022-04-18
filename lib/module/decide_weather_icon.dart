@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 Widget decideWeatherIcon(HourForecast hourForecast, bool isNow) {
   switch (hourForecast.getSky) {
     case "맑음":
-      return SvgPicture.asset("assets/weather/night.svg",
+      return SvgPicture.asset("assets/weather/sunny.svg",
           width: isNow ? 80.0 : 36.0, height: isNow ? 80.0 : 36.0);
     case "구름많음":
       return SvgPicture.asset("assets/weather/cloudy.svg",

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sweater/components/hourly_weather_card.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/providers/weather.dart';
+import 'package:sweater/providers/user_info.dart';
 
 class NoGlowScrollBehavior extends ScrollBehavior {
   @override
@@ -22,7 +24,9 @@ class _HourlyWeatherSection extends State<HourlyWeatherSection> {
   int selectedTime = -1;
   @override
   Widget build(BuildContext context) {
-    var _weatherProvider = Provider.of<Weather>(context);
+    var _weatherProvider = context.watch<Weather>();
+    var coordiConsumer = Provider.of<CoordiProvider>(context);
+    var userConsumer = Provider.of<User>(context);
 
     List<HourForecast> weatherPrediction =
         _weatherProvider.forecastList; //시간별 날씨 상태 담을 리스트
@@ -43,14 +47,18 @@ class _HourlyWeatherSection extends State<HourlyWeatherSection> {
                         if (selectedTime == index) {
                           selectedTime = -1;
                           HourForecast currentForecast = weatherPrediction[0];
-                          // context.read<CoordiManager>().initCoordi(currentForecast.stemp,context.watch<User>().gender,currentForecast.isRain,currentForecast.isSnow,currentForecast.windSpeed);
-                          //CoordiManager에서 현재 어떤 코디를 보여주고 있는지 string 을 바꿔주는 함수 호출
+                          coordiConsumer.requestCoordiList(
+                              _weatherProvider.forecastList,
+                              0,
+                              userConsumer.gender);
                         } else {
                           selectedTime = index;
                           HourForecast selectedForecast =
                               weatherPrediction[index];
-                          // context.read<CoordiManager>().initCoordi(selectedForecast.stemp,context.watch<User>().gender,selectedForecast.isRain,selectedForecast.isSnow,selectedForecast.windSpeed);
-                          //CoordiManager에서 현재 어떤 코디를 보여주고 있는지 string 을 바꿔주는 함수 호출
+                          coordiConsumer.requestCoordiList(
+                              _weatherProvider.forecastList,
+                              selectedTime + 1,
+                              userConsumer.gender);
                         }
                         setState(() {});
                       }),

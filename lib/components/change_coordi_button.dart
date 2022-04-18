@@ -8,7 +8,7 @@ class ChangeCoordiButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _coordiIndexConsumer = Provider.of<CoordiProvider>(context);
-    int idx = _coordiIndexConsumer.idx;
+    int coordiIdx = _coordiIndexConsumer.coordiIdx;
     return Row(
         // mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -16,10 +16,10 @@ class ChangeCoordiButton extends StatelessWidget {
         children: <Widget>[
           IconButton(
               icon: const Icon(Icons.navigate_before, color: Colors.black),
-              onPressed: () => _coordiIndexConsumer.nextCoordi()),
+              onPressed: () => _coordiIndexConsumer.prevCoordi()),
           IconButton(
               icon: const Icon(Icons.navigate_next, color: Colors.black),
-              onPressed: () => _coordiIndexConsumer.prevCoordi())
+              onPressed: () => _coordiIndexConsumer.nextCoordi())
         ]);
   }
 }

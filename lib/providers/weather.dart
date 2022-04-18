@@ -9,7 +9,6 @@ import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
 // Weather 객체 클래스
 class Weather extends ChangeNotifier {
   bool activeFlag = true; // API 요청 무한 루프 방지를 위한 flag
-
   bool initWeatherFlag = false;
 
   // 구름 상태 인덱스
@@ -112,7 +111,7 @@ class Weather extends ChangeNotifier {
   }
 
   // API를 받아서 해당 날씨 데이터를 Weather 객체에 업데이트
-  void updateWeather(String nx, String ny) async {
+  Future<int> updateWeather(String nx, String ny) async {
     /*
     String basedate   // 기준 날짜    ex) 19700101
     String basetime   // 기준 시간 값     ex) 1200
@@ -123,9 +122,8 @@ class Weather extends ChangeNotifier {
       // api 키값을 제대로 받아오면 해당 flag를 true로 바꿔 1회만 실행되게 함
       flagApi = await initKey();
     }
-
     if (activeFlag == false) {
-      return;
+      return 1;
     }
 
     // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
@@ -236,7 +234,6 @@ class Weather extends ChangeNotifier {
 
       initWeatherFlag = true;
       activeFlag = false;
-
       notifyListeners();
     } on SocketException {
       print('No Internet connection 😑');
@@ -245,9 +242,20 @@ class Weather extends ChangeNotifier {
     } on FormatException {
       print("Bad response format 👎");
     } catch (e) {
-      print(e);
+      // print(e);
     }
-    return;
+    await Future.doWhile(() async {
+      //api 받아올때까지 무한루프돌며 대기
+      await Future.delayed(Duration(milliseconds: 100)); //100ms씩 대기
+      if (initWeatherFlag) {
+        //완료 플래그가 셋되었다면 리턴
+        return false;
+      } else {
+        //아니면 다시 루프
+        return true;
+      }
+    });
+    return 0;
   }
 }
 

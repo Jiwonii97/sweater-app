@@ -26,6 +26,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final String _title = "SWEATER";
+
   ThemeData themeByWeather() {
     // return Random().nextInt(2) == 1
     // ? GlobalTheme.darkTheme
@@ -42,25 +43,48 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Color> backgroundByWeather() {
-    // return [Color(0xff039be5), Color(0xffffffff)];
+    HourForecast currentWeather = context.watch<Weather>().getCurrentWeather();
+    String skyState = currentWeather.getSky;
+    if (skyState == '비' || skyState == '비/눈' || skyState == '눈') {
+      return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
+    }
+    int currentHour = DateTime.now().hour;
+    if (6 <= currentHour && currentHour <= 18) {
+      return [Color(0xff039be5), Color(0xffffffff)];
+    }
     return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
+    //return [Color(0xff039be5), Color(0xffffffff)];
+    // return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
+  }
+
+  void initCoordi() {
+    var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);
+    var weatherConsumer = Provider.of<Weather>(context, listen: false);
+    var userConsumer = Provider.of<User>(context, listen: false);
+
+    weatherConsumer.initWeatherFlag
+        ? coordiConsumer.initCoordiList(
+            weatherConsumer.forecastList, 0, userConsumer.gender)
+        : debugPrint("not initialize weather yet");
   }
 
   @override
   void initState() {
     super.initState();
-    context.read<CoordiProvider>().initCoordiList();
+
     String xValue = context.read<Location>().X.toString();
     String yValue = context.read<Location>().Y.toString();
 
-    context.read<Weather>().updateWeather(xValue, yValue);
+    context.read<Weather>().updateWeather(xValue, yValue).then((value) =>
+        value == 0 ? initCoordi() : debugPrint("fail getting weather api"));
   }
 
   @override
   Widget build(BuildContext context) {
-    context.read<CoordiProvider>().initCoordiList();
     String xValue = context.read<Location>().X.toString();
     String yValue = context.read<Location>().Y.toString();
+    context.read<Weather>().updateWeather(xValue, yValue);
+    HourForecast currentWeather = context.watch<Weather>().forecastList[0];
 
     context.read<Weather>().updateWeather(xValue, yValue);
     return Container(

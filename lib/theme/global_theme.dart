@@ -144,7 +144,7 @@ class GlobalTheme {
       fontWeight: FontWeight.normal,
       fontSize: 12,
       letterSpacing: 0.4,
-      color: Color(0xff757575));
+      color: Color(0xff424242));
   static const _overlineText = TextStyle(
       fontWeight: FontWeight.normal,
       fontSize: 10,
