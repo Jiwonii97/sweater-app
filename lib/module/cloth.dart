@@ -100,7 +100,7 @@ String convertCategoryEngtoKor(String input) {
       return '무스탕';
     case "padding_vest":
       return '패딩 조끼';
-    case "neat_vest":
+    case "vest":
       return '니트 조끼';
     case "sweater":
       return '스웨터';
@@ -144,6 +144,8 @@ String convertCategoryEngtoKor(String input) {
       return '청바지';
     case "jersey":
       return '저지';
+    case "training_bottom":
+      return '츄리닝 바지';
     default:
       return input;
   }
@@ -162,9 +164,9 @@ String translateFeatureEngtoKor(String input) {
     case "normal":
       return '';
     case "long":
-      return '긴팔 ';
+      return '긴 ';
     case "short":
-      return '반팔 ';
+      return '짧은 ';
     case "sleeveless":
       return '민소매 ';
     case "crop":
@@ -202,6 +204,8 @@ String convertColorEngToKor(String input) {
     case 'light_grey':
       return '연회색';
     case 'grey':
+      return '회색 ';
+    case 'gray':
       return '회색 ';
     case 'dark_grey':
       return '다크그레이색 ';

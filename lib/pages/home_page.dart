@@ -42,8 +42,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Color> backgroundByWeather() {
-    // return [Color(0xff039be5), Color(0xffffffff)];
+    HourForecast currentWeather = context.watch<Weather>().getCurrentWeather();
+    String skyState = currentWeather.getSky;
+    if (skyState == '비' || skyState == '비/눈' || skyState == '눈') {
+      return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
+    }
+    int currentHour = DateTime.now().hour;
+    if (6 <= currentHour && currentHour <= 18) {
+      return [Color(0xff039be5), Color(0xffffffff)];
+    }
     return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
+    //return [Color(0xff039be5), Color(0xffffffff)];
+    // return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
   }
 
   void initCoordi() {

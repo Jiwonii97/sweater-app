@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sweater/components/check_menu.dart';
+import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/theme/global_theme.dart';
 import 'package:sweater/providers/user_info.dart';
+import 'package:sweater/providers/weather.dart';
 import 'package:provider/provider.dart';
 
 class GenderChangePage extends StatefulWidget {
@@ -15,6 +17,10 @@ class _GenderChangePage extends State<GenderChangePage> {
   final String _title = "성별 관리";
   @override
   Widget build(BuildContext context) {
+    var weatherConsumer = Provider.of<Weather>(context);
+    var userConsumer = Provider.of<User>(context);
+    var coordiConsumer = Provider.of<CoordiProvider>(context);
+
     return Scaffold(
         appBar: AppBar(
             title: Text(_title),
@@ -27,6 +33,8 @@ class _GenderChangePage extends State<GenderChangePage> {
               GestureDetector(
                 onTap: () {
                   context.read<User>().changeGender(User.man);
+                  coordiConsumer.requestCoordiList(
+                      weatherConsumer.forecastList, 0, userConsumer.gender);
                 },
                 child: CheckMenu(
                   leadingIcon: Icons.boy,
@@ -37,6 +45,8 @@ class _GenderChangePage extends State<GenderChangePage> {
               GestureDetector(
                 onTap: () {
                   context.read<User>().changeGender(User.woman);
+                  coordiConsumer.requestCoordiList(
+                      weatherConsumer.forecastList, 0, userConsumer.gender);
                 },
                 child: CheckMenu(
                   leadingIcon: Icons.girl,
