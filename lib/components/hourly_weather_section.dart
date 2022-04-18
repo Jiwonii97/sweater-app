@@ -44,7 +44,6 @@ class _HourlyWeatherSection extends State<HourlyWeatherSection> {
                       hourForecast: weatherPrediction[index + 1],
                       isSelected: selectedTime == index,
                       onPress: () {
-                        // coordiConsumer.setIsReadyCoordiState = false;
                         if (selectedTime == index) {
                           selectedTime = -1;
                           HourForecast currentForecast = weatherPrediction[0];
