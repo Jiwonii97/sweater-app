@@ -43,7 +43,7 @@ class Location extends ChangeNotifier {
     return 0;
   }
 
-  Future initLocation() async {
+  Future<bool> initLocation() async {
     prefs = await SharedPreferences.getInstance();
     String list = prefs.getString('my_location') ?? "";
     if (list != "") {

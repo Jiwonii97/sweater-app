@@ -128,7 +128,6 @@ class Weather extends ChangeNotifier {
 
     // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
     var now = DateTime.now(); //현재일자
-    print(now);
     var anHourBefore = now.subtract(const Duration(hours: 1));
 
     // 날짜 데이터를 받아서 원하는 basetime, basedate 만들기

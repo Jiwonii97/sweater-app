@@ -93,6 +93,8 @@ String convertCategoryEngtoKor(String input) {
       return '패딩';
     case "mtm":
       return '맨투맨';
+    case "skirts":
+      return '스커트';
     case "skirt":
       return '스커트';
     case "leather_jacket":

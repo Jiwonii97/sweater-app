@@ -31,18 +31,15 @@ class CoordiSection extends StatelessWidget {
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
         context.watch<CoordiProvider>().isReadyCoordiState
-            ? CoordiView(
-                coordi: context
-                    .watch<CoordiProvider>()
-                    .coordiList[coordiIdx]
-                    .getCoordiInfo(),
-                //   [
-                //   context.watch<CoordiProvider>().getOuter(),
-                //   context.watch<CoordiProvider>().getTopCloth(),
-                //   context.watch<CoordiProvider>().getBottomCloth()
-                // ],
-                coordiIllust:
-                    context.watch<CoordiProvider>().coordi.getIllustUrl())
+            ? context.watch<CoordiProvider>().coordiList.length == 0
+                ? Text("no data")
+                : CoordiView(
+                    coordi: context
+                        .watch<CoordiProvider>()
+                        .coordiList[coordiIdx]
+                        .getCoordiInfo(),
+                    coordiIllust:
+                        context.watch<CoordiProvider>().coordi.getIllustUrl())
             : CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[100]),
                 backgroundColor: Colors.blue[600],
