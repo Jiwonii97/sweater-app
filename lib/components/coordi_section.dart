@@ -32,13 +32,15 @@ class CoordiSection extends StatelessWidget {
         ),
         context.watch<CoordiProvider>().isReadyCoordiState
             ? CoordiView(
-                coordi:
-                    // context.watch<CoordiManager>().coordiList[coordiIndex].getCoordiInfo(),
-                    [
-                    context.watch<CoordiProvider>().getOuter(),
-                    context.watch<CoordiProvider>().getTopCloth(),
-                    context.watch<CoordiProvider>().getBottomCloth()
-                  ],
+                coordi: context
+                    .watch<CoordiProvider>()
+                    .coordiList[coordiIdx]
+                    .getCoordiInfo(),
+                //   [
+                //   context.watch<CoordiProvider>().getOuter(),
+                //   context.watch<CoordiProvider>().getTopCloth(),
+                //   context.watch<CoordiProvider>().getBottomCloth()
+                // ],
                 coordiIllust:
                     context.watch<CoordiProvider>().coordi.getIllustUrl())
             : CircularProgressIndicator(

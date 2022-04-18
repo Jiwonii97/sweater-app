@@ -77,7 +77,7 @@ class CoordiProvider with ChangeNotifier {
     // print(userGender);
     // print("!");
     Uri uri = Uri.parse(
-        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand?gender=$userGender&stemp=${forecastList[forecastIdx].getSTemp}&isRain=${forecastList[forecastIdx].getRainRate == '0' ? false : true}&isSnow=${forecastList[forecastIdx].getRainRate == '0' ? false : true}&windSpeed=${forecastList[forecastIdx].getWindSpeed}");
+        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand?gender=$userGender&stemp=${forecastList[forecastIdx].getSTemp}&isRain=${forecastList[forecastIdx].getSky == '비' ? true : false}&isSnow=${forecastList[forecastIdx].getSky == '눈' ? true : false}&windSpeed=${forecastList[forecastIdx].getWindSpeed}");
     var response = await http.get(uri);
     return response.body;
   }
@@ -97,11 +97,15 @@ class CoordiProvider with ChangeNotifier {
     setInitCoordiState = true; //코디 요청 완료 플래그
 
     List<dynamic> coordiLists = convert.jsonDecode(result);
+    // print(coordiLists[0]['items'].runtimeType);
     for (int i = 0; i < coordiLists.length; i++) {
       //코디 리스트 생성
       addCoordiListElement(Coordi(
           coordiLists[i]['url'],
-          coordiLists[i]['items'],
+          coordiLists[i]['items'].map<Cloth>((item) {
+            return Cloth(item['major'], item['minor'], item['color'],
+                item['features'], item['thickness']);
+          }).toList(),
           coordiLists[i]['temperature'],
           coordiLists[i]['gender']));
     }
@@ -126,42 +130,44 @@ class CoordiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  String getOuter() {
-    if (coordiList.length != 0) {
-      setCoordi = coordiList[coordiIdx];
-      if (coordiList[coordiIdx].clothes.length == 2) return "";
+  // String getOuter() {
+  //   ifsetoordiList.length != 0) {
+  //   ifsetoordiList.length != 0) {
+  //     setCoordi = coordiList[coordiIdx];
+  //     if (coordiList[coordiIdx].clothes.length == 2) return "";
 
-      setOuter = Cloth.fromJson(coordi.clothes[0]);
-    }
-    String result = outer.getClothInfo();
-    return result;
-  }
+////     setOuter = Cloth.fromJson(coordi.clothes[0]);
+  //   }
+  //   String result = outer.getClothInfo();
+  //   return result;
+  // }
 
-  String getTopCloth() {
-    setCoordi = coordiList[coordiIdx];
-    int itemIdx = 0;
-    for (int i = 0; i < coordiList[coordiIdx].clothes.length; i++) {
-      if (coordiList[coordiIdx].clothes[i]['major'] == 'top') {
-        itemIdx = i;
-        break;
-      }
-    }
-    setTopCloth = Cloth.fromJson(coordi.clothes[itemIdx]);
-    String result = topCloth.getClothInfo();
-    return result;
-  }
+//// String getTopCloth() {
+  //   setCoordi = coordiList[coordiIdx];
+  //   int itemIdx = 0;
+  //   for (int i = 0; i < coordiList[coordiIdx].clothes.length; i++) {
+  //     if (coordiList[coordiIdx].clothes[i]['major'] == 'top') {
+  //       itemIdx = i;
+  //       break;
+  //     }
+  //   }
+  //   setTopCloth = Cloth.fromJson(coordi.clothes[itemIdx]);
+  //   String result = topCloth.getClothInfo();
+  //   return result;
+  // }
 
-  String getBottomCloth() {
-    setCoordi = coordiList[coordiIdx];
-    int itemIdx = 0;
-    for (int i = 0; i < coordiList[coordiIdx].clothes.length; i++) {
-      if (coordiList[coordiIdx].clothes[i]['major'] == 'bottom') {
-        itemIdx = i;
-        break;
-      }
-    }
-    setBottomCloth = Cloth.fromJson(coordi.clothes[itemIdx]);
-    String result = bottomCloth.getClothInfo();
-    return result;
-  }
+//// String getBottomCloth() {
+  //   setCoordi = coordiList[coordiIdx];
+  //   int itemIdx = 0;
+  //   for (int i = 0; i < coordiList[coordiIdx].clothes.length; i++) {
+  //     if (coordiList[coordiIdx].clothes[i]['major'] == 'bottom') {
+  //       itemIdx = i;
+  //       break;
+  //     }
+  //   }
+  //   setBottomCloth = Cloth.fromJson(coordi.clothes[itemIdx]);
+  //   String result = bottomCloth.getClothInfo();
+  //   return result;
+  // }
 }
+// 
