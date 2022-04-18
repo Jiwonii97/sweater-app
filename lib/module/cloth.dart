@@ -78,7 +78,8 @@ class Cloth {
   }
 }
 
-String convertCategoryEngtoKor(String input) {
+String convertCategoryEngtoKor(String? input) {
+  if (input == null) return '';
   switch (input) {
     case "jogger_pants":
       return '조거팬츠';
@@ -152,14 +153,14 @@ String convertCategoryEngtoKor(String input) {
 }
 
 String convertFeaturesEngtoKor(List<dynamic> input) {
-  //속성 번역해야함
   String features = "";
   for (int i = 0; i < input.length; i++)
     features += (translateFeatureEngtoKor(input[i]));
   return features;
 }
 
-String translateFeatureEngtoKor(String input) {
+String translateFeatureEngtoKor(String? input) {
+  if (input == null) return '';
   switch (input) {
     case "normal":
       return '';
@@ -186,7 +187,8 @@ String translateFeatureEngtoKor(String input) {
   }
 }
 
-String convertThicknessEngtoKor(String input) {
+String convertThicknessEngtoKor(String? input) {
+  if (input == null) return '';
   switch (input) {
     case 'thick':
       return '두꺼운 ';
@@ -197,7 +199,8 @@ String convertThicknessEngtoKor(String input) {
   }
 }
 
-String convertColorEngToKor(String input) {
+String convertColorEngToKor(String? input) {
+  if (input == null) return '';
   switch (input) {
     case 'white':
       return '흰색 ';
