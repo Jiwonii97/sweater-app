@@ -5,12 +5,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Location extends ChangeNotifier {
   static List _location = [];
-  static String _cur = "동작구";
+  static String _cur = "";
   String get cur => _cur;
   String get currentDong => _cur.split(' ').last;
   List get location => _location;
-  int get X => getX();
-  int get Y => getY();
+
+  int get X => _location.length != 0 && _cur != ""
+      ? _location.where((element) => element['name'] == _cur).single['X']
+      : 0;
+
+  int get Y => _location.length != 0 && _cur != ""
+      ? _location.where((element) => element['name'] == _cur).single['Y']
+      : 0;
+
   var prefs;
 
   set cur(String new_) {
@@ -29,20 +36,6 @@ class Location extends ChangeNotifier {
 
   Location() {}
 
-  int getX() {
-    for (var loc in _location) {
-      if (loc['name'] == _cur) return loc['X'];
-    }
-    return 59;
-  }
-
-  int getY() {
-    for (var loc in _location) {
-      if (loc['name'] == _cur) return loc['Y'];
-    }
-    return 125;
-  }
-
   Future<bool> initLocation() async {
     prefs = await SharedPreferences.getInstance();
     String list = prefs.getString('my_location') ?? "";
@@ -50,8 +43,6 @@ class Location extends ChangeNotifier {
       _location = json.decode(list)['location'];
       _cur = json.decode(list)['selected'];
     }
-    print(_location);
-
     notifyListeners();
     return true;
   }
