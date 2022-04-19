@@ -159,7 +159,6 @@ class CoordiView extends StatelessWidget {
   }
 
   Widget illustView(String illust) {
-    print(illust);
     return illust != ""
         ? SizedBox(
             width: 96,
