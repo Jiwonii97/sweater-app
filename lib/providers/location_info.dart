@@ -27,9 +27,7 @@ class Location extends ChangeNotifier {
     notifyListeners();
   }
 
-  Location() {
-    initLocation();
-  }
+  Location() {}
 
   int getX() {
     for (var loc in _location) {
@@ -45,14 +43,17 @@ class Location extends ChangeNotifier {
     return 125;
   }
 
-  void initLocation() async {
+  Future<bool> initLocation() async {
     prefs = await SharedPreferences.getInstance();
     String list = prefs.getString('my_location') ?? "";
     if (list != "") {
       _location = json.decode(list)['location'];
       _cur = json.decode(list)['selected'];
     }
+    print(_location);
+
     notifyListeners();
+    return true;
   }
 
   void saveAll() async {
