@@ -82,7 +82,75 @@ flutter:
     - assets/weather/rainy.svg
     - assets/saved_location.json
     - assets/weather-api.json
-
+    # bottom
+    - assets/cloth/bottom/hot-cotton_pants.svg
+    - assets/cloth/bottom/hot-jeans.svg
+    - assets/cloth/bottom/hot-training_pants.svg
+    - assets/cloth/bottom/long-jeans.svg
+    - assets/cloth/bottom/long-slacks.svg
+    - assets/cloth/bottom/long-cotton_pants.svg
+    - assets/cloth/bottom/long-training_pants.svg
+    - assets/cloth/bottom/short-cotton_pants.svg
+    - assets/cloth/bottom/short-jeans.svg
+    - assets/cloth/bottom/short-slacks.svg
+    - assets/cloth/bottom/short-training_pants.svg
+    # outer
+    - assets/cloth/outer/anorack_jacket.svg
+    - assets/cloth/outer/blazer.svg
+    - assets/cloth/outer/cardigan.svg
+    - assets/cloth/outer/coach-jacket.svg
+    - assets/cloth/outer/denim_jacket.svg
+    - assets/cloth/outer/blue_jacket.svg
+    - assets/cloth/outer/cardigan.svg
+    - assets/cloth/outer/coach_jacket.svg
+    - assets/cloth/outer/hood_zipup.svg
+    - assets/cloth/outer/jersey.svg
+    - assets/cloth/outer/neat_vest.svg
+    - assets/cloth/outer/padding_vest.svg
+    - assets/cloth/outer/trench_coat.svg
+    # skirt
+    - assets/cloth/skirt/long-skirt.svg
+    - assets/cloth/skirt/mini-skirt.svg
+    # one_piece
+    - assets/cloth/one_piece/long-one_piece.svg
+    - assets/cloth/one_piece/short-one_piece.svg
+    - assets/cloth/one_piece/sleeveless-one_piece.svg
+    # top
+    - assets/cloth/top/long-blouse.svg
+    - assets/cloth/top/long-hood-blouse.svg
+    - assets/cloth/top/long-hood-mtm.svg
+    - assets/cloth/top/long-hood-neat.svg
+    - assets/cloth/top/long-hood-shirts.svg
+    - assets/cloth/top/long-hood-sleeve.svg
+    - assets/cloth/top/long-hood-sweater.svg
+    - assets/cloth/top/long-mtm.svg
+    - assets/cloth/top/long-neat.svg
+    - assets/cloth/top/long-shirts.svg
+    - assets/cloth/top/long-sleeve.svg
+    - assets/cloth/top/long-sweater.svg
+    - assets/cloth/top/short-blouse.svg
+    - assets/cloth/top/short-hood-blouse.svg
+    - assets/cloth/top/short-hood-neat.svg
+    - assets/cloth/top/short-hood-shirts.svg
+    - assets/cloth/top/short-hood-sleeve.svg
+    - assets/cloth/top/short-hood-sweater.svg
+    - assets/cloth/top/short-mtm.svg
+    - assets/cloth/top/short-neat.svg
+    - assets/cloth/top/short-shirts.svg
+    - assets/cloth/top/short-sleeve.svg
+    - assets/cloth/top/short-sweater.svg
+    - assets/cloth/top/sleeveless-blouse.svg
+    - assets/cloth/top/sleeveless-hood-blouse.svg
+    - assets/cloth/top/sleeveless-hood-mtm.svg
+    - assets/cloth/top/sleeveless-hood-neat.svg
+    - assets/cloth/top/sleeveless-hood-shirts.svg
+    - assets/cloth/top/sleeveless-hood-sleeve.svg
+    - assets/cloth/top/sleeveless-hood-sweater.svg
+    - assets/cloth/top/sleeveless-mtm.svg
+    - assets/cloth/top/sleeveless-neat.svg
+    - assets/cloth/top/sleeveless-shirts.svg
+    - assets/cloth/top/sleeveless-sleeve.svg
+    - assets/cloth/top/sleeveless-sweater.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
