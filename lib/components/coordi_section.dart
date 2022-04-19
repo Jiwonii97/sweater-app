@@ -38,8 +38,10 @@ class CoordiSection extends StatelessWidget {
                         .watch<CoordiProvider>()
                         .coordiList[coordiIdx]
                         .getCoordiInfo(),
-                    coordiIllust:
-                        context.watch<CoordiProvider>().coordi.getIllustUrl())
+                    coordiIllust: context
+                        .watch<CoordiProvider>()
+                        .coordiList[coordiIdx]
+                        .getIllustUrl())
             : CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[100]),
                 backgroundColor: Colors.blue[600],
@@ -49,25 +51,12 @@ class CoordiSection extends StatelessWidget {
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             CoordiButton(
                 onPressed: context.read<CoordiProvider>().prevCoordi,
-                // onPressed: () {
-                //   if (coordiIndex != 0)
-                //     coordiIndex -= 1;
-                // },
                 icon: SweaterIcons.arrow_left),
             const Spacer(
               flex: 1,
             ),
             CoordiButton(
                 onPressed: context.read<CoordiProvider>().nextCoordi,
-                // onPressed: () {
-                //   if (context.read<CoordiManager>().coordiList.length >
-                //       coordiIndex)
-                //     coordiIndex += 1;
-                //   else {
-                //     context.read<CoordiManager>().addCoordi();
-                //     coordiIndex += 1;
-                //   }
-                // },
                 icon: SweaterIcons.arrow_right),
           ]),
         ),
@@ -131,80 +120,52 @@ class CoordiView extends StatelessWidget {
     String outer, top, bottomt;
     return Container(
       width: 288,
-      height: 160,
+      height: 288,
       child: Container(
-          margin: EdgeInsets.symmetric(vertical: 16),
-          child: Column(
+        margin: EdgeInsets.symmetric(vertical: 16),
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: List.generate(
-              coordi.length,
-              (index) => coordi[index] != ""
-                  ? Container(
-                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                      padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                      color: Theme.of(context).colorScheme.surface,
-                      child: Text("# ${coordi[index]}",
-                          style: Theme.of(context).textTheme.bodyText2),
-                    )
-                  : Container(),
-            ),
-          )
-          // [
-
-          // Expanded(
-          //   flex: 1,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     crossAxisAlignment: CrossAxisAlignment.end,
-          //     children: [
-          //       // 아우터
-          //       illustView("assets/weather/rainy.svg"),
-          //       // illustView(coordiIllust[0]),
-          //       // 상의
-          //       illustView("assets/weather/sunny.svg"),
-          //       // coordiIllust[3] == "" ? illustView(coordiIllust[1]) : illustView(coordiIllust[3]),
-          //     ],
-          //   ),
-          // ),
-          // Expanded(
-          //   flex: 1,
-          //   child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         Container(
-          //           // color: Colors.green,
-          //           padding: const EdgeInsets.symmetric(vertical: 12),
-          //           width: 144,
-          //           height: 144,
-          //           child: Column(
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: List.generate(
-          //               coordi.length,
-          //               (index) => Container(
-          //                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-          //                 padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-          //                 color: Theme.of(context).colorScheme.surface,
-          //                 child: Text("# ${coordi[index]}",
-          //                     style: Theme.of(context).textTheme.bodyText2),
-          //               ),
-          //             ),
-          //           ),
-          //         ),
-          //         illustView("assets/weather/cloudy.svg"),
-          //       ]),
-          // )
-          // ],
-          ),
+            children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: List.generate(coordiIllust.length,
+                      (index) => illustView(coordiIllust[index]))),
+              Container(
+                // color: Colors.green,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                width: 288,
+                height: 144,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: List.generate(
+                    coordi.length,
+                    (index) => coordi[index] != ""
+                        ? Container(
+                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+                            padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+                            color: Theme.of(context).colorScheme.surface,
+                            child: Text("# ${coordi[index]}",
+                                style: Theme.of(context).textTheme.bodyText2),
+                          )
+                        : Container(),
+                  ),
+                ),
+              ),
+            ]),
+      ),
     );
   }
 
   Widget illustView(String illust) {
-    return SizedBox(
-      width: 144,
-      child: illust != "" ? SvgPicture.asset(illust) : Container(),
-      height: 144,
-    );
+    print(illust);
+    return illust != ""
+        ? SizedBox(
+            width: 96,
+            child: SvgPicture.asset(illust),
+            height: 96,
+          )
+        : Container();
   }
 }
