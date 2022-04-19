@@ -71,22 +71,21 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    context.read<Location>().initLocation().then((ret) {
+      String xValue = context.read<Location>().X.toString();
+      String yValue = context.read<Location>().Y.toString();
 
-    String xValue = context.read<Location>().X.toString();
-    String yValue = context.read<Location>().Y.toString();
-
-    context.read<Weather>().updateWeather(xValue, yValue).then((value) =>
-        value == 0 ? initCoordi() : debugPrint("fail getting weather api"));
+      return context.read<Weather>().updateWeather(xValue, yValue);
+    }).then((isInitWeather) {
+      isInitWeather ? initCoordi() : debugPrint("fail getting weather api");
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     String xValue = context.read<Location>().X.toString();
     String yValue = context.read<Location>().Y.toString();
-    context.read<Weather>().updateWeather(xValue, yValue);
     HourForecast currentWeather = context.watch<Weather>().forecastList[0];
-
-    context.read<Weather>().updateWeather(xValue, yValue);
     return Container(
         color: Colors.white,
         child: Theme(

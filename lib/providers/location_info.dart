@@ -27,9 +27,7 @@ class Location extends ChangeNotifier {
     notifyListeners();
   }
 
-  Location() {
-    initLocation();
-  }
+  Location() {}
 
   int getX() {
     for (var loc in _location) {
@@ -45,7 +43,7 @@ class Location extends ChangeNotifier {
     return 0;
   }
 
-  void initLocation() async {
+  Future<bool> initLocation() async {
     prefs = await SharedPreferences.getInstance();
     String list = prefs.getString('my_location') ?? "";
     if (list != "") {
@@ -59,6 +57,7 @@ class Location extends ChangeNotifier {
       _cur = "서울특별시 동작구";
     }
     notifyListeners();
+    return true;
   }
 
   void saveAll() async {
