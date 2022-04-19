@@ -38,8 +38,10 @@ class CoordiSection extends StatelessWidget {
                         .watch<CoordiProvider>()
                         .coordiList[coordiIdx]
                         .getCoordiInfo(),
-                    coordiIllust:
-                        context.watch<CoordiProvider>().coordi.getIllustUrl())
+                    coordiIllust: context
+                        .watch<CoordiProvider>()
+                        .coordiList[coordiIdx]
+                        .getIllustUrl())
             : CircularProgressIndicator(
                 valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[100]),
                 backgroundColor: Colors.blue[600],
@@ -157,6 +159,7 @@ class CoordiView extends StatelessWidget {
   }
 
   Widget illustView(String illust) {
+    print(illust);
     return illust != ""
         ? SizedBox(
             width: 96,
