@@ -43,6 +43,12 @@ class Location extends ChangeNotifier {
       _location = json.decode(list)['location'];
       _cur = json.decode(list)['selected'];
     }
+    if (_cur == "") {
+      _location = [
+        {'name': "서울특별시 동작구", 'X': 59, "Y": 125}
+      ];
+      _cur = "서울특별시 동작구";
+    }
     notifyListeners();
     return true;
   }
