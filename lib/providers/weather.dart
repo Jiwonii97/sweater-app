@@ -111,7 +111,7 @@ class Weather extends ChangeNotifier {
   }
 
   // API를 받아서 해당 날씨 데이터를 Weather 객체에 업데이트
-  Future<int> updateWeather(String nx, String ny) async {
+  Future<bool> updateWeather(String nx, String ny) async {
     /*
     String basedate   // 기준 날짜    ex) 19700101
     String basetime   // 기준 시간 값     ex) 1200
@@ -123,7 +123,7 @@ class Weather extends ChangeNotifier {
       flagApi = await initKey();
     }
     if (activeFlag == false) {
-      return 1;
+      return false;
     }
 
     // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
@@ -162,7 +162,6 @@ class Weather extends ChangeNotifier {
 
     try {
       var getTime = predictMax; // 몇 시간의 정보를 가져올 것인가
-
       // url 변환
       final url = Uri.https(_requestHost, _requestPath, {
         "serviceKey": _myKey,
@@ -176,16 +175,13 @@ class Weather extends ChangeNotifier {
         "ny": ny
       });
       final response = await http.get(url); // http 호출
-
       // http 호출이 안되면 예외 처리
       if (response.statusCode != 200) {
         throw HttpException('${response.statusCode}');
       }
-
       // 전체 item 항목을 list로 바꾸고, 해당 카테고리에 맞는 정보만 따로 추출
       final List itemList = (convert.jsonDecode(response.body))['response']
           ['body']['items']['item'];
-
       // 순서대로 온도, 기상상태, 강수상태, 강수확률, 풍속, 날짜, 시간 데이터를 가져온다
       final Iterable tempList = itemList.where((el) => el['category'] == 'TMP');
       final Iterable skyList = itemList.where((el) => el['category'] == 'SKY');
@@ -200,7 +196,6 @@ class Weather extends ChangeNotifier {
 
       int tmp = 0; // 기준 시간으로 부터 차이 나는 시간을 구할때 사용하는 임시 변수
       int idx = 0; // 인덱스 부여용 변수
-
       // 데이터 업데이트
       for (var i = 0; i < (predictMax + 2); i++) {
         // 12시간 데이터를 전부 받으면 데이터 업데이트 작업을 종료
@@ -231,7 +226,6 @@ class Weather extends ChangeNotifier {
           idx++; // 다음 인덱스
         }
       }
-
       initWeatherFlag = true;
       activeFlag = false;
       notifyListeners();
@@ -242,20 +236,9 @@ class Weather extends ChangeNotifier {
     } on FormatException {
       print("Bad response format 👎");
     } catch (e) {
-      // print(e);
+      print(e);
     }
-    await Future.doWhile(() async {
-      //api 받아올때까지 무한루프돌며 대기
-      await Future.delayed(Duration(milliseconds: 100)); //100ms씩 대기
-      if (initWeatherFlag) {
-        //완료 플래그가 셋되었다면 리턴
-        return false;
-      } else {
-        //아니면 다시 루프
-        return true;
-      }
-    });
-    return 0;
+    return initWeatherFlag;
   }
 }
 
