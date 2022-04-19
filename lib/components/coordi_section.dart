@@ -126,7 +126,7 @@ class CoordiView extends StatelessWidget {
             children: [
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: List.generate(coordiIllust.length,
                       (index) => illustView(coordiIllust[index]))),
               Container(
@@ -156,10 +156,12 @@ class CoordiView extends StatelessWidget {
   }
 
   Widget illustView(String illust) {
-    return SizedBox(
-      width: 96,
-      child: illust != "" ? SvgPicture.asset(illust) : Container(),
-      height: 96,
-    );
+    return illust != ""
+        ? SizedBox(
+            width: 96,
+            child: SvgPicture.asset(illust),
+            height: 96,
+          )
+        : Container();
   }
 }
