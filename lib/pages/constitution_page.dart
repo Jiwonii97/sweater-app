@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:sweater/providers/user_info.dart';
+import 'package:sweater/providers/coordi_provider.dart';
+import 'package:sweater/providers/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:sweater/components/check_menu.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +32,11 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
               context
                   .read<User>()
                   .changeConstitution(ConstitutionValue.veryHot);
+              context.read<CoordiProvider>().requestCoordiList(
+                  context.read<Weather>().forecastList,
+                  0,
+                  context.read<User>().gender,
+                  context.read<User>().constitution);
             },
             child: CheckMenu(
               title: "더위를 많이 타요",
@@ -40,6 +47,11 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
           GestureDetector(
             onTap: () {
               context.read<User>().changeConstitution(ConstitutionValue.hot);
+              context.read<CoordiProvider>().requestCoordiList(
+                  context.read<Weather>().forecastList,
+                  0,
+                  context.read<User>().gender,
+                  context.read<User>().constitution);
             },
             child: CheckMenu(
               title: "더위를 조금 타요",
@@ -50,6 +62,11 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
           GestureDetector(
             onTap: () {
               context.read<User>().changeConstitution(ConstitutionValue.normal);
+              context.read<CoordiProvider>().requestCoordiList(
+                  context.read<Weather>().forecastList,
+                  0,
+                  context.read<User>().gender,
+                  context.read<User>().constitution);
             },
             child: CheckMenu(
               title: "보통이에요",
@@ -60,6 +77,11 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
           GestureDetector(
             onTap: () {
               context.read<User>().changeConstitution(ConstitutionValue.cold);
+              context.read<CoordiProvider>().requestCoordiList(
+                  context.read<Weather>().forecastList,
+                  0,
+                  context.read<User>().gender,
+                  context.read<User>().constitution);
             },
             child: CheckMenu(
               title: "추위를 조금 타요",
@@ -72,6 +94,11 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
               context
                   .read<User>()
                   .changeConstitution(ConstitutionValue.veryCold);
+              context.read<CoordiProvider>().requestCoordiList(
+                  context.read<Weather>().forecastList,
+                  0,
+                  context.read<User>().gender,
+                  context.read<User>().constitution);
             },
             child: CheckMenu(
               title: "추위를 많이 타요",

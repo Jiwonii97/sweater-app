@@ -46,7 +46,8 @@ class _ManageLocationPage extends State<ManageLocationPage> {
                   ? context.read<CoordiProvider>().requestCoordiList(
                       context.read<Weather>().forecastList,
                       0,
-                      context.read<User>().gender)
+                      context.read<User>().gender,
+                      context.read<User>().constitution)
                   : debugPrint("fail getting weather api"));
 
           setState(() {});

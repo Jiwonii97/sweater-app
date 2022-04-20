@@ -33,8 +33,8 @@ class _GenderChangePage extends State<GenderChangePage> {
               GestureDetector(
                 onTap: () {
                   context.read<User>().changeGender(User.man);
-                  coordiConsumer.requestCoordiList(
-                      weatherConsumer.forecastList, 0, userConsumer.gender);
+                  coordiConsumer.requestCoordiList(weatherConsumer.forecastList,
+                      0, userConsumer.gender, userConsumer.constitution);
                 },
                 child: CheckMenu(
                   leadingIcon: Icons.boy,
@@ -45,8 +45,8 @@ class _GenderChangePage extends State<GenderChangePage> {
               GestureDetector(
                 onTap: () {
                   context.read<User>().changeGender(User.woman);
-                  coordiConsumer.requestCoordiList(
-                      weatherConsumer.forecastList, 0, userConsumer.gender);
+                  coordiConsumer.requestCoordiList(weatherConsumer.forecastList,
+                      0, userConsumer.gender, userConsumer.constitution);
                 },
                 child: CheckMenu(
                   leadingIcon: Icons.girl,
