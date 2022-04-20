@@ -1,3 +1,8 @@
+import 'dart:io' as io;
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+
 class Coordi {
   final String _url;
   final List<Cloth> _clothes;
@@ -21,16 +26,19 @@ class Coordi {
 
   List<String> getIllustUrl() {
     List<String> result = []; //[아우터, 상의, 하의] 순으로 일러스트 주소 저장
+
     if (clothes.length == 3) {
       //아우터 있는 코디
-      result.add("assets/weather/sunny.svg");
+      result.add(clothes[0].getSVGFilePath()); //아우터
+      result.add(clothes[1].getSVGFilePath()); //상의
+      result.add(clothes[2].getSVGFilePath()); //하의
     } else {
       //아우터 없는 코디
       result.add("");
+      result.add(clothes[0].getSVGFilePath()); //상의
+      result.add(clothes[1].getSVGFilePath()); //하의
     }
-    result.add("assets/weather/sunny.svg"); //상의
-    result.add("assets/weather/sunny.svg"); //하의
-
+    print(result);
     return result;
   }
 }
@@ -57,6 +65,33 @@ class Cloth {
         _color = json['color'],
         _features = json['features'],
         _thickness = json['thickness'];
+
+  String getSVGFilePath() {
+    String path = "assets/cloth/";
+    switch (majorCategory) {
+      case "outer":
+        path += "outer/";
+        break;
+      case "top":
+        path += "top/";
+        break;
+      case "bottom":
+        path += "bottom/";
+        break;
+      default:
+        break;
+    }
+    if (majorCategory != "outer") {
+      for (int i = 0; i < features.length; i++) {
+        if (features[i] != "normal") path += "${features[i]}-";
+      }
+      path += "$minorCategory.svg";
+      return path;
+    } else {
+      path += "$minorCategory.svg";
+      return path;
+    }
+  }
 
   String getClothInfo() {
     String result = "";
