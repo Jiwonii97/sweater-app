@@ -38,7 +38,6 @@ class Coordi {
       result.add(clothes[0].getSVGFilePath()); //상의
       result.add(clothes[1].getSVGFilePath()); //하의
     }
-    print(result);
     return result;
   }
 }
