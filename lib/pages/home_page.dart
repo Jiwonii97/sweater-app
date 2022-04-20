@@ -63,8 +63,8 @@ class _HomePageState extends State<HomePage> {
     var userConsumer = Provider.of<User>(context, listen: false);
 
     weatherConsumer.initWeatherFlag
-        ? coordiConsumer.initCoordiList(
-            weatherConsumer.forecastList, 0, userConsumer.gender)
+        ? coordiConsumer.initCoordiList(weatherConsumer.forecastList, 0,
+            userConsumer.gender, userConsumer.constitution)
         : debugPrint("not initialize weather yet");
   }
 

@@ -51,17 +51,36 @@ class CoordiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> requestCoordis(
-      List<HourForecast> forecastList, int forecastIdx, int userGender) async {
+  Future<String> requestCoordis(List<HourForecast> forecastList,
+      int forecastIdx, int userGender, int userConstitution) async {
+    int currentSTemp = int.parse(forecastList[forecastIdx].getSTemp);
+    switch (userConstitution) {
+      case 2: //더위 많이
+        currentSTemp += 4;
+        break;
+      case 1: //더위 조금
+        currentSTemp += 2;
+        break;
+      case -1: //추위 조금
+        currentSTemp -= 2;
+        break;
+      case -2: //추위 많이
+        currentSTemp -= 4;
+        break;
+      default:
+        break;
+    }
+    String requestSTemp = currentSTemp.toString();
     Uri uri = Uri.parse(
-        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand?gender=$userGender&stemp=${forecastList[forecastIdx].getSTemp}&isRain=${forecastList[forecastIdx].getSky == '비' ? true : false}&isSnow=${forecastList[forecastIdx].getSky == '눈' ? true : false}&windSpeed=${forecastList[forecastIdx].getWindSpeed}");
+        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand?gender=$userGender&stemp=$requestSTemp&isRain=${forecastList[forecastIdx].getSky == '비' ? true : false}&isSnow=${forecastList[forecastIdx].getSky == '눈' ? true : false}&windSpeed=${forecastList[forecastIdx].getWindSpeed}");
     var response = await http.get(uri);
     return response.body;
   }
 
-  void initCoordiList(
-      List<HourForecast> forecastList, int forecastIdx, int userGender) async {
-    String result = await requestCoordis(forecastList, forecastIdx, userGender);
+  void initCoordiList(List<HourForecast> forecastList, int forecastIdx,
+      int userGender, int userConstitution) async {
+    String result = await requestCoordis(
+        forecastList, forecastIdx, userGender, userConstitution);
     setInitCoordiState = true; //코디 요청 완료 플래그
 
     List<dynamic> coordiLists = convert.jsonDecode(result);
@@ -79,11 +98,12 @@ class CoordiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void requestCoordiList(
-      List<HourForecast> forecastList, int forecastIdx, int userGender) async {
+  void requestCoordiList(List<HourForecast> forecastList, int forecastIdx,
+      int userGender, int userConstitution) async {
     _coordiIdx = 0;
     _isReadyCoordiState = false;
-    String result = await requestCoordis(forecastList, forecastIdx, userGender);
+    String result = await requestCoordis(
+        forecastList, forecastIdx, userGender, userConstitution);
     List<dynamic> coordiLists = convert.jsonDecode(result);
     clearCoordiList();
     for (int i = 0; i < coordiLists.length; i++) {

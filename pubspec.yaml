@@ -97,9 +97,10 @@ flutter:
     # outer
     - assets/cloth/outer/anorack_jacket.svg
     - assets/cloth/outer/blazer.svg
+    - assets/cloth/outer/shirts.svg
     - assets/cloth/outer/cardigan.svg
-    - assets/cloth/outer/coach-jacket.svg
-    - assets/cloth/outer/denim_jacket.svg
+    - assets/cloth/outer/coach_jacket.svg
+    # - assets/cloth/outer/denim_jacket.svg
     - assets/cloth/outer/blue_jacket.svg
     - assets/cloth/outer/cardigan.svg
     - assets/cloth/outer/coach_jacket.svg

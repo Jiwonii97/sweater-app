@@ -138,7 +138,7 @@ String convertCategoryEngtoKor(String? input) {
       return '무스탕';
     case "padding_vest":
       return '패딩 조끼';
-    case "vest":
+    case "neat_vest":
       return '니트 조끼';
     case "sweater":
       return '스웨터';
@@ -182,7 +182,7 @@ String convertCategoryEngtoKor(String? input) {
       return '청바지';
     case "jersey":
       return '저지';
-    case "training_bottom":
+    case "training_pants":
       return '츄리닝 바지';
     default:
       return input;
