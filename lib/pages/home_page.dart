@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                 child: Scaffold(
                     backgroundColor: Colors.transparent,
                     appBar: AppBar(
-                        title: const Text('SWETAER'),
+                        title: Text(_title),
                         leading: Builder(
                             builder: (context) => IconButton(
                                 icon: const Icon(SweaterIcons.bars),
