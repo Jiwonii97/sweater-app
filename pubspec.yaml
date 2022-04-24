@@ -73,7 +73,6 @@ flutter:
     # 환경변수 저장
     - .env
 
-    - assets/weather-api.json
     - assets/background-sky.png
     - assets/weather/sunny.svg
     - assets/weather/shower.svg
@@ -84,7 +83,6 @@ flutter:
     - assets/weather/night.svg
     - assets/weather/rainy.svg
     - assets/saved_location.json
-    - assets/weather-api.json
     # bottom
     - assets/cloth/bottom/hot-cotton_pants.svg
     - assets/cloth/bottom/hot-jeans.svg
