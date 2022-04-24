@@ -54,7 +54,6 @@ class WeatherProvider extends ChangeNotifier {
   // JSON을 통해 키값 불러오기
   Future<bool> initKey() async {
     try {
-      await dotenv.load(fileName: ".env");
       _myKey = dotenv.env['WEATHER_API_KEY'] ?? '';
       return true;
     } catch (e) {

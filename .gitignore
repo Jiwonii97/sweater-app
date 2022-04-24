@@ -54,5 +54,4 @@ pubspec.lock
 package_config.json 
 
 # assets
-assets/weather-api.json
 .env

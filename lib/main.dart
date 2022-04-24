@@ -10,10 +10,13 @@ import 'package:sweater/providers/weather_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/location_provider.dart';
 import 'package:sweater/theme/global_theme.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized(); //비동기 처리를 위해 추가
   await Firebase.initializeApp(); //파이어베이스 등록
+
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
