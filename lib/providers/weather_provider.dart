@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import "dart:math"; // 체감 온도 계산을 위한 연산 라이브러리
 import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Weather 객체 클래스
 class WeatherProvider extends ChangeNotifier {
@@ -53,8 +54,8 @@ class WeatherProvider extends ChangeNotifier {
   // JSON을 통해 키값 불러오기
   Future<bool> initKey() async {
     try {
-      _myKey = convert.json.decode(
-          await rootBundle.loadString('assets/weather-api.json'))['_mykey'];
+      await dotenv.load(fileName: ".env");
+      _myKey = dotenv.env['WEATHER_API_KEY'] ?? '';
       return true;
     } catch (e) {
       return false;
@@ -191,8 +192,6 @@ class WeatherProvider extends ChangeNotifier {
 
       final Iterable dateList = windSpeedList.map((el) => el['fcstDate']);
       final Iterable timeList = windSpeedList.map((el) => el['fcstTime']);
-
-      print(180);
       int tmp = 0; // 기준 시간으로 부터 차이 나는 시간을 구할때 사용하는 임시 변수
       int idx = 0; // 인덱스 부여용 변수
       // 데이터 업데이트
