@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sweater/providers/weather.dart';
+import 'package:sweater/providers/weather_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 Widget decideWeatherIcon(HourForecast hourForecast, bool isNow) {

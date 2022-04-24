@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
-import 'package:sweater/providers/weather.dart';
+import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/module/cloth.dart';
 import 'package:http/http.dart' as http;
 

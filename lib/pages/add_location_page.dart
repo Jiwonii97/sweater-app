@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:sweater/providers/location_info.dart';
+import 'package:sweater/providers/location_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/widgets/searched_list.dart';
 import 'package:sweater/widgets/search_bar.dart';

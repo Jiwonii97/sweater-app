@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
-import 'package:sweater/providers/weather.dart';
+import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/providers/user_provider.dart';
 import 'package:sweater/module/decide_weather_icon.dart';
 

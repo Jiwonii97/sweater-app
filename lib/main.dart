@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/providers/user_provider.dart';
-import 'package:sweater/providers/weather.dart';
+import 'package:sweater/providers/weather_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:sweater/providers/location_info.dart';
+import 'package:sweater/providers/location_provider.dart';
 import 'package:sweater/theme/global_theme.dart';
 
 void main() async {
@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider<UserProvider>(create: (context) => UserProvider()),
+          ChangeNotifierProvider<UserProvider>(
+              create: (context) => UserProvider()),
           ChangeNotifierProvider<CoordiProvider>(
               create: (context) => CoordiProvider()),
           ChangeNotifierProvider<Weather>(create: (context) => Weather()),
