@@ -40,7 +40,8 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider<CoordiProvider>(
               create: (context) => CoordiProvider()),
           ChangeNotifierProvider<Weather>(create: (context) => Weather()),
-          ChangeNotifierProvider<Location>(create: (context) => Location()),
+          ChangeNotifierProvider<LocationProvider>(
+              create: (context) => LocationProvider()),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,

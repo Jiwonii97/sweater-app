@@ -67,8 +67,8 @@ class _AddLocationPage extends State<AddLocationPage> {
 
   void selectOne(address) {
     select = {"name": address['주소'], "X": address['X'], "Y": address['Y']};
-    context.read<Location>().location = [select];
-    context.read<Location>().saveAll();
+    context.read<LocationProvider>().location = [select];
+    context.read<LocationProvider>().saveAll();
     Navigator.pop(this.context);
   }
 

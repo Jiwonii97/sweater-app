@@ -24,7 +24,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   late SharedPreferences prefs;
 
   void deleteLoc(String title) {
-    context.read<Location>().deleteLoc(title);
+    context.read<LocationProvider>().deleteLoc(title);
     setState(() {});
   }
 
@@ -33,14 +33,14 @@ class _ManageLocationPage extends State<ManageLocationPage> {
       locList = [];
     }
 
-    for (var location in context.watch<Location>().location) {
+    for (var location in context.watch<LocationProvider>().location) {
       locList.add(GestureDetector(
         onTap: () => setState(() {
-          context.read<Location>().cur = location["name"];
-          context.read<Location>().saveAll();
+          context.read<LocationProvider>().cur = location["name"];
+          context.read<LocationProvider>().saveAll();
           context.read<Weather>().changeActiveFlag();
-          String xValue = context.read<Location>().X.toString();
-          String yValue = context.read<Location>().Y.toString();
+          String xValue = context.read<LocationProvider>().X.toString();
+          String yValue = context.read<LocationProvider>().Y.toString();
           context.read<Weather>().updateWeather(xValue, yValue).then((value) =>
               value == 0
                   ? context.read<CoordiProvider>().requestCoordiList(
@@ -52,17 +52,19 @@ class _ManageLocationPage extends State<ManageLocationPage> {
 
           setState(() {});
         }),
-        child: context.read<Location>().cur == location['name']
+        child: context.read<LocationProvider>().cur == location['name']
             ? CheckMenu(
                 isLocation: true,
                 leadingIcon: SweaterIcons.map_marker_alt,
                 title: location['name'],
-                checked: context.read<Location>().cur == location['name'],
+                checked:
+                    context.read<LocationProvider>().cur == location['name'],
               )
             : LocationTile(
                 onPressButton: deleteLoc,
                 title: location['name'],
-                checked: context.read<Location>().cur == location['name'],
+                checked:
+                    context.read<LocationProvider>().cur == location['name'],
               ),
       ));
     }

@@ -49,7 +49,10 @@ class WeatherView extends StatelessWidget {
                                         .onBackground,
                                   ),
                                   const SizedBox(width: 4),
-                                  Text(context.watch<Location>().currentDong,
+                                  Text(
+                                      context
+                                          .watch<LocationProvider>()
+                                          .currentDong,
                                       style:
                                           Theme.of(context).textTheme.caption),
                                 ]),
