@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sweater/module/Constitution.dart';
+import 'package:sweater/module/constitution.dart';
 import 'package:sweater/module/gender.dart';
 import 'package:sweater/module/user.dart';
 
 // User 클래스 정의
 class UserProvider extends ChangeNotifier {
-  User _user = User(Gender.man, Constitution.feelNormal);
+  final User _user = User(Gender.man, Constitution.feelNormal);
   int get gender {
     return _user.gender;
   }
