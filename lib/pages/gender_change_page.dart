@@ -18,7 +18,7 @@ class _GenderChangePage extends State<GenderChangePage> {
   final String _title = "성별 관리";
   @override
   Widget build(BuildContext context) {
-    var weatherConsumer = Provider.of<Weather>(context);
+    var weatherConsumer = Provider.of<WeatherProvider>(context);
     var userConsumer = Provider.of<UserProvider>(context);
     var coordiConsumer = Provider.of<CoordiProvider>(context);
     List<Map<String, dynamic>> genderList = [

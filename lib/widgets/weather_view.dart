@@ -17,7 +17,7 @@ class WeatherView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isWeatherReady = context.read<Weather>().initWeatherFlag;
+    var isWeatherReady = context.read<WeatherProvider>().initWeatherFlag;
     return isWeatherReady
         ? Container(
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),

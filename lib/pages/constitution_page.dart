@@ -56,7 +56,7 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
                   context.read<UserProvider>().changeConstitution(
                       constitutionList[index]['constitutionValue']);
                   context.read<CoordiProvider>().requestCoordiList(
-                      context.read<Weather>().forecastList,
+                      context.read<WeatherProvider>().forecastList,
                       0,
                       context.read<UserProvider>().gender,
                       context.read<UserProvider>().constitution);
@@ -70,89 +70,3 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
             })));
   }
 }
-
-// GestureDetector(
-//                   onTap: () {
-//                     context
-//                         .read<UserProvider>()
-//                         .changeConstitution(constitution.constitutionValue);
-//                     context.read<CoordiProvider>().requestCoordiList(
-//                         context.read<Weather>().forecastList,
-//                         0,
-//                         context.read<UserProvider>().gender,
-//                         context.read<UserProvider>().constitution);
-//                   },
-//                   child: CheckMenu(
-//                     title: "더위를 많이 타요",
-//                     checked: context.watch<UserProvider>().constitution ==
-//                         ConstitutionValue.veryHot,
-//                   ),
-//                 ),
-//               GestureDetector(
-//                 onTap: () {
-//                   context
-//                       .read<UserProvider>()
-//                       .changeConstitution(ConstitutionValue.hot);
-//                   context.read<CoordiProvider>().requestCoordiList(
-//                       context.read<Weather>().forecastList,
-//                       0,
-//                       context.read<UserProvider>().gender,
-//                       context.read<UserProvider>().constitution);
-//                 },
-//                 child: CheckMenu(
-//                   title: "더위를 조금 타요",
-//                   checked: context.watch<UserProvider>().constitution ==
-//                       ConstitutionValue.hot,
-//                 ),
-//               ),
-//               GestureDetector(
-//                 onTap: () {
-//                   context
-//                       .read<UserProvider>()
-//                       .changeConstitution(ConstitutionValue.normal);
-//                   context.read<CoordiProvider>().requestCoordiList(
-//                       context.read<Weather>().forecastList,
-//                       0,
-//                       context.read<UserProvider>().gender,
-//                       context.read<UserProvider>().constitution);
-//                 },
-//                 child: CheckMenu(
-//                   title: "보통이에요",
-//                   checked: context.watch<UserProvider>().constitution ==
-//                       ConstitutionValue.normal,
-//                 ),
-//               ),
-//               GestureDetector(
-//                 onTap: () {
-//                   context
-//                       .read<UserProvider>()
-//                       .changeConstitution(ConstitutionValue.cold);
-//                   context.read<CoordiProvider>().requestCoordiList(
-//                       context.read<Weather>().forecastList,
-//                       0,
-//                       context.read<UserProvider>().gender,
-//                       context.read<UserProvider>().constitution);
-//                 },
-//                 child: CheckMenu(
-//                   title: "추위를 조금 타요",
-//                   checked: context.watch<UserProvider>().constitution ==
-//                       ConstitutionValue.cold,
-//                 ),
-//               ),
-//               GestureDetector(
-//                 onTap: () {
-//                   context
-//                       .read<UserProvider>()
-//                       .changeConstitution(ConstitutionValue.veryCold);
-//                   context.read<CoordiProvider>().requestCoordiList(
-//                       context.read<Weather>().forecastList,
-//                       0,
-//                       context.read<UserProvider>().gender,
-//                       context.read<UserProvider>().constitution);
-//                 },
-//                 child: CheckMenu(
-//                   title: "추위를 많이 타요",
-//                   checked: context.watch<UserProvider>().constitution ==
-//                       ConstitutionValue.veryCold,
-//                 ),
-//               ),

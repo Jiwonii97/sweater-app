@@ -7,7 +7,7 @@ import "dart:math"; // 체감 온도 계산을 위한 연산 라이브러리
 import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
 
 // Weather 객체 클래스
-class Weather extends ChangeNotifier {
+class WeatherProvider extends ChangeNotifier {
   bool activeFlag = true; // API 요청 무한 루프 방지를 위한 flag
   bool initWeatherFlag = false;
 
@@ -37,7 +37,7 @@ class Weather extends ChangeNotifier {
       "/1360000/VilageFcstInfoService_2.0/getVilageFcst";
 
   // 생성자
-  Weather() {
+  WeatherProvider() {
     for (var i = 0; i < predictMax; i++) {
       forecastList.add(HourForecast());
     }

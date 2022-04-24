@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
               create: (context) => UserProvider()),
           ChangeNotifierProvider<CoordiProvider>(
               create: (context) => CoordiProvider()),
-          ChangeNotifierProvider<Weather>(create: (context) => Weather()),
+          ChangeNotifierProvider<WeatherProvider>(
+              create: (context) => WeatherProvider()),
           ChangeNotifierProvider<LocationProvider>(
               create: (context) => LocationProvider()),
         ],

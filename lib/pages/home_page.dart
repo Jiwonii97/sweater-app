@@ -30,7 +30,8 @@ class _HomePageState extends State<HomePage> {
   ThemeData themeByWeather() {
     // return Random().nextInt(2) == 1
     // ? GlobalTheme.darkTheme
-    HourForecast currentWeather = context.watch<Weather>().getCurrentWeather();
+    HourForecast currentWeather =
+        context.watch<WeatherProvider>().getCurrentWeather();
     String skyState = currentWeather.getSky;
     if (skyState == '비' || skyState == '비/눈' || skyState == '눈') {
       return GlobalTheme.darkTheme;
@@ -43,7 +44,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Color> backgroundByWeather() {
-    HourForecast currentWeather = context.watch<Weather>().getCurrentWeather();
+    HourForecast currentWeather =
+        context.watch<WeatherProvider>().getCurrentWeather();
     String skyState = currentWeather.getSky;
     if (skyState == '비' || skyState == '비/눈' || skyState == '눈') {
       return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
@@ -59,7 +61,7 @@ class _HomePageState extends State<HomePage> {
 
   void initCoordi() {
     var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);
-    var weatherConsumer = Provider.of<Weather>(context, listen: false);
+    var weatherConsumer = Provider.of<WeatherProvider>(context, listen: false);
     var userConsumer = Provider.of<UserProvider>(context, listen: false);
 
     weatherConsumer.initWeatherFlag
@@ -75,7 +77,7 @@ class _HomePageState extends State<HomePage> {
       String xValue = context.read<LocationProvider>().X.toString();
       String yValue = context.read<LocationProvider>().Y.toString();
 
-      return context.read<Weather>().updateWeather(xValue, yValue);
+      return context.read<WeatherProvider>().updateWeather(xValue, yValue);
     }).then((isInitWeather) {
       isInitWeather ? initCoordi() : debugPrint("fail getting weather api");
     });
@@ -85,7 +87,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     String xValue = context.read<LocationProvider>().X.toString();
     String yValue = context.read<LocationProvider>().Y.toString();
-    HourForecast currentWeather = context.watch<Weather>().forecastList[0];
+    HourForecast currentWeather =
+        context.watch<WeatherProvider>().forecastList[0];
     return Container(
         color: Colors.white,
         child: Theme(
@@ -113,8 +116,9 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             WeatherView(
-                              hourForecast:
-                                  context.watch<Weather>().getCurrentWeather(),
+                              hourForecast: context
+                                  .watch<WeatherProvider>()
+                                  .getCurrentWeather(),
                             ),
                             const CardContainer(child: CoordiSection()),
                           ]),

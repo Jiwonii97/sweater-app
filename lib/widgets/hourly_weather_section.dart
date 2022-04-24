@@ -24,7 +24,7 @@ class _HourlyWeatherSection extends State<HourlyWeatherSection> {
   int selectedTime = -1;
   @override
   Widget build(BuildContext context) {
-    var _weatherProvider = context.watch<Weather>();
+    var _weatherProvider = context.watch<WeatherProvider>();
     var coordiConsumer = Provider.of<CoordiProvider>(context);
     var userConsumer = Provider.of<UserProvider>(context);
 

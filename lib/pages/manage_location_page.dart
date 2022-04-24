@@ -38,13 +38,13 @@ class _ManageLocationPage extends State<ManageLocationPage> {
         onTap: () => setState(() {
           context.read<LocationProvider>().cur = location["name"];
           context.read<LocationProvider>().saveAll();
-          context.read<Weather>().changeActiveFlag();
+          context.read<WeatherProvider>().changeActiveFlag();
           String xValue = context.read<LocationProvider>().X.toString();
           String yValue = context.read<LocationProvider>().Y.toString();
-          context.read<Weather>().updateWeather(xValue, yValue).then((value) =>
-              value == 0
+          context.read<WeatherProvider>().updateWeather(xValue, yValue).then(
+              (value) => value == 0
                   ? context.read<CoordiProvider>().requestCoordiList(
-                      context.read<Weather>().forecastList,
+                      context.read<WeatherProvider>().forecastList,
                       0,
                       context.read<UserProvider>().gender,
                       context.read<UserProvider>().constitution)

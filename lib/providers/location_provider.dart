@@ -34,7 +34,7 @@ class LocationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Location() {}
+  LocationProvider() {}
 
   Future<bool> initLocation() async {
     prefs = await SharedPreferences.getInstance();
