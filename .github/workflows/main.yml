@@ -1,0 +1,41 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Flutter Tests CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the development branch
+  push:
+    branches: [ development,main ]
+  pull_request:
+    branches: [ development,main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+        
+      - name: Install and set Flutter
+        uses: subosito/flutter-action@v1.4.0
+        with:
+          flutter-version: '2.16.1'
+          
+      # 패키지 불러오기
+      - name: Restore packages 
+        run: flutter pub get
+        
+      - name: Analyze
+        run: flutter analyze
+        
+      - name: Run Tests
+        run: flutter test --coverage
+        
+      - name: Upload coverage to codecov
+        run: curl -s https://codecov.io/bash
+        shell: bash
+        
