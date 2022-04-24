@@ -23,7 +23,7 @@ jobs:
       - name: Install and set Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.8.0'
+          channel: 'stable'
           
       # 패키지 불러오기
       - name: Restore packages 
