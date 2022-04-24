@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sweater/components/hourly_weather_card.dart';
+import 'package:sweater/widgets/hourly_weather_card.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/providers/weather.dart';
-import 'package:sweater/providers/user_info.dart';
+import 'package:sweater/providers/user_provider.dart';
 
 class NoGlowScrollBehavior extends ScrollBehavior {
   @override
@@ -26,7 +26,7 @@ class _HourlyWeatherSection extends State<HourlyWeatherSection> {
   Widget build(BuildContext context) {
     var _weatherProvider = context.watch<Weather>();
     var coordiConsumer = Provider.of<CoordiProvider>(context);
-    var userConsumer = Provider.of<User>(context);
+    var userConsumer = Provider.of<UserProvider>(context);
 
     List<HourForecast> weatherPrediction =
         _weatherProvider.forecastList; //시간별 날씨 상태 담을 리스트

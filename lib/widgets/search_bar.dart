@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweater/theme/sweater_icons.dart';
 
 class SearchBar extends StatelessWidget {
   final TextEditingController textController = TextEditingController();
@@ -28,7 +29,7 @@ class SearchBar extends StatelessWidget {
           decoration: InputDecoration(
             prefixIcon: choose
                 ? const Icon(
-                    Icons.location_on_outlined,
+                    SweaterIcons.map_marker_alt,
                     color: Colors.black,
                   )
                 : null,
@@ -38,7 +39,7 @@ class SearchBar extends StatelessWidget {
             suffixIcon: IconButton(
                 onPressed: () => search(textController.text),
                 icon: const Icon(
-                  Icons.search,
+                  SweaterIcons.search,
                   color: Colors.black,
                 )),
             hintText: '주소를 입력해 주세요',

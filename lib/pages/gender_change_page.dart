@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sweater/components/check_menu.dart';
+import 'package:sweater/widgets/check_menu.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/theme/global_theme.dart';
-import 'package:sweater/providers/user_info.dart';
+import 'package:sweater/providers/user_provider.dart';
 import 'package:sweater/providers/weather.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/module/gender.dart';
 
 class GenderChangePage extends StatefulWidget {
   const GenderChangePage({Key? key}) : super(key: key);
@@ -18,9 +19,20 @@ class _GenderChangePage extends State<GenderChangePage> {
   @override
   Widget build(BuildContext context) {
     var weatherConsumer = Provider.of<Weather>(context);
-    var userConsumer = Provider.of<User>(context);
+    var userConsumer = Provider.of<UserProvider>(context);
     var coordiConsumer = Provider.of<CoordiProvider>(context);
-
+    List<Map<String, dynamic>> genderList = [
+      {
+        'gender': Gender.man,
+        'icon': Icons.boy,
+        'genderString': Gender.manString
+      },
+      {
+        'gender': Gender.woman,
+        'icon': Icons.woman,
+        'genderString': Gender.womanString
+      },
+    ];
     return Scaffold(
         appBar: AppBar(
             title: Text(_title),
@@ -29,31 +41,22 @@ class _GenderChangePage extends State<GenderChangePage> {
                 onPressed: () => Navigator.pop(context))),
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              GestureDetector(
+            children: List.generate(genderList.length, (int index) {
+              return GestureDetector(
                 onTap: () {
-                  context.read<User>().changeGender(User.man);
+                  context
+                      .read<UserProvider>()
+                      .changeGender(genderList[index]['gender']);
                   coordiConsumer.requestCoordiList(weatherConsumer.forecastList,
                       0, userConsumer.gender, userConsumer.constitution);
                 },
                 child: CheckMenu(
-                  leadingIcon: Icons.boy,
-                  title: User.manString,
-                  checked: context.watch<User>().gender == User.man,
+                  leadingIcon: genderList[index]['icon'],
+                  title: genderList[index]['genderString'],
+                  checked: context.watch<UserProvider>().gender ==
+                      genderList[index]['gender'],
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.read<User>().changeGender(User.woman);
-                  coordiConsumer.requestCoordiList(weatherConsumer.forecastList,
-                      0, userConsumer.gender, userConsumer.constitution);
-                },
-                child: CheckMenu(
-                  leadingIcon: Icons.girl,
-                  title: User.womanString,
-                  checked: context.watch<User>().gender == User.woman,
-                ),
-              ),
-            ]));
+              );
+            })));
   }
 }

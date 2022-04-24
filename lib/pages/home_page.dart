@@ -1,8 +1,8 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sweater/components/card_container.dart';
+import 'package:sweater/widgets/card_container.dart';
 import 'package:sweater/theme/global_theme.dart';
-// import 'package:sweater/components/hourly_weather_section.dart';
+// import 'package:sweater/widgets/hourly_weather_section.dart';
 import 'package:sweater/pages/gender_change_page.dart';
 import 'package:sweater/pages/manage_location_page.dart';
 import 'package:sweater/pages/constitution_page.dart';
@@ -12,9 +12,9 @@ import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 // import 'package:sweater/theme/global_theme.dart';
-import 'package:sweater/providers/user_info.dart';
-import '../components/coordi_section.dart';
-import '../components/weather_view.dart';
+import 'package:sweater/providers/user_provider.dart';
+import '../widgets/coordi_section.dart';
+import '../widgets/weather_view.dart';
 import 'dart:math';
 
 class HomePage extends StatefulWidget {
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
   void initCoordi() {
     var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);
     var weatherConsumer = Provider.of<Weather>(context, listen: false);
-    var userConsumer = Provider.of<User>(context, listen: false);
+    var userConsumer = Provider.of<UserProvider>(context, listen: false);
 
     weatherConsumer.initWeatherFlag
         ? coordiConsumer.initCoordiList(weatherConsumer.forecastList, 0,
@@ -149,12 +149,13 @@ class _HomePageState extends State<HomePage> {
                                     }),
                             ListTile(
                                 leading: Icon(
-                                  context.watch<User>().gender == 1
+                                  context.watch<UserProvider>().gender == 1
                                       ? SweaterIcons.mars
                                       : SweaterIcons.venus,
-                                  color: context.watch<User>().gender == 1
-                                      ? Colors.blue
-                                      : Colors.red,
+                                  color:
+                                      context.watch<UserProvider>().gender == 1
+                                          ? Colors.blue
+                                          : Colors.red,
                                 ),
                                 title: Text("성별 설정",
                                     style: GlobalTheme

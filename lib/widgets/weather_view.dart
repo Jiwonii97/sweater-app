@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/weather.dart';
 import 'package:sweater/module/decide_weather_icon.dart';
-import 'package:sweater/components/hourly_weather_section.dart';
-import 'package:sweater/components/card_container.dart';
+import 'package:sweater/widgets/hourly_weather_section.dart';
+import 'package:sweater/widgets/card_container.dart';
 import 'package:sweater/providers/location_info.dart';
-import 'package:sweater/components/loading.dart';
+import 'package:sweater/widgets/loading.dart';
 
 import 'package:sweater/theme/sweater_icons.dart';
 

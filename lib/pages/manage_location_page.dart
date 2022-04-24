@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sweater/components/location_tile.dart';
-import 'package:sweater/components/check_menu.dart';
+import 'package:sweater/widgets/location_tile.dart';
+import 'package:sweater/widgets/check_menu.dart';
 import 'package:sweater/pages/add_location_page.dart';
 import 'package:sweater/providers/location_info.dart';
 import 'package:sweater/providers/coordi_provider.dart';
-import 'package:sweater/providers/user_info.dart';
+import 'package:sweater/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/weather.dart';
 import 'package:sweater/theme/sweater_icons.dart';
@@ -46,8 +46,8 @@ class _ManageLocationPage extends State<ManageLocationPage> {
                   ? context.read<CoordiProvider>().requestCoordiList(
                       context.read<Weather>().forecastList,
                       0,
-                      context.read<User>().gender,
-                      context.read<User>().constitution)
+                      context.read<UserProvider>().gender,
+                      context.read<UserProvider>().constitution)
                   : debugPrint("fail getting weather api"));
 
           setState(() {});

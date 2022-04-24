@@ -125,7 +125,6 @@ class Weather extends ChangeNotifier {
     if (activeFlag == false) {
       return false;
     }
-
     // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
     var now = DateTime.now(); //현재일자
     var anHourBefore = now.subtract(const Duration(hours: 1));
@@ -146,7 +145,6 @@ class Weather extends ChangeNotifier {
           따라서 우리가 날씨 정보를 얻기위해 가져올 최신 날씨 정보는 1100 시간의 날씨 정보이다
     */
     int predHour; // 예측 시간값
-
     // 만약 현재시간이 2시 이전이라면 BaseTime은 전날에 2300이므로 시간과 더불어 날짜도 하루전으로 바꿔야 한다
     if (int.parse(baseHour) < 2) {
       predHour =
@@ -194,6 +192,7 @@ class Weather extends ChangeNotifier {
       final Iterable dateList = windSpeedList.map((el) => el['fcstDate']);
       final Iterable timeList = windSpeedList.map((el) => el['fcstTime']);
 
+      print(180);
       int tmp = 0; // 기준 시간으로 부터 차이 나는 시간을 구할때 사용하는 임시 변수
       int idx = 0; // 인덱스 부여용 변수
       // 데이터 업데이트

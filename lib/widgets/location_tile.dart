@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:sweater/theme/sweater_icons.dart';
-import "package:sweater/components/my_custom_slidable_action.dart";
+import "package:sweater/widgets/my_custom_slidable_action.dart";
 
 class LocationTile extends StatelessWidget {
   final String title;
