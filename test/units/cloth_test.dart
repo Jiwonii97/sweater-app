@@ -34,7 +34,7 @@ main() {
       expect(clothInstanceFromJson.majorCategory, 'top');
       expect(clothInstanceFromJson.minorCategory, 'sleeve');
       expect(clothInstanceFromJson.color, 'white');
-      expect(clothInstanceFromJson.features, ['crop']);
+      expect(clothInstanceFromJson.features, ['']);
       expect(clothInstanceFromJson.thickness, '');
     });
   });
