@@ -191,8 +191,9 @@ String convertCategoryEngtoKor(String? input) {
 
 String convertFeaturesEngtoKor(List<dynamic> input) {
   String features = "";
-  for (int i = 0; i < input.length; i++)
+  for (int i = 0; i < input.length; i++) {
     features += (translateFeatureEngtoKor(input[i]));
+  }
   return features;
 }
 
