@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:sweater/providers/location_info.dart';
+import 'package:sweater/providers/location_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:sweater/components/searched_list.dart';
-import 'package:sweater/components/search_bar.dart';
+import 'package:sweater/widgets/searched_list.dart';
+import 'package:sweater/widgets/search_bar.dart';
 import 'dart:convert';
 
 class AddLocationPage extends StatefulWidget {
@@ -67,8 +67,8 @@ class _AddLocationPage extends State<AddLocationPage> {
 
   void selectOne(address) {
     select = {"name": address['주소'], "X": address['X'], "Y": address['Y']};
-    context.read<Location>().location = [select];
-    context.read<Location>().saveAll();
+    context.read<LocationProvider>().location = [select];
+    context.read<LocationProvider>().saveAll();
     Navigator.pop(this.context);
   }
 

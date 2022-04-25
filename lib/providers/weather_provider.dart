@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import "dart:math"; // 체감 온도 계산을 위한 연산 라이브러리
 import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Weather 객체 클래스
-class Weather extends ChangeNotifier {
+class WeatherProvider extends ChangeNotifier {
   bool activeFlag = true; // API 요청 무한 루프 방지를 위한 flag
   bool initWeatherFlag = false;
 
@@ -37,7 +38,7 @@ class Weather extends ChangeNotifier {
       "/1360000/VilageFcstInfoService_2.0/getVilageFcst";
 
   // 생성자
-  Weather() {
+  WeatherProvider() {
     for (var i = 0; i < predictMax; i++) {
       forecastList.add(HourForecast());
     }
@@ -53,8 +54,7 @@ class Weather extends ChangeNotifier {
   // JSON을 통해 키값 불러오기
   Future<bool> initKey() async {
     try {
-      _myKey = convert.json.decode(
-          await rootBundle.loadString('assets/weather-api.json'))['_mykey'];
+      _myKey = dotenv.env['WEATHER_API_KEY'] ?? '';
       return true;
     } catch (e) {
       return false;
@@ -125,7 +125,6 @@ class Weather extends ChangeNotifier {
     if (activeFlag == false) {
       return false;
     }
-
     // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
     var now = DateTime.now(); //현재일자
     var anHourBefore = now.subtract(const Duration(hours: 1));
@@ -146,7 +145,6 @@ class Weather extends ChangeNotifier {
           따라서 우리가 날씨 정보를 얻기위해 가져올 최신 날씨 정보는 1100 시간의 날씨 정보이다
     */
     int predHour; // 예측 시간값
-
     // 만약 현재시간이 2시 이전이라면 BaseTime은 전날에 2300이므로 시간과 더불어 날짜도 하루전으로 바꿔야 한다
     if (int.parse(baseHour) < 2) {
       predHour =
@@ -193,7 +191,6 @@ class Weather extends ChangeNotifier {
 
       final Iterable dateList = windSpeedList.map((el) => el['fcstDate']);
       final Iterable timeList = windSpeedList.map((el) => el['fcstTime']);
-
       int tmp = 0; // 기준 시간으로 부터 차이 나는 시간을 구할때 사용하는 임시 변수
       int idx = 0; // 인덱스 부여용 변수
       // 데이터 업데이트

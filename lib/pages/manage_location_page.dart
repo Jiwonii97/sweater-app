@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sweater/components/location_tile.dart';
-import 'package:sweater/components/check_menu.dart';
+import 'package:sweater/widgets/location_tile.dart';
+import 'package:sweater/widgets/check_menu.dart';
 import 'package:sweater/pages/add_location_page.dart';
-import 'package:sweater/providers/location_info.dart';
+import 'package:sweater/providers/location_provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
-import 'package:sweater/providers/user_info.dart';
+import 'package:sweater/providers/user_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:sweater/providers/weather.dart';
+import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 
 class ManageLocationPage extends StatefulWidget {
@@ -24,7 +24,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   late SharedPreferences prefs;
 
   void deleteLoc(String title) {
-    context.read<Location>().deleteLoc(title);
+    context.read<LocationProvider>().deleteLoc(title);
     setState(() {});
   }
 
@@ -33,36 +33,38 @@ class _ManageLocationPage extends State<ManageLocationPage> {
       locList = [];
     }
 
-    for (var location in context.watch<Location>().location) {
+    for (var location in context.watch<LocationProvider>().location) {
       locList.add(GestureDetector(
         onTap: () => setState(() {
-          context.read<Location>().cur = location["name"];
-          context.read<Location>().saveAll();
-          context.read<Weather>().changeActiveFlag();
-          String xValue = context.read<Location>().X.toString();
-          String yValue = context.read<Location>().Y.toString();
-          context.read<Weather>().updateWeather(xValue, yValue).then((value) =>
-              value == 0
+          context.read<LocationProvider>().cur = location["name"];
+          context.read<LocationProvider>().saveAll();
+          context.read<WeatherProvider>().changeActiveFlag();
+          String xValue = context.read<LocationProvider>().X.toString();
+          String yValue = context.read<LocationProvider>().Y.toString();
+          context.read<WeatherProvider>().updateWeather(xValue, yValue).then(
+              (value) => value == 0
                   ? context.read<CoordiProvider>().requestCoordiList(
-                      context.read<Weather>().forecastList,
+                      context.read<WeatherProvider>().forecastList,
                       0,
-                      context.read<User>().gender,
-                      context.read<User>().constitution)
+                      context.read<UserProvider>().gender,
+                      context.read<UserProvider>().constitution)
                   : debugPrint("fail getting weather api"));
 
           setState(() {});
         }),
-        child: context.read<Location>().cur == location['name']
+        child: context.read<LocationProvider>().cur == location['name']
             ? CheckMenu(
                 isLocation: true,
                 leadingIcon: SweaterIcons.map_marker_alt,
                 title: location['name'],
-                checked: context.read<Location>().cur == location['name'],
+                checked:
+                    context.read<LocationProvider>().cur == location['name'],
               )
             : LocationTile(
                 onPressButton: deleteLoc,
                 title: location['name'],
-                checked: context.read<Location>().cur == location['name'],
+                checked:
+                    context.read<LocationProvider>().cur == location['name'],
               ),
       ));
     }

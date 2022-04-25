@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sweater/providers/weather.dart';
+import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/module/decide_weather_icon.dart';
-import 'package:sweater/components/hourly_weather_section.dart';
-import 'package:sweater/components/card_container.dart';
-import 'package:sweater/providers/location_info.dart';
-import 'package:sweater/components/loading.dart';
+import 'package:sweater/widgets/hourly_weather_section.dart';
+import 'package:sweater/widgets/card_container.dart';
+import 'package:sweater/providers/location_provider.dart';
+import 'package:sweater/widgets/loading.dart';
 
 import 'package:sweater/theme/sweater_icons.dart';
 
@@ -17,7 +17,7 @@ class WeatherView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isWeatherReady = context.read<Weather>().initWeatherFlag;
+    var isWeatherReady = context.read<WeatherProvider>().initWeatherFlag;
     return isWeatherReady
         ? Container(
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -49,7 +49,10 @@ class WeatherView extends StatelessWidget {
                                         .onBackground,
                                   ),
                                   const SizedBox(width: 4),
-                                  Text(context.watch<Location>().currentDong,
+                                  Text(
+                                      context
+                                          .watch<LocationProvider>()
+                                          .currentDong,
                                       style:
                                           Theme.of(context).textTheme.caption),
                                 ]),

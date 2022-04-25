@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Location extends ChangeNotifier {
+class LocationProvider extends ChangeNotifier {
   static List _location = [];
   static String _cur = "";
   String get cur => _cur;
@@ -34,7 +34,7 @@ class Location extends ChangeNotifier {
     notifyListeners();
   }
 
-  Location() {}
+  LocationProvider() {}
 
   Future<bool> initLocation() async {
     prefs = await SharedPreferences.getInstance();

@@ -5,15 +5,18 @@ import 'package:flutter/material.dart';
 
 import 'pages/home_page.dart';
 import 'package:sweater/providers/coordi_provider.dart';
-import 'package:sweater/providers/user_info.dart';
-import 'package:sweater/providers/weather.dart';
+import 'package:sweater/providers/user_provider.dart';
+import 'package:sweater/providers/weather_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:sweater/providers/location_info.dart';
+import 'package:sweater/providers/location_provider.dart';
 import 'package:sweater/theme/global_theme.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized(); //비동기 처리를 위해 추가
   await Firebase.initializeApp(); //파이어베이스 등록
+
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
@@ -35,11 +38,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider<User>(create: (context) => User()),
+          ChangeNotifierProvider<UserProvider>(
+              create: (context) => UserProvider()),
           ChangeNotifierProvider<CoordiProvider>(
               create: (context) => CoordiProvider()),
-          ChangeNotifierProvider<Weather>(create: (context) => Weather()),
-          ChangeNotifierProvider<Location>(create: (context) => Location()),
+          ChangeNotifierProvider<WeatherProvider>(
+              create: (context) => WeatherProvider()),
+          ChangeNotifierProvider<LocationProvider>(
+              create: (context) => LocationProvider()),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
