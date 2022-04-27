@@ -3,15 +3,11 @@ import 'package:sweater/module/cloth.dart';
 class Coordi {
   final String _url;
   final List<Cloth> _clothes;
-  final List<int> _temperature;
-  final int _gender;
 
-  Coordi(this._url, this._clothes, this._temperature, this._gender);
+  Coordi(this._url, this._clothes);
 
   String get url => _url;
   List<Cloth> get clothes => _clothes;
-  List<int> get temperature => _temperature;
-  int get gender => _gender;
 
   List<String> getCoordiInfo() {
     List<String> result = [];

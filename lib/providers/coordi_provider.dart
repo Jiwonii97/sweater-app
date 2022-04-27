@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/module/cloth.dart';
+import 'package:sweater/module/coordi.dart';
 import 'package:http/http.dart' as http;
 
 class CoordiProvider with ChangeNotifier {
   List<Coordi> _coordiList = [];
-  Coordi _coordi = Coordi("", [], [], 0);
+  Coordi _coordi = Coordi("", []);
 
   int _coordiIdx = 0;
   bool _isReadyCoordiState = false;
@@ -22,7 +23,7 @@ class CoordiProvider with ChangeNotifier {
   }
 
   set setCoordi(Coordi input) {
-    _coordi = Coordi(input.url, input.clothes, input.temperature, input.gender);
+    _coordi = Coordi(input.url, input.clothes);
   }
 
   set setReadyCoordiState(bool input) {
@@ -117,9 +118,7 @@ class CoordiProvider with ChangeNotifier {
           coordiLists[i]['items'].map<Cloth>((item) {
             return Cloth(item['major'], item['minor'], item['color'],
                 item['features'], item['thickness']);
-          }).toList(),
-          coordiLists[i]['temperature'],
-          coordiLists[i]['gender']));
+          }).toList()));
     }
     _isReadyCoordiState = true;
     notifyListeners();
