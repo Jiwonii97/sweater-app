@@ -7,24 +7,20 @@ class Cloth {
   final String _majorCategory;
   final String _minorCategory;
   final String _color;
-  final List<dynamic> _features;
-  final String _thickness;
+  final String _fullName;
 
-  Cloth(this._majorCategory, this._minorCategory, this._color, this._features,
-      this._thickness);
+  Cloth(this._majorCategory, this._minorCategory, this._color, this._fullName);
 
   String get majorCategory => _majorCategory;
   String get minorCategory => _minorCategory;
   String get color => _color;
-  List<dynamic> get features => _features;
-  String get thickness => _thickness;
+  String get fullName => _fullName;
 
   Cloth.fromJson(Map<String, dynamic> json)
       : _majorCategory = json['major'],
         _minorCategory = json['minor'],
         _color = json['color'],
-        _features = json['features'],
-        _thickness = json['thickness'];
+        _fullName = json['fullName'];
 
   String getSVGFilePath() {
     String path = "assets/cloth/";
