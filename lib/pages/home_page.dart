@@ -1,5 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'dart:async';
+
 import 'package:eventify/eventify.dart';
 import 'package:flutter/material.dart';
 import 'package:sweater/widgets/card_container.dart';
@@ -26,7 +27,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final String _title = "SWEATER";
   late Timer weatherUpdateTimer;
   EventEmitter weatherUpdateEmitter = new EventEmitter();
@@ -48,6 +49,19 @@ class _HomePageState extends State<HomePage> {
     return GlobalTheme.darkTheme;
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed: //재개하다
+        weatherUpdateEmitter.emit('updatePeriodic');
+        break;
+      case AppLifecycleState.paused:
+        weatherUpdateTimer.cancel();
+        break;
+    }
+  }
+
   List<Color> backgroundByWeather() {
     HourForecast currentWeather =
         context.watch<WeatherProvider>().getCurrentWeather();
@@ -64,21 +78,16 @@ class _HomePageState extends State<HomePage> {
     // return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
   }
 
-  void updateRequestAfterNMinutes(int minutes) {
-    //날씨 갱신 요청
-    weatherUpdateTimer =
-        Timer(Duration(minutes: minutes), () => updateRequestAfterNMinutes(60));
-  }
-
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance!.addObserver(this);
     final locationProvider = context.read<LocationProvider>();
     final weatherProvider = context.read<WeatherProvider>();
     final coordiProvider = context.read<CoordiProvider>();
     final userProvider = context.read<UserProvider>();
-    weatherUpdateEmitter.on("oClock", null, (evt, cnt) async {
-      //날씨 갱신
+    weatherUpdateEmitter.on("updatePeriodic", null, (evt, cnt) async {
+      //정각마다 날씨 갱신
       bool isLoadedLocation = await locationProvider.initLocation();
       if (isLoadedLocation) {
         String xValue = locationProvider.X.toString();
@@ -91,8 +100,8 @@ class _HomePageState extends State<HomePage> {
         //60분 뒤에timer 이벤트 발생시키기
         final min = DateTime.now().minute;
         final sec = DateTime.now().second;
-        Timer(Duration(seconds: (60 - min) * 60 - sec),
-            () => weatherUpdateEmitter.emit("oClock", null));
+        weatherUpdateTimer = Timer(Duration(seconds: (60 - min) * 60 - sec),
+            () => weatherUpdateEmitter.emit("updatePeriodic", null));
       }
     });
 
@@ -108,7 +117,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-    weatherUpdateEmitter.emit("oClock", null);
+    weatherUpdateEmitter.emit("updatePeriodic", null);
   }
 
   @override
@@ -215,5 +224,11 @@ class _HomePageState extends State<HomePage> {
                                     }),
                           ],
                         ))))));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance!.removeObserver(this);
   }
 }
