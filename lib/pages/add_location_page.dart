@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:sweater/providers/location_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/widgets/guide_text.dart';
 import 'package:sweater/widgets/searched_list.dart';
 import 'package:sweater/widgets/search_bar.dart';
 import 'dart:convert';
@@ -73,7 +74,10 @@ class _AddLocationPage extends State<AddLocationPage> {
   }
 
   void initOutput(String text) {
-    output = [SearchBar(choose: choose, text: text, search: search)];
+    output = [
+      SearchBar(choose: choose, text: text, search: search),
+      GuideText(guide: "addLocation")
+    ];
   }
 
   List<Widget> search(String searchWord) {
