@@ -9,7 +9,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Weather 객체 클래스
 class WeatherProvider extends ChangeNotifier {
-  bool activeFlag = true; // API 요청 무한 루프 방지를 위한 flag
   bool initWeatherFlag = false;
 
   // 구름 상태 인덱스
@@ -42,7 +41,7 @@ class WeatherProvider extends ChangeNotifier {
     for (var i = 0; i < predictMax; i++) {
       forecastList.add(HourForecast());
     }
-    activeFlag = true;
+    // activeFlag = true;
   }
 
   // 현재 날씨 정보를 반환
@@ -106,9 +105,9 @@ class WeatherProvider extends ChangeNotifier {
     return res.round().toString();
   }
 
-  void changeActiveFlag() {
-    activeFlag = true;
-  }
+  // void changeActiveFlag() {
+  //   activeFlag = true;
+  // }
 
   // API를 받아서 해당 날씨 데이터를 Weather 객체에 업데이트
   Future<bool> updateWeather(String nx, String ny) async {
@@ -122,9 +121,7 @@ class WeatherProvider extends ChangeNotifier {
       // api 키값을 제대로 받아오면 해당 flag를 true로 바꿔 1회만 실행되게 함
       flagApi = await initKey();
     }
-    if (activeFlag == false) {
-      return false;
-    }
+
     // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
     var now = DateTime.now(); //현재일자
     var anHourBefore = now.subtract(const Duration(hours: 1));
@@ -224,7 +221,7 @@ class WeatherProvider extends ChangeNotifier {
         }
       }
       initWeatherFlag = true;
-      activeFlag = false;
+
       notifyListeners();
     } on SocketException {
       print('No Internet connection 😑');

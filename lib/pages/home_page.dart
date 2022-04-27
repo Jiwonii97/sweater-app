@@ -1,4 +1,6 @@
 // import 'package:flutter/foundation.dart';
+import 'dart:async';
+import 'package:eventify/eventify.dart';
 import 'package:flutter/material.dart';
 import 'package:sweater/widgets/card_container.dart';
 import 'package:sweater/theme/global_theme.dart';
@@ -26,6 +28,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final String _title = "SWEATER";
+  late Timer weatherUpdateTimer;
+  EventEmitter weatherUpdateEmitter = new EventEmitter();
+  EventEmitter coordiUpdateEmitter = new EventEmitter();
 
   ThemeData themeByWeather() {
     // return Random().nextInt(2) == 1
@@ -59,28 +64,51 @@ class _HomePageState extends State<HomePage> {
     // return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
   }
 
-  void initCoordi() {
-    var coordiConsumer = Provider.of<CoordiProvider>(context, listen: false);
-    var weatherConsumer = Provider.of<WeatherProvider>(context, listen: false);
-    var userConsumer = Provider.of<UserProvider>(context, listen: false);
-
-    weatherConsumer.initWeatherFlag
-        ? coordiConsumer.initCoordiList(weatherConsumer.forecastList, 0,
-            userConsumer.gender, userConsumer.constitution)
-        : debugPrint("not initialize weather yet");
+  void updateRequestAfterNMinutes(int minutes) {
+    //날씨 갱신 요청
+    weatherUpdateTimer =
+        Timer(Duration(minutes: minutes), () => updateRequestAfterNMinutes(60));
   }
 
   @override
   void initState() {
     super.initState();
-    context.read<LocationProvider>().initLocation().then((ret) {
-      String xValue = context.read<LocationProvider>().X.toString();
-      String yValue = context.read<LocationProvider>().Y.toString();
-
-      return context.read<WeatherProvider>().updateWeather(xValue, yValue);
-    }).then((isInitWeather) {
-      isInitWeather ? initCoordi() : debugPrint("fail getting weather api");
+    final locationProvider = context.read<LocationProvider>();
+    final weatherProvider = context.read<WeatherProvider>();
+    final coordiProvider = context.read<CoordiProvider>();
+    final userProvider = context.read<UserProvider>();
+    weatherUpdateEmitter.on("oClock", null, (evt, cnt) async {
+      //날씨 갱신
+      bool isLoadedLocation = await locationProvider.initLocation();
+      if (isLoadedLocation) {
+        String xValue = locationProvider.X.toString();
+        String yValue = locationProvider.Y.toString();
+        bool isSuccessWeather =
+            await weatherProvider.updateWeather(xValue, yValue);
+        if (isSuccessWeather) {
+          coordiUpdateEmitter.emit("updateCoordi", null, null);
+        }
+        //60분 뒤에timer 이벤트 발생시키기
+        final min = DateTime.now().minute;
+        final sec = DateTime.now().second;
+        Timer(Duration(seconds: (60 - min) * 60 - sec),
+            () => weatherUpdateEmitter.emit("oClock", null));
+      }
     });
+
+    coordiUpdateEmitter.on("updateCoordi", null, (evt, cnt) async {
+      //코디 갱신
+      bool isUpdateCoordiSuccess = await coordiProvider.requestCoordiList(
+          weatherProvider.forecastList,
+          0,
+          userProvider.gender,
+          userProvider.constitution);
+      if (!isUpdateCoordiSuccess) {
+        debugPrint("fail getting weather api");
+      }
+    });
+
+    weatherUpdateEmitter.emit("oClock", null);
   }
 
   @override
