@@ -25,7 +25,7 @@ class CoordiProvider with ChangeNotifier {
     _coordi = Coordi(input.url, input.clothes, input.temperature, input.gender);
   }
 
-  set setInitCoordiState(bool input) {
+  set setReadyCoordiState(bool input) {
     _isReadyCoordiState = input;
   }
 
@@ -51,60 +51,64 @@ class CoordiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String> requestCoordis(List<HourForecast> forecastList,
+  Future<List<dynamic>> requestCoordis(List<HourForecast> forecastList,
       int forecastIdx, int userGender, int userConstitution) async {
-    int currentSTemp = int.parse(forecastList[forecastIdx].getSTemp);
-    switch (userConstitution) {
-      case 2: //더위 많이
-        currentSTemp += 4;
-        break;
-      case 1: //더위 조금
-        currentSTemp += 2;
-        break;
-      case -1: //추위 조금
-        currentSTemp -= 2;
-        break;
-      case -2: //추위 많이
-        currentSTemp -= 4;
-        break;
-      default:
-        break;
+    try {
+      int currentSTemp = int.parse(forecastList[forecastIdx].getSTemp);
+      switch (userConstitution) {
+        case 2: //더위 많이
+          currentSTemp += 4;
+          break;
+        case 1: //더위 조금
+          currentSTemp += 2;
+          break;
+        case -1: //추위 조금
+          currentSTemp -= 2;
+          break;
+        case -2: //추위 많이
+          currentSTemp -= 4;
+          break;
+        default:
+          break;
+      }
+      String requestSTemp = currentSTemp.toString();
+      Uri uri = Uri.parse(
+          "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand?gender=$userGender&stemp=$requestSTemp&isRain=${forecastList[forecastIdx].getSky == '비' ? true : false}&isSnow=${forecastList[forecastIdx].getSky == '눈' ? true : false}&windSpeed=${forecastList[forecastIdx].getWindSpeed}");
+      var response = await http.get(uri);
+      return convert.jsonDecode(response.body);
+    } catch (e) {
+      return [];
     }
-    String requestSTemp = currentSTemp.toString();
-    Uri uri = Uri.parse(
-        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand?gender=$userGender&stemp=$requestSTemp&isRain=${forecastList[forecastIdx].getSky == '비' ? true : false}&isSnow=${forecastList[forecastIdx].getSky == '눈' ? true : false}&windSpeed=${forecastList[forecastIdx].getWindSpeed}");
-    var response = await http.get(uri);
-    return response.body;
   }
 
-  void initCoordiList(List<HourForecast> forecastList, int forecastIdx,
-      int userGender, int userConstitution) async {
-    String result = await requestCoordis(
-        forecastList, forecastIdx, userGender, userConstitution);
-    setInitCoordiState = true; //코디 요청 완료 플래그
+  // Future<bool> initCoordiList(List<HourForecast> forecastList, int forecastIdx,
+  //     int userGender, int userConstitution) async {
+  //   List<dynamic> coordiLists = await requestCoordis(
+  //       forecastList, forecastIdx, userGender, userConstitution);
+  //   setReadyCoordiState = true; //코디 요청 완료 플래그
+  //   if (coordiLists.length == 0) return false;
+  //   for (int i = 0; i < coordiLists.length; i++) {
+  //     //코디 리스트 생성
+  //     addCoordiListElement(Coordi(
+  //         coordiLists[i]['url'],
+  //         coordiLists[i]['items'].map<Cloth>((item) {
+  //           return Cloth(item['major'], item['minor'], item['color'],
+  //               item['features'], item['thickness']);
+  //         }).toList(),
+  //         coordiLists[i]['temperature'],
+  //         coordiLists[i]['gender']));
+  //   }
+  //   notifyListeners();
+  //   return true;
+  // }
 
-    List<dynamic> coordiLists = convert.jsonDecode(result);
-    for (int i = 0; i < coordiLists.length; i++) {
-      //코디 리스트 생성
-      addCoordiListElement(Coordi(
-          coordiLists[i]['url'],
-          coordiLists[i]['items'].map<Cloth>((item) {
-            return Cloth(item['major'], item['minor'], item['color'],
-                item['features'], item['thickness']);
-          }).toList(),
-          coordiLists[i]['temperature'],
-          coordiLists[i]['gender']));
-    }
-    notifyListeners();
-  }
-
-  void requestCoordiList(List<HourForecast> forecastList, int forecastIdx,
-      int userGender, int userConstitution) async {
+  Future<bool> requestCoordiList(List<HourForecast> forecastList,
+      int forecastIdx, int userGender, int userConstitution) async {
     _coordiIdx = 0;
     _isReadyCoordiState = false;
-    String result = await requestCoordis(
+    List<dynamic> coordiLists = await requestCoordis(
         forecastList, forecastIdx, userGender, userConstitution);
-    List<dynamic> coordiLists = convert.jsonDecode(result);
+    if (coordiLists.isEmpty) return false;
     clearCoordiList();
     for (int i = 0; i < coordiLists.length; i++) {
       //코디 리스트 생성
@@ -119,5 +123,6 @@ class CoordiProvider with ChangeNotifier {
     }
     _isReadyCoordiState = true;
     notifyListeners();
+    return true;
   }
 }

@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.15.7 # 날짜 계산용
   cloud_functions: ^3.2.12
   flutter_dotenv: ^5.0.2
+  eventify: ^1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -38,6 +38,7 @@ class Coordi {
       result.add(clothes[0].getSVGFilePath()); //상의
       result.add(clothes[1].getSVGFilePath()); //하의
     }
+    // print(result);
     return result;
   }
 }
@@ -77,6 +78,14 @@ class Cloth {
       case "bottom":
         path += "bottom/";
         break;
+      case "skirt":
+        path += "skirt/";
+        break;
+
+      case "one_piece":
+        path += "one_piece/";
+        break;
+
       default:
         break;
     }

@@ -38,7 +38,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
         onTap: () => setState(() {
           context.read<LocationProvider>().cur = location["name"];
           context.read<LocationProvider>().saveAll();
-          context.read<WeatherProvider>().changeActiveFlag();
+          // context.read<WeatherProvider>().changeActiveFlag();
           String xValue = context.read<LocationProvider>().X.toString();
           String yValue = context.read<LocationProvider>().Y.toString();
           context.read<WeatherProvider>().updateWeather(xValue, yValue).then(
