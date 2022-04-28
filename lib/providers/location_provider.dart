@@ -31,9 +31,9 @@ class LocationProvider extends ChangeNotifier {
     String myLocationJson = prefs.getString('my_location') ?? "";
     if (myLocationJson != "") {
       Map myLocation = json.decode(myLocationJson);
-      _locationList = myLocation['location'].map((locationJson) {
+      _locationList = myLocation['location'].map<Location>((locationJson) {
         return Location.fromJson(locationJson);
-      });
+      }).toList();
       _current = _locationList.firstWhere((location) {
         return location.address == myLocation['selected'];
       });
