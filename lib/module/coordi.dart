@@ -18,18 +18,9 @@ class Coordi {
   }
 
   List<String> getIllustUrl() {
-    List<String> result = []; //[아우터, 상의, 하의] 순으로 일러스트 주소 저장
-
-    if (clothes.length == 3) {
-      //아우터 있는 코디
-      result.add(clothes[0].getSVGFilePath()); //아우터
-      result.add(clothes[1].getSVGFilePath()); //상의
-      result.add(clothes[2].getSVGFilePath()); //하의
-    } else {
-      //아우터 없는 코디
-      result.add("");
-      result.add(clothes[0].getSVGFilePath()); //상의
-      result.add(clothes[1].getSVGFilePath()); //하의
+    List<String> result = [];
+    for (int i = 0; i < clothes.length; i++) {
+      result.add(clothes[i].getSVGFilePath());
     }
     return result;
   }

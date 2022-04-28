@@ -14,9 +14,9 @@ main() {
     Cloth clothInstanceFromJson; // fromJson을 통해 만든 Cloth 클래스 인스턴스
     test('Constructor 생성 테스트', () {
       clothInstanceFromConstructor =
-          Cloth('top', 'sleeve', 'FFFFFF', '흰색 긴팔 티셔츠');
+          Cloth('top', 'long_sleeve', 'FFFFFF', '흰색 긴팔 티셔츠');
       expect(clothInstanceFromConstructor.majorCategory, 'top');
-      expect(clothInstanceFromConstructor.minorCategory, 'sleeve');
+      expect(clothInstanceFromConstructor.minorCategory, 'long_sleeve');
       expect(clothInstanceFromConstructor.color, 'FFFFFF');
       expect(clothInstanceFromConstructor.fullName, '흰색 긴팔 티셔츠');
     });
@@ -26,18 +26,18 @@ main() {
         'major': 'top',
         'minor': 'sleeve',
         'color': 'FFFFFF',
-        'fullName': '흰색 슬리브 티셔츠',
+        'fullName': '흰색 긴팔 티셔츠',
       };
       clothInstanceFromJson = Cloth.fromJson(mockData);
       expect(clothInstanceFromJson.majorCategory, 'top');
       expect(clothInstanceFromJson.minorCategory, 'sleeve');
-      expect(clothInstanceFromJson.color, 'white');
+      expect(clothInstanceFromJson.color, 'FFFFFF');
       expect(clothInstanceFromJson.fullName, '흰색 긴팔 티셔츠');
     });
   });
 
   group('Cloth 메소드 테스트', () {
-    Cloth clothInstance1 = Cloth('top', 'sleeve', 'white', '흰색 긴팔 티셔츠');
+    Cloth clothInstance1 = Cloth('top', 'long_sleeve', 'white', '흰색 긴팔 티셔츠');
     Cloth clothInstance2 = Cloth('top', 'mtm', 'black', '검정색 프린팅 맨투맨');
     test('Cloth getClothInfo 테스트', () {
       expect(clothInstance1.getClothInfo(), '흰색 긴팔 티셔츠');
@@ -46,7 +46,7 @@ main() {
 
     test('Cloth getSVGFilePath', () {
       expect(
-          clothInstance1.getSVGFilePath(), 'assets/cloth/top/long-sleeve.svg');
+          clothInstance1.getSVGFilePath(), 'assets/cloth/top/long_sleeve.svg');
       expect(clothInstance2.getSVGFilePath(), 'assets/cloth/top/mtm.svg');
     });
   });
