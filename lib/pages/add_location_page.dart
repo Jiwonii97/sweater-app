@@ -17,46 +17,58 @@ class AddLocationPage extends StatefulWidget {
 class _AddLocationPage extends State<AddLocationPage> {
   bool dataLoaded = false;
   bool choose = false;
-  late Map searchList;
-  List<Widget> output = [];
-  late Padding text;
-  var select;
+  Map searchList = {};
+  List<Widget> searchResult = [];
+  String searchInput = "";
   final _title = "위치 추가";
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        child: Scaffold(
-            appBar: AppBar(
-                title: Text(_title),
-                leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.pop(context))),
-            resizeToAvoidBottomInset: false,
-            body: FutureBuilder(
-                future: loadAddress(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    if (!dataLoaded) {
-                      initOutput("");
-                      searchList = json.decode(snapshot.data);
-                      dataLoaded = true;
-                    }
+      child: Scaffold(
+        appBar: AppBar(
+            title: Text(_title),
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context))),
+        resizeToAvoidBottomInset: false,
+        body: Column(children: [
+          SearchBar(choose: choose, text: searchInput, search: search),
+          Visibility(
+              child: GuideText(
+                  guideText:
+                      "위치는 시/도, 구/군 까지 설정할 수 있습니다. \n입력 예시) 동작구, 울릉군, 정읍시, ..."),
+              visible: searchInput.isEmpty),
+          Visibility(
+              child: GuideText(guideText: "검색 결과가 없습니다"),
+              visible: searchResult.isEmpty && searchInput.isNotEmpty),
+          FutureBuilder(
+              future: loadAddress(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  if (!dataLoaded) {
+                    searchList = json.decode(snapshot.data);
+                    dataLoaded = true;
                   }
-                  //error가 발생하게 될 경우 반환하게 되는 부분
-                  else if (snapshot.hasError) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
-                      ),
-                    );
-                  }
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: output,
+                }
+                //error가 발생하게 될 경우 반환하게 되는 부분
+                else if (snapshot.hasError) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Error: ${snapshot.error}', // 에러명을 텍스트에 뿌려줌
+                    ),
                   );
-                })));
+                }
+
+                return ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  children: searchResult,
+                );
+              })
+        ]),
+      ),
+    );
   }
 
   Future loadAddress() async {
@@ -67,28 +79,23 @@ class _AddLocationPage extends State<AddLocationPage> {
   }
 
   void selectOne(address) {
-    select = {"name": address['주소'], "X": address['X'], "Y": address['Y']};
-    context.read<LocationProvider>().location = [select];
+    context.read<LocationProvider>().location = [
+      {"name": address['주소'], "X": address['X'], "Y": address['Y']}
+    ];
     context.read<LocationProvider>().saveAll();
     Navigator.pop(this.context);
   }
 
-  void initOutput(String text) {
-    output = [
-      SearchBar(choose: choose, text: text, search: search),
-      GuideText(guide: "addLocation")
-    ];
-  }
-
   List<Widget> search(String searchWord) {
-    initOutput(searchWord);
+    searchInput = searchWord;
+    searchResult = [];
     for (var address in searchList['location']) {
-      if (output.length > 6) break;
+      if (searchResult.length > 6) break;
       if (address['주소'].contains(searchWord)) {
-        output.add(SearchList(refresh: selectOne, address: address));
+        searchResult.add(SearchList(refresh: selectOne, address: address));
       }
     }
     setState(() {});
-    return output;
+    return searchResult;
   }
 }
