@@ -53,7 +53,6 @@ void main() {
             title: 'Flutter Demo',
             theme: GlobalTheme.lightTheme,
             home: const ManageLocationPage())));
-    locationProvider.expect(find.text('위치 관리'), findsOneWidget);
   });
 
   test('상단 액션 클릭시 페이지 이동', () {
