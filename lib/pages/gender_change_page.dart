@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweater/widgets/check_menu.dart';
+import 'package:sweater/widgets/guide_text.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/theme/global_theme.dart';
 import 'package:sweater/providers/user_provider.dart';
@@ -33,6 +34,25 @@ class _GenderChangePage extends State<GenderChangePage> {
         'genderString': Gender.womanString
       },
     ];
+    List<Widget> widgetList = List.generate(genderList.length, (int index) {
+      return GestureDetector(
+        onTap: () {
+          context
+              .read<UserProvider>()
+              .changeGender(genderList[index]['gender']);
+          coordiConsumer.requestCoordiList(weatherConsumer.forecastList, 0,
+              userConsumer.gender, userConsumer.constitution);
+        },
+        child: CheckMenu(
+          leadingIcon: genderList[index]['icon'],
+          title: genderList[index]['genderString'],
+          checked: context.watch<UserProvider>().gender ==
+              genderList[index]['gender'],
+        ),
+      );
+    });
+    widgetList
+        .add(GuideText(guideText: "성별 설정을 통해 본인의 성별에 맞게 코디를 \n추천받을 수 있습니다"));
     return Scaffold(
         appBar: AppBar(
             title: Text(_title),
@@ -41,22 +61,6 @@ class _GenderChangePage extends State<GenderChangePage> {
                 onPressed: () => Navigator.pop(context))),
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: List.generate(genderList.length, (int index) {
-              return GestureDetector(
-                onTap: () {
-                  context
-                      .read<UserProvider>()
-                      .changeGender(genderList[index]['gender']);
-                  coordiConsumer.requestCoordiList(weatherConsumer.forecastList,
-                      0, userConsumer.gender, userConsumer.constitution);
-                },
-                child: CheckMenu(
-                  leadingIcon: genderList[index]['icon'],
-                  title: genderList[index]['genderString'],
-                  checked: context.watch<UserProvider>().gender ==
-                      genderList[index]['gender'],
-                ),
-              );
-            })));
+            children: widgetList));
   }
 }

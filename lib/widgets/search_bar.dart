@@ -20,6 +20,8 @@ class SearchBar extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
         child: TextField(
+          textInputAction: TextInputAction.go,
+          onSubmitted: (searchInput) => search(searchInput),
           controller: textController,
           onTap: choose
               ? () => FocusManager.instance.primaryFocus?.unfocus()
