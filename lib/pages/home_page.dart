@@ -14,7 +14,6 @@ import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/theme/sweater_icons.dart';
-// import 'package:sweater/theme/global_theme.dart';
 import 'package:sweater/providers/user_provider.dart';
 import '../widgets/coordi_section.dart';
 import '../widgets/weather_view.dart';
