@@ -40,7 +40,7 @@ class Cloth {
       default:
         break;
     }
-    path += "$minorCategory.svg";
+    path += "${minorCategory}/${minorCategory}_${color}.png";
     return path;
   }
 
