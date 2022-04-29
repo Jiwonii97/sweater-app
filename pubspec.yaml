@@ -74,6 +74,11 @@ flutter:
     # 환경변수 저장
     - .env
 
+    - assets/cloth/outer/
+    - assets/cloth/top/
+    - assets/cloth/bottom/
+    - assets/cloth/one_piece/
+    - assets/weather/
     - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see

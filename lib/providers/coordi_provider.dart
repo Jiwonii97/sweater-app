@@ -121,7 +121,7 @@ class CoordiProvider with ChangeNotifier {
           responseCoordiLists[i]['url'],
           responseCoordiLists[i]['items'].map<Cloth>((item) {
             return Cloth(
-                item['major'], item['minor'], item['color'], item['fullName']);
+                item['major'], item['minor'], item['color'], item['full_name']);
           }).toList()));
     }
     setReadyCoordiState = true;

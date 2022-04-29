@@ -20,7 +20,7 @@ class Cloth {
       : _majorCategory = json['major'],
         _minorCategory = json['minor'],
         _color = json['color'],
-        _fullName = json['fullName'];
+        _fullName = json['full_name'];
 
   String getSVGFilePath() {
     String path = "assets/cloth/";
