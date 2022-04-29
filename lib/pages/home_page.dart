@@ -89,8 +89,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       //정각마다 날씨 갱신
       bool isLoadedLocation = await locationProvider.initLocation();
       if (isLoadedLocation) {
-        String xValue = locationProvider.X.toString();
-        String yValue = locationProvider.Y.toString();
+        int xValue = locationProvider.current.X;
+        int yValue = locationProvider.current.Y;
         bool isSuccessWeather =
             await weatherProvider.updateWeather(xValue, yValue);
         if (isSuccessWeather) {
@@ -121,10 +121,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    String xValue = context.read<LocationProvider>().X.toString();
-    String yValue = context.read<LocationProvider>().Y.toString();
-    HourForecast currentWeather =
-        context.watch<WeatherProvider>().forecastList[0];
     return Container(
         color: Colors.white,
         child: Theme(

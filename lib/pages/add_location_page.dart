@@ -3,8 +3,9 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:sweater/providers/location_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/widgets/guide_text.dart';
-import 'package:sweater/widgets/searched_list.dart';
+import 'package:sweater/widgets/search_list.dart';
 import 'package:sweater/widgets/search_bar.dart';
+import 'package:sweater/module/location.dart';
 import 'dart:convert';
 
 class AddLocationPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class AddLocationPage extends StatefulWidget {
 class _AddLocationPage extends State<AddLocationPage> {
   bool dataLoaded = false;
   bool choose = false;
-  Map searchList = {};
+  late List<Location> locationList;
   List<Widget> searchResult = [];
   String searchInput = "";
   final _title = "위치 추가";
@@ -46,12 +47,12 @@ class _AddLocationPage extends State<AddLocationPage> {
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   if (!dataLoaded) {
-                    searchList = json.decode(snapshot.data);
+                    locationList = snapshot.data;
                     dataLoaded = true;
                   }
                 }
                 //error가 발생하게 될 경우 반환하게 되는 부분
-                else if (snapshot.hasError) {
+                if (snapshot.hasError) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -71,17 +72,21 @@ class _AddLocationPage extends State<AddLocationPage> {
     );
   }
 
-  Future loadAddress() async {
+  Future<List<Location>> loadAddress() async {
     if (!dataLoaded) {
-      return await rootBundle.loadString('assets/saved_location.json');
+      // return await rootBundle.loadString('assets/saved_location.json');
+      String jsonString =
+          await rootBundle.loadString('assets/saved_location.json');
+
+      return json.decode(jsonString).map((locationJson) {
+        return Location.fromJson(locationJson);
+      });
     }
-    return 1;
+    return [];
   }
 
   void selectOne(address) {
-    context.read<LocationProvider>().location = [
-      {"name": address['주소'], "X": address['X'], "Y": address['Y']}
-    ];
+    context.read<LocationProvider>().addLocation(address);
     context.read<LocationProvider>().saveAll();
     Navigator.pop(this.context);
   }
@@ -89,10 +94,10 @@ class _AddLocationPage extends State<AddLocationPage> {
   List<Widget> search(String searchWord) {
     searchInput = searchWord;
     searchResult = [];
-    for (var address in searchList['location']) {
+    for (var location in locationList) {
       if (searchResult.length > 6) break;
-      if (address['주소'].contains(searchWord)) {
-        searchResult.add(SearchList(refresh: selectOne, address: address));
+      if (location.name.contains(searchWord)) {
+        searchResult.add(SearchList(refresh: selectOne, address: location));
       }
     }
     setState(() {});

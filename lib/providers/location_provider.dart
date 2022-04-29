@@ -2,52 +2,46 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sweater/module/location.dart';
 
 class LocationProvider extends ChangeNotifier {
-  static List _location = [];
-  static String _cur = "";
-  String get cur => _cur;
-  String get currentDong => _cur.split(' ').last;
-  List get location => _location;
-
-  int get X => _location.length != 0 && _cur != ""
-      ? _location.where((element) => element['name'] == _cur).single['X']
-      : 0;
-
-  int get Y => _location.length != 0 && _cur != ""
-      ? _location.where((element) => element['name'] == _cur).single['Y']
-      : 0;
+  List<Location> _locationList = [];
+  late Location _current;
+  Location get current => _current;
+  List get locationList => _locationList;
 
   var prefs;
 
-  set cur(String new_) {
-    _cur = new_;
-    notifyListeners();
-  }
-
-  set location(List new_) {
-    bool dup = false;
-    for (var address in _location) {
-      if (address['name'] == new_.last['name']) dup = true;
-    }
-    if (!dup) _location.add(new_.last);
-    notifyListeners();
+  set current(Location _newLocation) {
+    if (_locationList
+            .where((location) => location.address == _newLocation.address)
+            .length ==
+        1) _current = _newLocation;
+    // notifyListeners();
   }
 
   LocationProvider() {}
 
+  void addLocation(Location newLocation) {
+    _locationList.add(newLocation);
+  }
+
   Future<bool> initLocation() async {
     prefs = await SharedPreferences.getInstance();
-    String list = prefs.getString('my_location') ?? "";
-    if (list != "") {
-      _location = json.decode(list)['location'];
-      _cur = json.decode(list)['selected'];
-    }
-    if (_cur == "") {
-      _location = [
-        {'name': "서울특별시 동작구", 'X': 59, "Y": 125}
+    String myLocationJson = prefs.getString('my_location') ?? "";
+    if (myLocationJson != "") {
+      Map myLocation = json.decode(myLocationJson);
+      _locationList = myLocation['location'].map((locationJson) {
+        return Location.fromJson(locationJson);
+      });
+      _current = _locationList.firstWhere((location) {
+        return location.address == myLocation['selected'];
+      });
+    } else {
+      _locationList = [
+        Location("서울특별시 동작구", {'X': 59, "Y": 125})
       ];
-      _cur = "서울특별시 동작구";
+      _current = _locationList[0];
     }
     notifyListeners();
     return true;
@@ -55,12 +49,13 @@ class LocationProvider extends ChangeNotifier {
 
   void saveAll() async {
     prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-        'my_location', json.encode({"selected": cur, "location": location}));
+    await prefs.setString('my_location',
+        json.encode({"selected": _current.name, "location": _locationList}));
   }
 
-  void deleteLoc(String one) {
-    _location.removeWhere((element) => element['name'] == one);
+  void deleteLocation(Location targetLocation) {
+    _locationList
+        .removeWhere((location) => location.name == targetLocation.name);
     saveAll();
     notifyListeners();
   }
