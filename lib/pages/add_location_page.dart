@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:sweater/module/error_type.dart';
 import 'package:sweater/providers/location_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/widgets/guide_text.dart';
 import 'package:sweater/widgets/search_list.dart';
 import 'package:sweater/widgets/search_bar.dart';
@@ -30,7 +31,7 @@ class _AddLocationPage extends State<AddLocationPage> {
         appBar: AppBar(
             title: Text(_title),
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(SweaterIcons.arrow_left),
                 onPressed: () => Navigator.pop(context))),
         resizeToAvoidBottomInset: false,
         body: Column(children: [

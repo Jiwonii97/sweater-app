@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/widgets/check_menu.dart';
 import 'package:sweater/widgets/guide_text.dart';
 import 'package:sweater/providers/coordi_provider.dart';
@@ -57,7 +58,7 @@ class _GenderChangePage extends State<GenderChangePage> {
         appBar: AppBar(
             title: Text(_title),
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(SweaterIcons.arrow_left),
                 onPressed: () => Navigator.pop(context))),
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

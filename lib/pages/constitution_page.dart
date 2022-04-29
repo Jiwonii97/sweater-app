@@ -3,6 +3,7 @@ import 'package:sweater/providers/user_provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/providers/weather_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/widgets/check_menu.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/module/constitution.dart';
@@ -68,7 +69,7 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
         appBar: AppBar(
             title: Text(_title),
             leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(SweaterIcons.arrow_left),
                 onPressed: () => Navigator.pop(context))),
         body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
