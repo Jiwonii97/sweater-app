@@ -60,13 +60,13 @@ class _ManageLocationPage extends State<ManageLocationPage> {
                     isLocation: true,
                     leadingIcon: SweaterIcons.map_marker_alt,
                     title: location.address,
-                    checked: context.read<LocationProvider>().current ==
+                    checked: context.read<LocationProvider>().current.address ==
                         location.address,
                   )
                 : LocationTile(
                     onPressButton: deleteLocation,
                     location: location,
-                    checked: context.read<LocationProvider>().current ==
+                    checked: context.read<LocationProvider>().current.address ==
                         location.address,
                   ),
       ));
