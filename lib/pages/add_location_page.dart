@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:sweater/module/error_type.dart';
 import 'package:sweater/providers/location_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/widgets/guide_text.dart';
@@ -60,7 +61,6 @@ class _AddLocationPage extends State<AddLocationPage> {
                     ),
                   );
                 }
-
                 return ListView(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
@@ -77,18 +77,29 @@ class _AddLocationPage extends State<AddLocationPage> {
       // return await rootBundle.loadString('assets/saved_location.json');
       String jsonString =
           await rootBundle.loadString('assets/saved_location.json');
-
-      return json.decode(jsonString).map((locationJson) {
-        return Location.fromJson(locationJson);
-      });
+      List<Location> locationList = json
+          .decode(jsonString)['location']
+          .map<Location>((locationJson) => Location.fromJson(locationJson))
+          .toList();
+      return locationList;
     }
     return [];
   }
 
-  void selectOne(address) {
-    context.read<LocationProvider>().addLocation(address);
-    context.read<LocationProvider>().saveAll();
-    Navigator.pop(this.context);
+  void selectOne(Location address) {
+    int resultCode = context.read<LocationProvider>().addLocation(address);
+    if (resultCode == ErrorType.successCode) {
+      context.read<LocationProvider>().saveAll();
+      Navigator.pop(this.context);
+    } else {
+      if (resultCode == ErrorType.duplicationErrorCode) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(ErrorType.duplicationErrorMessage),
+          ),
+        );
+      }
+    }
   }
 
   List<Widget> search(String searchWord) {
@@ -96,7 +107,7 @@ class _AddLocationPage extends State<AddLocationPage> {
     searchResult = [];
     for (var location in locationList) {
       if (searchResult.length > 6) break;
-      if (location.name.contains(searchWord)) {
+      if (location.address.contains(searchWord)) {
         searchResult.add(SearchList(refresh: selectOne, address: location));
       }
     }
