@@ -86,6 +86,9 @@ class _ManageLocationPage extends State<ManageLocationPage> {
           elevation: 0,
           title: const Text('위치 관리'),
           centerTitle: true,
+          leading: IconButton(
+              icon: const Icon(SweaterIcons.arrow_left),
+              onPressed: () => Navigator.pop(context)),
           actions: [
             IconButton(
                 onPressed: () {
