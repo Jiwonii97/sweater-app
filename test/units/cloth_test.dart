@@ -14,44 +14,40 @@ main() {
     Cloth clothInstanceFromJson; // fromJson을 통해 만든 Cloth 클래스 인스턴스
     test('Constructor 생성 테스트', () {
       clothInstanceFromConstructor =
-          Cloth('top', 'sleeve', 'white', ['crop'], '');
+          Cloth('top', 'long_sleeve', 'FFFFFF', '흰색 긴팔 티셔츠');
       expect(clothInstanceFromConstructor.majorCategory, 'top');
-      expect(clothInstanceFromConstructor.minorCategory, 'sleeve');
-      expect(clothInstanceFromConstructor.color, 'white');
-      expect(clothInstanceFromConstructor.features, ['crop']);
-      expect(clothInstanceFromConstructor.thickness, '');
+      expect(clothInstanceFromConstructor.minorCategory, 'long_sleeve');
+      expect(clothInstanceFromConstructor.color, 'FFFFFF');
+      expect(clothInstanceFromConstructor.fullName, '흰색 긴팔 티셔츠');
     });
 
     test('fromJson 생성 테스트', () {
       Map<String, dynamic> mockData = {
         'major': 'top',
         'minor': 'sleeve',
-        'color': 'white',
-        'features': ['crop'],
-        'thickness': ''
+        'color': 'FFFFFF',
+        'fullName': '흰색 긴팔 티셔츠',
       };
       clothInstanceFromJson = Cloth.fromJson(mockData);
       expect(clothInstanceFromJson.majorCategory, 'top');
       expect(clothInstanceFromJson.minorCategory, 'sleeve');
-      expect(clothInstanceFromJson.color, 'white');
-      expect(clothInstanceFromJson.features, ['crop']);
-      expect(clothInstanceFromJson.thickness, '');
+      expect(clothInstanceFromJson.color, 'FFFFFF');
+      expect(clothInstanceFromJson.fullName, '흰색 긴팔 티셔츠');
     });
   });
 
   group('Cloth 메소드 테스트', () {
-    Cloth clothInstance1 =
-        Cloth('top', 'sleeve', 'white', ['long', 'crop'], '');
-    Cloth clothInstance2 = Cloth('top', 'mtm', 'black', ['short'], 'thin');
+    Cloth clothInstance1 = Cloth('top', 'long_sleeve', 'white', '흰색 긴팔 티셔츠');
+    Cloth clothInstance2 = Cloth('top', 'mtm', 'black', '검정색 프린팅 맨투맨');
     test('Cloth getClothInfo 테스트', () {
-      expect(clothInstance1.getClothInfo(), '흰색 긴 크롭 티셔츠');
-      expect(clothInstance2.getClothInfo(), '검정색 짧은 얇은 맨투맨');
+      expect(clothInstance1.getClothInfo(), '흰색 긴팔 티셔츠');
+      expect(clothInstance2.getClothInfo(), '검정색 프린팅 맨투맨');
     });
 
     test('Cloth getSVGFilePath', () {
-      expect(clothInstance1.getSVGFilePath(),
-          'assets/cloth/top/long-crop-sleeve.svg');
-      expect(clothInstance2.getSVGFilePath(), 'assets/cloth/top/short-mtm.svg');
+      expect(
+          clothInstance1.getSVGFilePath(), 'assets/cloth/top/long_sleeve.svg');
+      expect(clothInstance2.getSVGFilePath(), 'assets/cloth/top/mtm.svg');
     });
   });
 }
