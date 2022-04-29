@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                     color: GlobalTheme
                                         .lightTheme.colorScheme.onSurface),
                                 title: Text(
-                                  "지역 관리",
+                                  "위치 관리",
                                   style: GlobalTheme
                                       .lightTheme.textTheme.subtitle2,
                                 ),

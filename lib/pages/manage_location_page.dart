@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sweater/widgets/guide_dialog.dart';
 import 'package:sweater/widgets/location_tile.dart';
 import 'package:sweater/widgets/check_menu.dart';
+import 'package:sweater/widgets/guide_dialog.dart';
 import 'package:sweater/pages/add_location_page.dart';
 import 'package:sweater/providers/location_provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
@@ -86,12 +88,26 @@ class _ManageLocationPage extends State<ManageLocationPage> {
           actions: [
             IconButton(
                 onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16)),
+                            ),
+                            child: GuideDialog());
+                      });
+                },
+                icon: const Icon(SweaterIcons.question_circle)),
+            IconButton(
+                onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const AddLocationPage()));
                 },
-                icon: Icon(SweaterIcons.plus))
+                icon: const Icon(SweaterIcons.plus)),
           ],
         ),
         body: Column(
