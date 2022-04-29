@@ -80,29 +80,31 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black,
-        elevation: 0,
-        title: const Text('위치 관리'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AddLocationPage()));
-              },
-              icon: Icon(SweaterIcons.plus))
-        ],
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        children: readLocList(),
-      ),
-    );
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.black,
+          elevation: 0,
+          title: const Text('위치 관리'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddLocationPage()));
+                },
+                icon: Icon(SweaterIcons.plus))
+          ],
+        ),
+        body: Container(
+          padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+          child: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            children: readLocList(),
+          ),
+        ));
   }
 }
