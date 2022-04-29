@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:eventify/eventify.dart';
 import 'package:flutter/material.dart';
+import 'package:sweater/module/error_type.dart';
 import 'package:sweater/widgets/card_container.dart';
 import 'package:sweater/theme/global_theme.dart';
 // import 'package:sweater/widgets/hourly_weather_section.dart';
@@ -87,8 +88,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     final userProvider = context.read<UserProvider>();
     weatherUpdateEmitter.on("updatePeriodic", null, (evt, cnt) async {
       //정각마다 날씨 갱신
-      bool isLoadedLocation = await locationProvider.initLocation();
-      if (isLoadedLocation) {
+      int initResultCode = await locationProvider.initLocation();
+      if (initResultCode == ErrorType.successCode) {
         int xValue = locationProvider.current.X;
         int yValue = locationProvider.current.Y;
         bool isSuccessWeather =
