@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:sweater/module/location.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 import "package:sweater/widgets/my_custom_slidable_action.dart";
 
 class LocationTile extends StatelessWidget {
-  final String title;
+  late Location location;
   bool checked = false;
   Function onPressButton = () {};
   LocationTile({
     Key? key,
     required this.onPressButton,
-    this.title = "menu",
+    required this.location,
     this.checked = false,
   }) : super(key: key);
 
@@ -26,7 +27,7 @@ class LocationTile extends StatelessWidget {
               motion: const StretchMotion(),
               children: [
                 MyCustomSlidableAction(
-                    onPressed: (context) => onPressButton(title),
+                    onPressed: (context) => onPressButton(location),
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
                     child: const Icon(
@@ -39,7 +40,7 @@ class LocationTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8)),
                 //child: LocTile(title: title, checked: checked)
                 child: LocTile(
-                  title: title,
+                  title: location.address,
                   checked: checked,
                 ))));
   }
