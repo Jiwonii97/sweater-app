@@ -32,7 +32,11 @@ class _ManageLocationPage extends State<ManageLocationPage> {
 
   List<Widget> readLocList() {
     if (locList.isNotEmpty) {
-      locList = [];
+      locList = [
+        const SizedBox(
+          height: 8,
+        )
+      ];
     }
 
     for (var location in context.watch<LocationProvider>().location) {
@@ -110,9 +114,13 @@ class _ManageLocationPage extends State<ManageLocationPage> {
                 icon: const Icon(SweaterIcons.plus)),
           ],
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: readLocList(),
+        body: Container(
+          padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
+          child: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            children: readLocList(),
+          ),
         ));
   }
 }
