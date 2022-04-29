@@ -26,7 +26,7 @@ main() {
         'major': 'top',
         'minor': 'sleeve',
         'color': 'FFFFFF',
-        'fullName': '흰색 긴팔 티셔츠',
+        'full_name': '흰색 긴팔 티셔츠',
       };
       clothInstanceFromJson = Cloth.fromJson(mockData);
       expect(clothInstanceFromJson.majorCategory, 'top');
