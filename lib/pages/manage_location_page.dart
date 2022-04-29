@@ -30,7 +30,11 @@ class _ManageLocationPage extends State<ManageLocationPage> {
 
   List<Widget> readLocList() {
     if (locList.isNotEmpty) {
-      locList = [];
+      locList = [
+        const SizedBox(
+          height: 8,
+        )
+      ];
     }
 
     for (var location in context.watch<LocationProvider>().location) {
@@ -76,27 +80,29 @@ class _ManageLocationPage extends State<ManageLocationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.black,
-          elevation: 0,
-          title: const Text('위치 관리'),
-          centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AddLocationPage()));
-                },
-                icon: Icon(SweaterIcons.plus))
-          ],
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: readLocList(),
-        ));
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+        elevation: 0,
+        title: const Text('위치 관리'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddLocationPage()));
+              },
+              icon: Icon(SweaterIcons.plus))
+        ],
+      ),
+      body: ListView(
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        children: readLocList(),
+      ),
+    );
   }
 }
