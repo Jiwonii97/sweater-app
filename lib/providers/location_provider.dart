@@ -49,8 +49,13 @@ class LocationProvider extends ChangeNotifier {
 
   void saveAll() async {
     prefs = await SharedPreferences.getInstance();
-    await prefs.setString('my_location',
-        json.encode({"selected": _current.name, "location": _locationList}));
+    await prefs.setString(
+        'my_location',
+        json.encode({
+          "selected": _current.address,
+          "location":
+              _locationList.map((location) => location.toJson()).toList()
+        }));
   }
 
   void deleteLocation(Location targetLocation) {

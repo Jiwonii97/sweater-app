@@ -10,4 +10,8 @@ class Location {
   Location.fromJson(Map<String, dynamic> json)
       : _address = json['address'],
         _position = {'X': json['X'], 'Y': json['Y']};
+
+  Map<String, dynamic> toJson() {
+    return {'address': _address, 'X': X, 'Y': Y};
+  }
 }
