@@ -2,12 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Loading extends StatelessWidget {
-  const Loading({Key? key}) : super(key: key);
+  final double height;
+  const Loading({Key? key, required this.height}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 180.0,
+        height: height,
         child: Center(
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color?>(
