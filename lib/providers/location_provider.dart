@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sweater/module/error_type.dart';
 import 'package:sweater/module/location.dart';
 
 class LocationProvider extends ChangeNotifier {
@@ -22,11 +22,20 @@ class LocationProvider extends ChangeNotifier {
 
   LocationProvider() {}
 
-  void addLocation(Location newLocation) {
-    _locationList.add(newLocation);
+  int addLocation(Location newLocation) {
+    bool isDuplicated = _locationList.indexWhere(
+            (location) => location.address == newLocation.address) >=
+        0;
+    if (!isDuplicated) {
+      _locationList.add(newLocation);
+      notifyListeners();
+      return ErrorType.successCode;
+    } else {
+      return ErrorType.duplicationErrorCode;
+    }
   }
 
-  Future<bool> initLocation() async {
+  Future<int> initLocation() async {
     prefs = await SharedPreferences.getInstance();
     String myLocationJson = prefs.getString('my_location') ?? "";
     if (myLocationJson != "") {
@@ -44,7 +53,7 @@ class LocationProvider extends ChangeNotifier {
       _current = _locationList[0];
     }
     notifyListeners();
-    return true;
+    return ErrorType.successCode;
   }
 
   void saveAll() async {
