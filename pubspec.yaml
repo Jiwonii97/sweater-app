@@ -74,10 +74,56 @@ flutter:
     # 환경변수 저장
     - .env
 
-    - assets/cloth/outer/
-    - assets/cloth/top/
-    - assets/cloth/bottom/
-    - assets/cloth/one_piece/
+    - assets/cloth/top/long_sleeve_nambang/
+    - assets/cloth/outer/baseball_jumper/
+    - assets/cloth/top/short_sleeve_collar_tshirt/
+    - assets/cloth/top/short_sleeve_nambang/
+    - assets/cloth/bottom/midi_skirt/
+    - assets/cloth/top/long_sleeve_collar_tshirt/
+    - assets/cloth/outer/wind_breaker/
+    - assets/cloth/one_piece/midi_one_piece/
+    - assets/cloth/bottom/leggings/
+    - assets/cloth/bottom/jogger_pants/
+    - assets/cloth/outer/airline_jumper/
+    - assets/cloth/top/long_sleeve_blouse/
+    - assets/cloth/top/short_sleeve_blouse/
+    - assets/cloth/outer/cardigan/
+    - assets/cloth/outer/trench_coat/
+    - assets/cloth/outer/neat_vest/
+    - assets/cloth/outer/padding_vest/
+    - assets/cloth/outer/blazer/
+    - assets/cloth/outer/anorak_jacket/
+    - assets/cloth/outer/coach_jacket/
+    - assets/cloth/outer/jersey/
+    - assets/cloth/bottom/long_skirt/
+    - assets/cloth/bottom/hot_cotton_pants/
+    - assets/cloth/outer/blue_jacket/
+    - assets/cloth/top/long_sleeve_hood/
+    - assets/cloth/top/short_sleeve_hood/
+    - assets/cloth/top/sleeveless_hood/
+    - assets/cloth/outer/hood_zipup/
+    - assets/cloth/top/mtm/
+    - assets/cloth/top/neat/
+    - assets/cloth/one_piece/short_one_piece/
+    - assets/cloth/bottom/mini_skirt/
+    - assets/cloth/top/short_sleeve_tshirt/
+    - assets/cloth/top/sleeveless_tshirt/
+    - assets/cloth/bottom/short_training_pants/
+    - assets/cloth/bottom/short_jeans/
+    - assets/cloth/bottom/hot_jeans/
+    - assets/cloth/bottom/jeans/
+    - assets/cloth/bottom/short_cotton_pants/
+    - assets/cloth/bottom/training_pants/
+    - assets/cloth/bottom/hot_training_pants/
+    - assets/cloth/bottom/cotton_pants/
+    - assets/cloth/bottom/slacks/
+    - assets/cloth/bottom/short_slacks/
+    - assets/cloth/top/long_sleeve_shirt/
+    - assets/cloth/top/short_sleeve_shirt/
+    - assets/cloth/top/long_sleeve_tshirt/
+    - assets/cloth/top/sweater/
+    - assets/cloth/one_piece/long_one_piece/
+
     - assets/weather/
     - assets/
 

@@ -162,7 +162,7 @@ class CoordiView extends StatelessWidget {
     return illust != ""
         ? SizedBox(
             width: 96,
-            child: SvgPicture.asset(illust),
+            child: Image.asset(illust),
             height: 96,
           )
         : Container();
