@@ -14,10 +14,10 @@ main() {
     Cloth clothInstanceFromJson; // fromJson을 통해 만든 Cloth 클래스 인스턴스
     test('Constructor 생성 테스트', () {
       clothInstanceFromConstructor =
-          Cloth('top', 'long_sleeve', 'FFFFFF', '흰색 긴팔 티셔츠');
+          Cloth('top', 'long_sleeve_tshirt', 'white', '흰색 긴팔 티셔츠');
       expect(clothInstanceFromConstructor.majorCategory, 'top');
-      expect(clothInstanceFromConstructor.minorCategory, 'long_sleeve');
-      expect(clothInstanceFromConstructor.color, 'FFFFFF');
+      expect(clothInstanceFromConstructor.minorCategory, 'long_sleeve_tshirt');
+      expect(clothInstanceFromConstructor.color, 'white');
       expect(clothInstanceFromConstructor.fullName, '흰색 긴팔 티셔츠');
     });
 
@@ -25,13 +25,13 @@ main() {
       Map<String, dynamic> mockData = {
         'major': 'top',
         'minor': 'sleeve',
-        'color': 'FFFFFF',
+        'color': 'white',
         'full_name': '흰색 긴팔 티셔츠',
       };
       clothInstanceFromJson = Cloth.fromJson(mockData);
       expect(clothInstanceFromJson.majorCategory, 'top');
       expect(clothInstanceFromJson.minorCategory, 'sleeve');
-      expect(clothInstanceFromJson.color, 'FFFFFF');
+      expect(clothInstanceFromJson.color, 'white');
       expect(clothInstanceFromJson.fullName, '흰색 긴팔 티셔츠');
     });
   });
@@ -44,10 +44,11 @@ main() {
       expect(clothInstance2.getClothInfo(), '검정색 프린팅 맨투맨');
     });
 
-    test('Cloth getSVGFilePath', () {
-      expect(
-          clothInstance1.getSVGFilePath(), 'assets/cloth/top/long_sleeve.svg');
-      expect(clothInstance2.getSVGFilePath(), 'assets/cloth/top/mtm.svg');
+    test('Cloth getPNGFilePath', () {
+      expect(clothInstance1.getPNGFilePath(),
+          'assets/cloth/top/long_sleeve/long_sleeve-white.png');
+      expect(clothInstance2.getPNGFilePath(),
+          'assets/cloth/top/mtm/mtm-black.png');
     });
   });
 }

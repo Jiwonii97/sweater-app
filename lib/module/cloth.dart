@@ -1,8 +1,3 @@
-import 'dart:io' as io;
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-
 class Cloth {
   final String _majorCategory;
   final String _minorCategory;
@@ -22,7 +17,7 @@ class Cloth {
         _color = json['color'],
         _fullName = json['full_name'];
 
-  String getSVGFilePath() {
+  String getPNGFilePath() {
     String path = "assets/cloth/";
     switch (majorCategory) {
       case "outer":
@@ -40,7 +35,8 @@ class Cloth {
       default:
         break;
     }
-    path += "$minorCategory.svg";
+    path += "$minorCategory/$minorCategory-$color.png";
+    print(path);
     return path;
   }
 

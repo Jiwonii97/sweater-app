@@ -20,7 +20,7 @@ class Coordi {
   List<String> getIllustUrl() {
     List<String> result = [];
     for (int i = 0; i < clothes.length; i++) {
-      result.add(clothes[i].getSVGFilePath());
+      result.add(clothes[i].getPNGFilePath());
     }
     return result;
   }
