@@ -36,7 +36,6 @@ class Cloth {
         break;
     }
     path += "$minorCategory/$minorCategory-$color.png";
-    print(path);
     return path;
   }
 
