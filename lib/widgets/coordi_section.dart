@@ -7,6 +7,7 @@ import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/theme/global_theme.dart';
 import 'dart:ui';
 import 'package:sweater/theme/sweater_icons.dart';
+import 'package:sweater/widgets/loading.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -19,49 +20,47 @@ class CoordiSection extends StatelessWidget {
   Widget build(BuildContext context) {
     var _coordiIndexConsumer = Provider.of<CoordiProvider>(context);
     int coordiIdx = _coordiIndexConsumer.coordiIdx;
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      // color: Colors.green,
-      child: Column(children: <Widget>[
-        Text(
-          "추천 코디",
-          style: Theme.of(context)
-              .textTheme
-              .headline5
-              ?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        context.watch<CoordiProvider>().isReadyCoordiState
-            ? context.watch<CoordiProvider>().coordiList.length == 0
-                ? Text("no data")
-                : CoordiView(
-                    coordi: context
-                        .watch<CoordiProvider>()
-                        .coordiList[coordiIdx]
-                        .getCoordiInfo(),
-                    coordiIllust: context
-                        .watch<CoordiProvider>()
-                        .coordiList[coordiIdx]
-                        .getIllustUrl())
-            : CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color?>(Colors.blue[100]),
-                backgroundColor: Colors.blue[600],
+    return context.watch<CoordiProvider>().isReadyCoordiState
+        ? Padding(
+            padding: const EdgeInsets.all(16),
+            // color: Colors.green,
+            child: Column(children: <Widget>[
+              Text(
+                "추천 코디",
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
-        SizedBox(
-          width: 120,
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            CoordiButton(
-                onPressed: context.read<CoordiProvider>().prevCoordi,
-                icon: SweaterIcons.arrow_left),
-            const Spacer(
-              flex: 1,
-            ),
-            CoordiButton(
-                onPressed: context.read<CoordiProvider>().nextCoordi,
-                icon: SweaterIcons.arrow_right),
-          ]),
-        ),
-      ]),
-    );
+              context.watch<CoordiProvider>().coordiList.isEmpty
+                  ? const Text("no data")
+                  : CoordiView(
+                      coordi: context
+                          .watch<CoordiProvider>()
+                          .coordiList[coordiIdx]
+                          .getCoordiInfo(),
+                      coordiIllust: context
+                          .watch<CoordiProvider>()
+                          .coordiList[coordiIdx]
+                          .getIllustUrl()),
+              SizedBox(
+                width: 120,
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  CoordiButton(
+                      onPressed: context.read<CoordiProvider>().prevCoordi,
+                      icon: SweaterIcons.arrow_left),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  CoordiButton(
+                      onPressed: context.read<CoordiProvider>().nextCoordi,
+                      icon: SweaterIcons.arrow_right),
+                ]),
+              ),
+            ]),
+          )
+        : const Loading(height: 396);
   }
 }
 

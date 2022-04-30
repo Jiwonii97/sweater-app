@@ -16,6 +16,7 @@ import 'package:sweater/providers/coordi_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/providers/user_provider.dart';
+import 'package:sweater/widgets/loading.dart';
 import '../widgets/coordi_section.dart';
 import '../widgets/weather_view.dart';
 import 'dart:math';
@@ -113,7 +114,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           userProvider.gender,
           userProvider.constitution);
       if (!isUpdateCoordiSuccess) {
-        debugPrint("fail getting weather api");
+        debugPrint("fail getting coordi data");
       }
     });
 
@@ -122,6 +123,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    var isWeatherReady = context.read<WeatherProvider>().initWeatherFlag;
+    var isCoordiReady = context.watch<CoordiProvider>().isReadyCoordiState;
+
     return Container(
         color: Colors.white,
         child: Theme(
@@ -144,18 +148,19 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                   Scaffold.of(context).openDrawer();
                                 }))),
                     body: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            WeatherView(
-                              hourForecast: context
-                                  .watch<WeatherProvider>()
-                                  .getCurrentWeather(),
-                            ),
-                            const CardContainer(child: CoordiSection()),
-                          ]),
-                    ),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: isWeatherReady && isCoordiReady
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                    WeatherView(
+                                      hourForecast: context
+                                          .watch<WeatherProvider>()
+                                          .getCurrentWeather(),
+                                    ),
+                                    const CardContainer(child: CoordiSection()),
+                                  ])
+                            : const Loading(height: 600)),
                     drawer: Drawer(
                         backgroundColor:
                             GlobalTheme.lightTheme.colorScheme.surface,

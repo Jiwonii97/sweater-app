@@ -73,6 +73,6 @@ class WeatherView extends StatelessWidget {
               ),
               const CardContainer(child: HourlyWeatherSection()),
             ]))
-        : const Loading();
+        : const Loading(height: 240);
   }
 }
