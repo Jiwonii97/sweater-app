@@ -52,7 +52,8 @@ class WeatherView extends StatelessWidget {
                                   Text(
                                       context
                                           .watch<LocationProvider>()
-                                          .currentDong,
+                                          .current
+                                          .name,
                                       style:
                                           Theme.of(context).textTheme.caption),
                                 ]),

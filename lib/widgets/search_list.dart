@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sweater/module/location.dart';
 
 class SearchList extends StatelessWidget {
   Function refresh;
-  Map address;
+  Location address;
 
   SearchList({Key? key, required this.refresh, required this.address})
       : super(key: key);
@@ -10,7 +11,7 @@ class SearchList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-        controller: TextEditingController(text: address['주소']),
+        controller: TextEditingController(text: address.address),
         readOnly: true,
         autofocus: false,
         onTap: () {

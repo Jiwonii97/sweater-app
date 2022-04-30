@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/widgets/guide_dialog.dart';
+import 'package:sweater/module/location.dart';
 import 'package:sweater/widgets/location_tile.dart';
 import 'package:sweater/widgets/check_menu.dart';
-import 'package:sweater/widgets/guide_dialog.dart';
 import 'package:sweater/pages/add_location_page.dart';
 import 'package:sweater/providers/location_provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
@@ -21,32 +21,28 @@ class ManageLocationPage extends StatefulWidget {
 
 class _ManageLocationPage extends State<ManageLocationPage> {
   bool init = false;
-  List<Widget> locList = [];
+  List<Widget> locationList = [];
   List selects = [];
   late SharedPreferences prefs;
 
-  void deleteLoc(String title) {
-    context.read<LocationProvider>().deleteLoc(title);
+  void deleteLocation(Location location) {
+    context.read<LocationProvider>().deleteLocation(location);
     setState(() {});
   }
 
-  List<Widget> readLocList() {
-    if (locList.isNotEmpty) {
-      locList = [
-        const SizedBox(
-          height: 8,
-        )
-      ];
+  List<Widget> readLocationList() {
+    if (locationList.isNotEmpty) {
+      locationList = [];
     }
 
-    for (var location in context.watch<LocationProvider>().location) {
-      locList.add(GestureDetector(
+    for (var location in context.watch<LocationProvider>().locationList) {
+      locationList.add(GestureDetector(
         onTap: () => setState(() {
-          context.read<LocationProvider>().cur = location["name"];
+          context.read<LocationProvider>().current = location;
           context.read<LocationProvider>().saveAll();
           // context.read<WeatherProvider>().changeActiveFlag();
-          String xValue = context.read<LocationProvider>().X.toString();
-          String yValue = context.read<LocationProvider>().Y.toString();
+          int xValue = context.read<LocationProvider>().current.X;
+          int yValue = context.read<LocationProvider>().current.Y;
           context.read<WeatherProvider>().updateWeather(xValue, yValue).then(
               (value) => value == 0
                   ? context.read<CoordiProvider>().requestCoordiList(
@@ -58,25 +54,26 @@ class _ManageLocationPage extends State<ManageLocationPage> {
 
           setState(() {});
         }),
-        child: context.read<LocationProvider>().cur == location['name']
-            ? CheckMenu(
-                isLocation: true,
-                leadingIcon: SweaterIcons.map_marker_alt,
-                title: location['name'],
-                checked:
-                    context.read<LocationProvider>().cur == location['name'],
-              )
-            : LocationTile(
-                onPressButton: deleteLoc,
-                title: location['name'],
-                checked:
-                    context.read<LocationProvider>().cur == location['name'],
-              ),
+        child:
+            context.read<LocationProvider>().current.address == location.address
+                ? CheckMenu(
+                    isLocation: true,
+                    leadingIcon: SweaterIcons.map_marker_alt,
+                    title: location.address,
+                    checked: context.read<LocationProvider>().current.address ==
+                        location.address,
+                  )
+                : LocationTile(
+                    onPressButton: deleteLocation,
+                    location: location,
+                    checked: context.read<LocationProvider>().current.address ==
+                        location.address,
+                  ),
       ));
     }
 
     setState(() {});
-    return locList;
+    return locationList;
   }
 
   @override
@@ -89,6 +86,9 @@ class _ManageLocationPage extends State<ManageLocationPage> {
           elevation: 0,
           title: const Text('위치 관리'),
           centerTitle: true,
+          leading: IconButton(
+              icon: const Icon(SweaterIcons.arrow_left),
+              onPressed: () => Navigator.pop(context)),
           actions: [
             IconButton(
                 onPressed: () {
@@ -119,7 +119,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
           child: ListView(
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
-            children: readLocList(),
+            children: readLocationList(),
           ),
         ));
   }

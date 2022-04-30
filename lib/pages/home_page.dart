@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:eventify/eventify.dart';
 import 'package:flutter/material.dart';
+import 'package:sweater/module/error_type.dart';
 import 'package:sweater/widgets/card_container.dart';
 import 'package:sweater/theme/global_theme.dart';
 // import 'package:sweater/widgets/hourly_weather_section.dart';
@@ -88,10 +89,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     final userProvider = context.read<UserProvider>();
     weatherUpdateEmitter.on("updatePeriodic", null, (evt, cnt) async {
       //정각마다 날씨 갱신
-      bool isLoadedLocation = await locationProvider.initLocation();
-      if (isLoadedLocation) {
-        String xValue = locationProvider.X.toString();
-        String yValue = locationProvider.Y.toString();
+      int initResultCode = await locationProvider.initLocation();
+      if (initResultCode == ErrorType.successCode) {
+        int xValue = locationProvider.current.X;
+        int yValue = locationProvider.current.Y;
         bool isSuccessWeather =
             await weatherProvider.updateWeather(xValue, yValue);
         if (isSuccessWeather) {
@@ -122,12 +123,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    // String xValue = context.read<LocationProvider>().X.toString();
-    // String yValue = context.read<LocationProvider>().Y.toString();
-    // HourForecast currentWeather =
-    //     context.watch<WeatherProvider>().forecastList[0];
     var isWeatherReady = context.read<WeatherProvider>().initWeatherFlag;
     var isCoordiReady = context.watch<CoordiProvider>().isReadyCoordiState;
+
     return Container(
         color: Colors.white,
         child: Theme(
