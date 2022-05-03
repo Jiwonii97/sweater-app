@@ -123,9 +123,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    var isWeatherReady = context.read<WeatherProvider>().initWeatherFlag;
+    var isWeatherReady = context.watch<WeatherProvider>().initWeatherFlag;
     var isCoordiReady = context.watch<CoordiProvider>().isReadyCoordiState;
-
     return Container(
         color: Colors.white,
         child: Theme(

@@ -113,7 +113,11 @@ class CoordiProvider with ChangeNotifier {
     setReadyCoordiState = false;
     List<dynamic> responseCoordiLists = await requestCoordis(
         forecastList, forecastIdx, userGender, userConstitution);
-    if (responseCoordiLists.isEmpty) return false;
+    if (responseCoordiLists.isEmpty) {
+      setReadyCoordiState = true;
+      notifyListeners();
+      return false;
+    }
     clearCoordiList();
     for (int i = 0; i < responseCoordiLists.length; i++) {
       //코디 리스트 생성
