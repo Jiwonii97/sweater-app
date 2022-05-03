@@ -48,7 +48,7 @@ class LocationProvider extends ChangeNotifier {
       });
     } else {
       _locationList = [
-        Location("서울특별시 동작구", {'X': 59, "Y": 125})
+        Location("서울특별시 동작구 상도제1동", {'X': 59, "Y": 125})
       ];
       _current = _locationList[0];
     }
