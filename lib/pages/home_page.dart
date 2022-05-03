@@ -29,7 +29,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
-  final String _title = "SWEATER";
+  final String _title = "스웨더";
   late Timer weatherUpdateTimer;
   EventEmitter weatherUpdateEmitter = new EventEmitter();
   EventEmitter coordiUpdateEmitter = new EventEmitter();
