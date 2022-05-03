@@ -20,10 +20,10 @@ main() {
     LocationProvider locationProvider = LocationProvider();
     int resultCode = await locationProvider.initLocation();
     expect(resultCode, ErrorType.successCode);
-    expect(locationProvider.current.name, "동작구");
-    expect(locationProvider.current.address, "서울특별시 동작구");
+    expect(locationProvider.current.name, "상도제1동");
+    expect(locationProvider.current.address, "서울특별시 동작구 상도제1동");
     expect(locationProvider.locationList.length, 1);
-    expect(locationProvider.locationList[0].address, "서울특별시 동작구");
+    expect(locationProvider.locationList[0].address, "서울특별시 동작구 상도제1동");
   });
   test('LocationProvider 불러오기', () async {
     SharedPreferences.setMockInitialValues({
