@@ -47,6 +47,9 @@ app.*.map.json
 /android/app/src/**
 /android/local.properties
 /android/app/google-services.json
+/android/key.properties
+/android/app/key.jks
+
 
 .dart_tool/**
 .packages
@@ -55,3 +58,4 @@ package_config.json
 
 # assets
 .env
+

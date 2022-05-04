@@ -1,4 +1,4 @@
-package com.example.sweater
+package com.teamnaming1hour.sweather
 
 import io.flutter.embedding.android.FlutterActivity
 
