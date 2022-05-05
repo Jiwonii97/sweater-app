@@ -22,7 +22,7 @@ class GuideDialog extends StatelessWidget {
             ]),
             Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Image.asset('assets/delete_guide.png'))
+                child: Image.asset('assets/guide/delete_guide.png'))
           ],
         ));
   }
