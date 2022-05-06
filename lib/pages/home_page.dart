@@ -259,7 +259,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               child: Container(
                   // margin: EdgeInsets.fromLTRB(16, 120, 16, 100),
                   // color: Colors.white,
-                  height: MediaQuery.of(context).size.height - 200,
+                  // height: 600,
+                  height: MediaQuery.of(context).size.height - 160,
                   width: MediaQuery.of(context).size.width - 32,
                   child: FirstGuide(startPressed: endTutorial)))
           : Container()
