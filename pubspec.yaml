@@ -45,7 +45,8 @@ dependencies:
   cloud_functions: ^3.2.12
   flutter_dotenv: ^5.0.2
   eventify: ^1.0.0
-
+  page_view_indicators: ^2.0.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -125,6 +126,7 @@ flutter:
     - assets/cloth/one_piece/long_one_piece/
 
     - assets/weather/
+    - assets/guide/
     - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
