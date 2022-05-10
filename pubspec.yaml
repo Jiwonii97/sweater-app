@@ -47,6 +47,8 @@ dependencies:
   eventify: ^1.0.0
   page_view_indicators: ^2.0.0
   url_launcher: ^6.1.0
+  wrapped_korean_text: ^0.0.2
+
   
 dev_dependencies:
   flutter_test:
