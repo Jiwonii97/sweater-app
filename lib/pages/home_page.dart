@@ -168,22 +168,23 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                   onPressed: () {
                                     Scaffold.of(context).openDrawer();
                                   }))),
-                      body: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: isWeatherReady && isCoordiReady
-                              ? Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                      WeatherView(
-                                        hourForecast: context
-                                            .watch<WeatherProvider>()
-                                            .getCurrentWeather(),
-                                      ),
-                                      const CardContainer(
-                                          child: CoordiSection()),
-                                    ])
-                              : const Loading(height: 600)),
+                      body:  SingleChildScrollView(
+                          child:Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: isWeatherReady && isCoordiReady
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                        WeatherView(
+                                          hourForecast: context
+                                              .watch<WeatherProvider>()
+                                              .getCurrentWeather(),
+                                        ),
+                                        const CardContainer(
+                                            child: CoordiSection()),
+                                      ])
+                                : const Loading(height: 600))),
                       drawer: Drawer(
                           backgroundColor:
                               GlobalTheme.lightTheme.colorScheme.surface,
@@ -285,8 +286,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               },
                             ),
                           ])))))),
-      // Center(
-      //     child:
       isFirst
           ? Container(
               color: Colors.black.withOpacity(0.7),
@@ -302,13 +301,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   width: MediaQuery.of(context).size.width - 32,
                   child: FirstGuide(startPressed: endTutorial)))
           : Container()
-      // )
-      // Container(
-      //     padding: EdgeInsets.fromLTRB(8, 100, 8, 200),
-      //     color: Colors.white,
-      //     height: 608,
-      //     width: 300,
-      //     child: FirstGuide())
     ]);
   }
 
