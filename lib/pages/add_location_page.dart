@@ -105,6 +105,9 @@ class _AddLocationPage extends State<AddLocationPage> {
 
   List<Widget> search(String searchWord) {
     searchInput = searchWord;
+    if (searchInput == "") {
+      return [];
+    }
     searchResult = [];
     for (var location in locationList) {
       if (searchResult.length > 6) break;
