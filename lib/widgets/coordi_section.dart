@@ -20,10 +20,9 @@ class CoordiSection extends StatelessWidget {
   Widget build(BuildContext context) {
     var _coordiIndexConsumer = Provider.of<CoordiProvider>(context);
     int coordiIdx = _coordiIndexConsumer.coordiIdx;
-    return context.watch<CoordiProvider>().isReadyCoordiState
+    return context.watch<CoordiProvider>().isUpdateCoordiState
         ? Padding(
             padding: const EdgeInsets.all(16),
-            // color: Colors.green,
             child: Column(children: <Widget>[
               Text(
                 "추천 코디",

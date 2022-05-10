@@ -18,6 +18,7 @@ class WeatherView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var isWeatherReady = context.read<WeatherProvider>().initWeatherFlag;
+    int time = DateTime.now().hour;
     return isWeatherReady
         ? Container(
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -26,7 +27,7 @@ class WeatherView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  decideWeatherIcon(hourForecast, isNow),
+                  decideWeatherIcon(hourForecast, isNow, time),
                   Text(
                     "${hourForecast.getTemp}°",
                     style: Theme.of(context).textTheme.headline3,

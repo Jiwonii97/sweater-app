@@ -106,6 +106,11 @@ class _AddLocationPage extends State<AddLocationPage> {
   List<Widget> search(String searchWord) {
     searchInput = searchWord;
     if (searchInput == "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("검색할 지역을 입력해주세요"),
+        ),
+      );
       return [];
     }
     searchResult = [];
