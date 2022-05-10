@@ -98,12 +98,8 @@ class CoordiProvider with ChangeNotifier {
   Future<bool> requestCoordiList(List<HourForecast> forecastList,
       int forecastIdx, int userGender, int userConstitution) async {
     if (_coordiListFuture != null) {
-      //_temp가 null이 아니다 = 기존에 동작하던 requestCoordiList가 있다.
-      //따라서 _coordiListFuture.cancel()을 해준다.
       _coordiListFuture?.cancel();
     }
-    //_temp가 null이다 = 기존에 동작하던 requestCoordiList가 없다.
-    //await이 끝나면 _temp를 null로 바꿔준다.
     _coordiListFuture = CancelableOperation.fromFuture(
       requestCoordis(forecastList, forecastIdx, userGender, userConstitution),
     );
