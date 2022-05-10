@@ -111,6 +111,7 @@ class _AddLocationPage extends State<AddLocationPage> {
           content: Text("검색할 지역을 입력해주세요"),
         ),
       );
+      return [];
     }
     searchResult = [];
     for (var location in locationList) {
