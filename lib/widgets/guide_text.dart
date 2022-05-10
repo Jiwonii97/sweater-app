@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:word_break_text/word_break_text.dart';
 import 'package:wrapped_korean_text/wrapped_korean_text.dart';
 
 class GuideText extends StatelessWidget {
