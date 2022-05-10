@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sweater/providers/weather_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-Widget decideWeatherIcon(HourForecast hourForecast, bool isNow) {
-  int currentHour = DateTime.now().hour;
+Widget decideWeatherIcon(HourForecast hourForecast, bool isNow, int time) {
   bool isNight = true;
-  if (6 <= currentHour && currentHour <= 18) {
+
+  if (6 <= time && time <= 18) {
     isNight = false;
   }
   switch (hourForecast.getSky) {
