@@ -4,19 +4,23 @@ import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/module/cloth.dart';
 import 'package:sweater/module/coordi.dart';
 import 'package:http/http.dart' as http;
+import 'package:async/async.dart';
 
 class CoordiProvider with ChangeNotifier {
+  CancelableOperation? _coordiListFuture = null;
+
   List<Coordi> _coordiList = [];
   Coordi _coordi = Coordi("", []);
-
   int _coordiIdx = 0;
   bool _isReadyCoordiState = false;
+  bool _isUpdateCoordiState = false;
 
   Coordi get coordi => _coordi;
 
   List<Coordi> get coordiList => _coordiList;
   int get coordiIdx => _coordiIdx;
   bool get isReadyCoordiState => _isReadyCoordiState;
+  bool get isUpdateCoordiState => _isUpdateCoordiState;
 
   set setCoordiLists(List<Coordi> input) {
     _coordiList = input;
@@ -32,6 +36,11 @@ class CoordiProvider with ChangeNotifier {
 
   set setReadyCoordiState(bool input) {
     _isReadyCoordiState = input;
+  }
+
+  set setUpdateCoordiState(bool input) {
+    _isUpdateCoordiState = input;
+    notifyListeners();
   }
 
   void addCoordiListElement(Coordi input) {
@@ -86,72 +95,35 @@ class CoordiProvider with ChangeNotifier {
     }
   }
 
-  // Future<bool> initCoordiList(List<HourForecast> forecastList, int forecastIdx,
-  //     int userGender, int userConstitution) async {
-  //   List<dynamic> coordiLists = await requestCoordis(
-  //       forecastList, forecastIdx, userGender, userConstitution);
-  //   setReadyCoordiState = true; //코디 요청 완료 플래그
-  //   if (coordiLists.length == 0) return false;
-  //   for (int i = 0; i < coordiLists.length; i++) {
-  //     //코디 리스트 생성
-  //     addCoordiListElement(Coordi(
-  //         coordiLists[i]['url'],
-  //         coordiLists[i]['items'].map<Cloth>((item) {
-  //           return Cloth(item['major'], item['minor'], item['color'],
-  //               item['features'], item['thickness']);
-  //         }).toList(),
-  //         coordiLists[i]['temperature'],
-  //         coordiLists[i]['gender']));
-  //   }
-  //   notifyListeners();
-  //   return true;
-  // }
-
   Future<bool> requestCoordiList(List<HourForecast> forecastList,
       int forecastIdx, int userGender, int userConstitution) async {
+    if (_coordiListFuture != null) {
+      _coordiListFuture?.cancel();
+    }
+    _coordiListFuture = CancelableOperation.fromFuture(
+      requestCoordis(forecastList, forecastIdx, userGender, userConstitution),
+    );
     setCoordiIdx = 0;
-    setReadyCoordiState = false;
-    List<dynamic> responseCoordiLists = await requestCoordis(
-        forecastList, forecastIdx, userGender, userConstitution);
-    if (responseCoordiLists.isEmpty) {
-      setReadyCoordiState = true;
+    setUpdateCoordiState = false;
+    final responseCoordiLists = await _coordiListFuture?.value;
+    if (responseCoordiLists == null) {
       notifyListeners();
       return false;
+    } else {
+      clearCoordiList();
+      for (int i = 0; i < responseCoordiLists.length; i++) {
+        //코디 리스트 생성
+        addCoordiListElement(Coordi(
+            responseCoordiLists[i]['url'],
+            responseCoordiLists[i]['items'].map<Cloth>((item) {
+              return Cloth(item['major'], item['minor'], item['color'],
+                  item['full_name']);
+            }).toList()));
+      }
+      setReadyCoordiState = true;
+      setUpdateCoordiState = true;
+      notifyListeners();
+      return true;
     }
-    clearCoordiList();
-    for (int i = 0; i < responseCoordiLists.length; i++) {
-      //코디 리스트 생성
-      addCoordiListElement(Coordi(
-          responseCoordiLists[i]['url'],
-          responseCoordiLists[i]['items'].map<Cloth>((item) {
-            return Cloth(
-                item['major'], item['minor'], item['color'], item['full_name']);
-          }).toList()));
-    }
-    setReadyCoordiState = true;
-    notifyListeners();
-    return true;
-  }
-
-  Future<bool> requestAdditionalCoordiList(List<HourForecast> forecastList,
-      int forecastIdx, int userGender, int userConstitution) async {
-    //다음 코디를 보다가 받아온 코디 끝까지 갔을 때 새로운 코디 리스트를 요청함.
-    setCoordiIdx = 0;
-    setReadyCoordiState = false;
-    List<dynamic> responseCcoordiLists = await requestCoordis(
-        forecastList, forecastIdx, userGender, userConstitution);
-    if (responseCcoordiLists.isEmpty) return false;
-    for (int i = 0; i < responseCcoordiLists.length; i++) {
-      //코디 리스트 추가
-      addCoordiListElement(Coordi(
-          responseCcoordiLists[i]['url'],
-          responseCcoordiLists[i]['items'].map<Cloth>((item) {
-            return Cloth(
-                item['major'], item['minor'], item['color'], item['fullName']);
-          }).toList()));
-    }
-    setReadyCoordiState = true;
-    notifyListeners();
-    return true;
   }
 }

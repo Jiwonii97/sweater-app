@@ -64,7 +64,7 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
       );
     });
     checkboxList
-        .add(GuideText(guideText: "체질 설정을 통해 본인의 체질에 맞는 코디를 \n추천받을 수 있습니다."));
+        .add(GuideText(guideText: "체질 설정을 통해 본인의 체질에 맞는 코디를 추천받을 수 있습니다."));
     return Scaffold(
         appBar: AppBar(
             title: Text(_title),

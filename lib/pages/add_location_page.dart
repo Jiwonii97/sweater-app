@@ -39,7 +39,7 @@ class _AddLocationPage extends State<AddLocationPage> {
           Visibility(
               child: GuideText(
                   guideText:
-                      "위치는 시/도, 구/군 까지 설정할 수 있습니다. \n입력 예시) 동작구, 울릉군, 정읍시, ..."),
+                      "위치는 시/도, 구/군 까지 설정할 수 있습니다. 입력 예시) 동작구, 울릉군, 정읍시, ..."),
               visible: searchInput.isEmpty),
           Visibility(
               child: GuideText(guideText: "검색 결과가 없습니다"),
@@ -105,6 +105,14 @@ class _AddLocationPage extends State<AddLocationPage> {
 
   List<Widget> search(String searchWord) {
     searchInput = searchWord;
+    if (searchInput == "") {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("검색할 지역을 입력해주세요"),
+        ),
+      );
+      return [];
+    }
     searchResult = [];
     for (var location in locationList) {
       if (searchResult.length > 6) break;

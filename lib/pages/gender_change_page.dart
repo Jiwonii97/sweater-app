@@ -53,7 +53,7 @@ class _GenderChangePage extends State<GenderChangePage> {
       );
     });
     widgetList
-        .add(GuideText(guideText: "성별 설정을 통해 본인의 성별에 맞게 코디를 \n추천받을 수 있습니다"));
+        .add(GuideText(guideText: "성별 설정을 통해 본인의 성별에 맞게 코디를 추천받을 수 있습니다"));
     return Scaffold(
         appBar: AppBar(
             title: Text(_title),

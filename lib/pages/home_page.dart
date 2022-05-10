@@ -20,6 +20,10 @@ import 'package:sweater/widgets/loading.dart';
 import '../widgets/coordi_section.dart';
 import '../widgets/weather_view.dart';
 import 'dart:math';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sweater/widgets/first_guide.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/link.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,6 +35,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final String _title = "스웨더";
   late Timer weatherUpdateTimer;
+  late bool isFirst = false;
   EventEmitter weatherUpdateEmitter = new EventEmitter();
   EventEmitter coordiUpdateEmitter = new EventEmitter();
 
@@ -119,111 +124,184 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     });
 
     weatherUpdateEmitter.emit("updatePeriodic", null);
+
+    // 첫 실행 가이드 확인
+    SharedPreferences.getInstance().then((prefs) {
+      isFirst = prefs.getBool('firstGuide') ?? true;
+      if (isFirst) {
+        setState(() {});
+      }
+    });
+  }
+
+  void endTutorial() {
+    isFirst = false;
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool("firstGuide", false);
+    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     var isWeatherReady = context.watch<WeatherProvider>().initWeatherFlag;
     var isCoordiReady = context.watch<CoordiProvider>().isReadyCoordiState;
-    return Container(
-        color: Colors.white,
-        child: Theme(
-            data: themeByWeather(),
-            child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: backgroundByWeather()),
-                ),
-                child: Scaffold(
-                    backgroundColor: Colors.transparent,
-                    appBar: AppBar(
-                        title: Text(_title),
-                        leading: Builder(
-                            builder: (context) => IconButton(
-                                icon: const Icon(SweaterIcons.bars),
-                                onPressed: () {
-                                  Scaffold.of(context).openDrawer();
-                                }))),
-                    body: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: isWeatherReady && isCoordiReady
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                    WeatherView(
-                                      hourForecast: context
-                                          .watch<WeatherProvider>()
-                                          .getCurrentWeather(),
+    return Stack(children: [
+      Container(
+          color: Colors.white,
+          child: Theme(
+              data: themeByWeather(),
+              child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: backgroundByWeather()),
+                  ),
+                  child: Scaffold(
+                      backgroundColor: Colors.transparent,
+                      appBar: AppBar(
+                          title: Text(_title),
+                          leading: Builder(
+                              builder: (context) => IconButton(
+                                  icon: const Icon(SweaterIcons.bars),
+                                  onPressed: () {
+                                    Scaffold.of(context).openDrawer();
+                                  }))),
+                      body:  SingleChildScrollView(
+                          child:Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: isWeatherReady && isCoordiReady
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                        WeatherView(
+                                          hourForecast: context
+                                              .watch<WeatherProvider>()
+                                              .getCurrentWeather(),
+                                        ),
+                                        const CardContainer(
+                                            child: CoordiSection()),
+                                      ])
+                                : const Loading(height: 600))),
+                      drawer: Drawer(
+                          backgroundColor:
+                              GlobalTheme.lightTheme.colorScheme.surface,
+                          child:
+                              Column(mainAxisSize: MainAxisSize.max, children: [
+                            ListView(
+                              shrinkWrap: true,
+                              children: <Widget>[
+                                DrawerHeader(
+                                    child: Text(_title,
+                                        style: GlobalTheme
+                                            .lightTheme.textTheme.headline4),
+                                    decoration: BoxDecoration(
+                                        color: GlobalTheme
+                                            .lightTheme.primaryColor)),
+                                ListTile(
+                                    leading: Icon(SweaterIcons.map_marker_alt,
+                                        color: GlobalTheme
+                                            .lightTheme.colorScheme.onSurface),
+                                    title: Text(
+                                      "위치 관리",
+                                      style: GlobalTheme
+                                          .lightTheme.textTheme.subtitle2,
                                     ),
-                                    const CardContainer(child: CoordiSection()),
-                                  ])
-                            : const Loading(height: 600)),
-                    drawer: Drawer(
-                        backgroundColor:
-                            GlobalTheme.lightTheme.colorScheme.surface,
-                        child: ListView(
-                          children: <Widget>[
-                            DrawerHeader(
-                                child: Text(_title,
-                                    style: GlobalTheme
-                                        .lightTheme.textTheme.headline4),
-                                decoration: BoxDecoration(
-                                    color:
-                                        GlobalTheme.lightTheme.primaryColor)),
-                            ListTile(
-                                leading: Icon(SweaterIcons.map_marker_alt,
-                                    color: GlobalTheme
-                                        .lightTheme.colorScheme.onSurface),
-                                title: Text(
-                                  "위치 관리",
-                                  style: GlobalTheme
-                                      .lightTheme.textTheme.subtitle2,
-                                ),
-                                onTap: () => {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const ManageLocationPage()))
-                                    }),
-                            ListTile(
-                                leading: Icon(
-                                  context.watch<UserProvider>().gender == 1
-                                      ? SweaterIcons.mars
-                                      : SweaterIcons.venus,
-                                  color:
+                                    onTap: () => {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ManageLocationPage()))
+                                        }),
+                                ListTile(
+                                    leading: Icon(
                                       context.watch<UserProvider>().gender == 1
+                                          ? SweaterIcons.mars
+                                          : SweaterIcons.venus,
+                                      color: context
+                                                  .watch<UserProvider>()
+                                                  .gender ==
+                                              1
                                           ? Colors.blue
                                           : Colors.red,
-                                ),
-                                title: Text("성별 설정",
-                                    style: GlobalTheme
-                                        .lightTheme.textTheme.subtitle2),
-                                onTap: () => {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const GenderChangePage()))
-                                    }),
-                            ListTile(
-                                leading: Icon(SweaterIcons.temperature_high,
-                                    color: GlobalTheme
-                                        .lightTheme.colorScheme.onSurface),
-                                title: Text("체질 관리",
-                                    style: GlobalTheme
-                                        .lightTheme.textTheme.subtitle2),
-                                onTap: () => {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const ConstitutionManagePage()))
-                                    }),
-                          ],
-                        ))))));
+                                    ),
+                                    title: Text("성별 설정",
+                                        style: GlobalTheme
+                                            .lightTheme.textTheme.subtitle2),
+                                    onTap: () => {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const GenderChangePage()))
+                                        }),
+                                ListTile(
+                                    leading: Icon(SweaterIcons.temperature_high,
+                                        color: GlobalTheme
+                                            .lightTheme.colorScheme.onSurface),
+                                    title: Text("체질 관리",
+                                        style: GlobalTheme
+                                            .lightTheme.textTheme.subtitle2),
+                                    onTap: () => {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ConstitutionManagePage()))
+                                        }),
+                              ],
+                            ),
+                            Spacer(),
+                            Link(
+                              uri: Uri.parse(
+                                  'https://team-naming-1-hour.github.io/sweater-app/'),
+                              target: LinkTarget.blank,
+                              builder:
+                                  (BuildContext ctx, FollowLink? openLink) {
+                                return Row(
+                                    // mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      TextButton(
+                                          style: ButtonStyle(
+                                            overlayColor:
+                                                MaterialStateProperty.all(
+                                                    Colors.transparent),
+                                          ),
+                                          onPressed: openLink,
+                                          child: Text(
+                                            '  개인정보 처리방침',
+                                            style: GlobalTheme
+                                                .lightTheme.textTheme.subtitle2
+                                                ?.copyWith(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle2!
+                                                        .color!
+                                                        .withOpacity(0.4)),
+                                          )),
+                                    ]);
+                              },
+                            ),
+                          ])))))),
+      isFirst
+          ? Container(
+              color: Colors.black.withOpacity(0.7),
+            )
+          : Container(),
+      isFirst
+          ? Center(
+              child: Container(
+                  // margin: EdgeInsets.fromLTRB(16, 120, 16, 100),
+                  // color: Colors.white,
+                  // height: 600,
+                  height: MediaQuery.of(context).size.height - 160,
+                  width: MediaQuery.of(context).size.width - 32,
+                  child: FirstGuide(startPressed: endTutorial)))
+          : Container()
+    ]);
   }
 
   @override
