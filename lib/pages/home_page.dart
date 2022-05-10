@@ -146,107 +146,104 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     var isCoordiReady = context.watch<CoordiProvider>().isReadyCoordiState;
     return Stack(children: [
       Container(
-          color: Colors.white,
-          child: Theme(
-              data: themeByWeather(),
-              child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: backgroundByWeather()),
-                  ),
-                  child: Scaffold(
-                      backgroundColor: Colors.transparent,
-                      appBar: AppBar(
-                          title: Text(_title),
-                          leading: Builder(
-                              builder: (context) => IconButton(
-                                  icon: const Icon(SweaterIcons.bars),
-                                  onPressed: () {
-                                    Scaffold.of(context).openDrawer();
-                                  }))),
-                      body: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: isWeatherReady && isCoordiReady
-                              ? Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: <Widget>[
-                                      WeatherView(
-                                        hourForecast: context
-                                            .watch<WeatherProvider>()
-                                            .getCurrentWeather(),
-                                      ),
-                                      const CardContainer(
-                                          child: CoordiSection()),
-                                    ])
-                              : const Loading(height: 600)),
-                      drawer: Drawer(
-                          backgroundColor:
-                              GlobalTheme.lightTheme.colorScheme.surface,
-                          child: ListView(
-                            children: <Widget>[
-                              DrawerHeader(
-                                  child: Text(_title,
-                                      style: GlobalTheme
-                                          .lightTheme.textTheme.headline4),
-                                  decoration: BoxDecoration(
-                                      color:
-                                          GlobalTheme.lightTheme.primaryColor)),
-                              ListTile(
-                                  leading: Icon(SweaterIcons.map_marker_alt,
-                                      color: GlobalTheme
-                                          .lightTheme.colorScheme.onSurface),
-                                  title: Text(
-                                    "위치 관리",
-                                    style: GlobalTheme
-                                        .lightTheme.textTheme.subtitle2,
+        color: Colors.white,
+        child: Theme(
+          data: themeByWeather(),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: backgroundByWeather()),
+            ),
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                  title: Text(_title),
+                  leading: Builder(
+                      builder: (context) => IconButton(
+                          icon: const Icon(SweaterIcons.bars),
+                          onPressed: () {
+                            Scaffold.of(context).openDrawer();
+                          }))),
+              body: SingleChildScrollView(
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: isWeatherReady && isCoordiReady
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                  WeatherView(
+                                    hourForecast: context
+                                        .watch<WeatherProvider>()
+                                        .getCurrentWeather(),
                                   ),
-                                  onTap: () => {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ManageLocationPage()))
-                                      }),
-                              ListTile(
-                                  leading: Icon(
-                                    context.watch<UserProvider>().gender == 1
-                                        ? SweaterIcons.mars
-                                        : SweaterIcons.venus,
-                                    color:
-                                        context.watch<UserProvider>().gender ==
-                                                1
-                                            ? Colors.blue
-                                            : Colors.red,
-                                  ),
-                                  title: Text("성별 설정",
-                                      style: GlobalTheme
-                                          .lightTheme.textTheme.subtitle2),
-                                  onTap: () => {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const GenderChangePage()))
-                                      }),
-                              ListTile(
-                                  leading: Icon(SweaterIcons.temperature_high,
-                                      color: GlobalTheme
-                                          .lightTheme.colorScheme.onSurface),
-                                  title: Text("체질 관리",
-                                      style: GlobalTheme
-                                          .lightTheme.textTheme.subtitle2),
-                                  onTap: () => {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ConstitutionManagePage()))
-                                      }),
-                            ],
-                          )))))),
+                                  const CardContainer(child: CoordiSection()),
+                                ])
+                          : const Loading(height: 600))),
+              drawer: Drawer(
+                backgroundColor: GlobalTheme.lightTheme.colorScheme.surface,
+                child: ListView(
+                  children: <Widget>[
+                    DrawerHeader(
+                        child: Text(_title,
+                            style: GlobalTheme.lightTheme.textTheme.headline4),
+                        decoration: BoxDecoration(
+                            color: GlobalTheme.lightTheme.primaryColor)),
+                    ListTile(
+                        leading: Icon(SweaterIcons.map_marker_alt,
+                            color:
+                                GlobalTheme.lightTheme.colorScheme.onSurface),
+                        title: Text(
+                          "위치 관리",
+                          style: GlobalTheme.lightTheme.textTheme.subtitle2,
+                        ),
+                        onTap: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ManageLocationPage()))
+                            }),
+                    ListTile(
+                        leading: Icon(
+                          context.watch<UserProvider>().gender == 1
+                              ? SweaterIcons.mars
+                              : SweaterIcons.venus,
+                          color: context.watch<UserProvider>().gender == 1
+                              ? Colors.blue
+                              : Colors.red,
+                        ),
+                        title: Text("성별 설정",
+                            style: GlobalTheme.lightTheme.textTheme.subtitle2),
+                        onTap: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const GenderChangePage()))
+                            }),
+                    ListTile(
+                        leading: Icon(SweaterIcons.temperature_high,
+                            color:
+                                GlobalTheme.lightTheme.colorScheme.onSurface),
+                        title: Text("체질 관리",
+                            style: GlobalTheme.lightTheme.textTheme.subtitle2),
+                        onTap: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ConstitutionManagePage()))
+                            }),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+
       // Center(
       //     child:
       isFirst
