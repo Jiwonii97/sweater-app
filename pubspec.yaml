@@ -125,6 +125,7 @@ flutter:
     - assets/cloth/top/long_sleeve_tshirt/
     - assets/cloth/top/sweater/
     - assets/cloth/one_piece/long_one_piece/
+    - assets/cloth/one_piece/line_one_piece/
 
     - assets/weather/
     - assets/guide/
