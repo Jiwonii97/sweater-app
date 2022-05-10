@@ -261,7 +261,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               builder:
                                   (BuildContext ctx, FollowLink? openLink) {
                                 return Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    // mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       TextButton(
                                           style: ButtonStyle(
@@ -271,7 +271,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                           ),
                                           onPressed: openLink,
                                           child: Text(
-                                            '개인정보 처리방침  ',
+                                            '  개인정보 처리방침',
                                             style: GlobalTheme
                                                 .lightTheme.textTheme.subtitle2
                                                 ?.copyWith(
