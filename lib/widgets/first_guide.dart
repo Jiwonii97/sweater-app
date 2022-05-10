@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sweater/theme/global_theme.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 import 'package:page_view_indicators/step_page_indicator.dart';
+import 'package:wrapped_korean_text/wrapped_korean_text.dart';
 
 class FirstGuide extends StatefulWidget {
   final Function() startPressed;
@@ -44,11 +45,11 @@ class _FirstGuideState extends State<FirstGuide> {
       'ready_first_guide.png'
     ];
     final List<String> guideText = <String>[
-      "메뉴 > 위치관리를 눌러 지역을 선택하고 지역에 맞는 \n코디를 추천받을 수 있습니다",
+      "메뉴 > 위치관리를 눌러 지역을 선택하고 지역에 맞는 코디를 추천받을 수 있습니다",
       "메뉴 > 위치관리 > + 버튼을 눌러 지역을 추가할 수 있습니다.",
-      "메뉴 > 성별 탭을 눌러 본인의 성별에 맞는 \n코디를 추천받을 수 있습니다.",
-      "메뉴 > 체질관리 탭을 눌러 추천되는\n코디를 더 시원하게 또는 더 따뜻하게 설정할 수 있습니다",
-      "메뉴 > 체질관리 탭을 눌러 추천되는\n코디를 더 시원하게 또는 더 따뜻하게 설정할 수 있습니다"
+      "메뉴 > 성별 탭을 눌러 본인의 성별에 맞는 코디를 추천받을 수 있습니다.",
+      "메뉴 > 체질관리 탭을 눌러 추천되는 코디를 더 시원하게 또는 더 따뜻하게 설정할 수 있습니다",
+      " "
     ];
     return Expanded(
       child: PageView.builder(
@@ -62,7 +63,7 @@ class _FirstGuideState extends State<FirstGuide> {
                 children: [
                   Image.asset('assets/guide/${firstGuideImages[index]}'),
                   index != 4
-                      ? Text(guideText[index],
+                      ? WrappedKoreanText(guideText[index],
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyText2)
                       : ElevatedButton(
