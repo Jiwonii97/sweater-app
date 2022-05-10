@@ -9,8 +9,8 @@
 
 ## 기술
 
--flutter
--firebase
+- flutter
+- firebase
 
 ## 앱 다운로드
 https://play.google.com/store/apps/details?id=com.teamnaming1hour.sweather
