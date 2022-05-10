@@ -4,11 +4,13 @@ import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/module/cloth.dart';
 import 'package:sweater/module/coordi.dart';
 import 'package:http/http.dart' as http;
+import 'package:async/async.dart';
 
 class CoordiProvider with ChangeNotifier {
+  CancelableOperation? _coordiListFuture = null;
+
   List<Coordi> _coordiList = [];
   Coordi _coordi = Coordi("", []);
-
   int _coordiIdx = 0;
   bool _isReadyCoordiState = false;
   bool _isUpdateCoordiState = false;
@@ -95,28 +97,33 @@ class CoordiProvider with ChangeNotifier {
 
   Future<bool> requestCoordiList(List<HourForecast> forecastList,
       int forecastIdx, int userGender, int userConstitution) async {
+    if (_coordiListFuture != null) {
+      _coordiListFuture?.cancel();
+    }
+    _coordiListFuture = CancelableOperation.fromFuture(
+      requestCoordis(forecastList, forecastIdx, userGender, userConstitution),
+    );
     setCoordiIdx = 0;
     setUpdateCoordiState = false;
-    List<dynamic> responseCoordiLists = await requestCoordis(
-        forecastList, forecastIdx, userGender, userConstitution);
-    if (responseCoordiLists.isEmpty) {
-      setReadyCoordiState = true;
+    final responseCoordiLists = await _coordiListFuture?.value;
+    if (responseCoordiLists == null) {
       notifyListeners();
       return false;
+    } else {
+      clearCoordiList();
+      for (int i = 0; i < responseCoordiLists.length; i++) {
+        //코디 리스트 생성
+        addCoordiListElement(Coordi(
+            responseCoordiLists[i]['url'],
+            responseCoordiLists[i]['items'].map<Cloth>((item) {
+              return Cloth(item['major'], item['minor'], item['color'],
+                  item['full_name']);
+            }).toList()));
+      }
+      setReadyCoordiState = true;
+      setUpdateCoordiState = true;
+      notifyListeners();
+      return true;
     }
-    clearCoordiList();
-    for (int i = 0; i < responseCoordiLists.length; i++) {
-      //코디 리스트 생성
-      addCoordiListElement(Coordi(
-          responseCoordiLists[i]['url'],
-          responseCoordiLists[i]['items'].map<Cloth>((item) {
-            return Cloth(
-                item['major'], item['minor'], item['color'], item['full_name']);
-          }).toList()));
-    }
-    setReadyCoordiState = true;
-    setUpdateCoordiState = true;
-    notifyListeners();
-    return true;
   }
 }
