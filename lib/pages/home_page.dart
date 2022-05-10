@@ -22,6 +22,8 @@ import '../widgets/weather_view.dart';
 import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/widgets/first_guide.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/link.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -185,68 +187,104 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       drawer: Drawer(
                           backgroundColor:
                               GlobalTheme.lightTheme.colorScheme.surface,
-                          child: ListView(
-                            children: <Widget>[
-                              DrawerHeader(
-                                  child: Text(_title,
+                          child:
+                              Column(mainAxisSize: MainAxisSize.max, children: [
+                            ListView(
+                              shrinkWrap: true,
+                              children: <Widget>[
+                                DrawerHeader(
+                                    child: Text(_title,
+                                        style: GlobalTheme
+                                            .lightTheme.textTheme.headline4),
+                                    decoration: BoxDecoration(
+                                        color: GlobalTheme
+                                            .lightTheme.primaryColor)),
+                                ListTile(
+                                    leading: Icon(SweaterIcons.map_marker_alt,
+                                        color: GlobalTheme
+                                            .lightTheme.colorScheme.onSurface),
+                                    title: Text(
+                                      "위치 관리",
                                       style: GlobalTheme
-                                          .lightTheme.textTheme.headline4),
-                                  decoration: BoxDecoration(
-                                      color:
-                                          GlobalTheme.lightTheme.primaryColor)),
-                              ListTile(
-                                  leading: Icon(SweaterIcons.map_marker_alt,
-                                      color: GlobalTheme
-                                          .lightTheme.colorScheme.onSurface),
-                                  title: Text(
-                                    "위치 관리",
-                                    style: GlobalTheme
-                                        .lightTheme.textTheme.subtitle2,
-                                  ),
-                                  onTap: () => {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ManageLocationPage()))
-                                      }),
-                              ListTile(
-                                  leading: Icon(
-                                    context.watch<UserProvider>().gender == 1
-                                        ? SweaterIcons.mars
-                                        : SweaterIcons.venus,
-                                    color:
-                                        context.watch<UserProvider>().gender ==
-                                                1
-                                            ? Colors.blue
-                                            : Colors.red,
-                                  ),
-                                  title: Text("성별 설정",
-                                      style: GlobalTheme
-                                          .lightTheme.textTheme.subtitle2),
-                                  onTap: () => {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const GenderChangePage()))
-                                      }),
-                              ListTile(
-                                  leading: Icon(SweaterIcons.temperature_high,
-                                      color: GlobalTheme
-                                          .lightTheme.colorScheme.onSurface),
-                                  title: Text("체질 관리",
-                                      style: GlobalTheme
-                                          .lightTheme.textTheme.subtitle2),
-                                  onTap: () => {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ConstitutionManagePage()))
-                                      }),
-                            ],
-                          )))))),
+                                          .lightTheme.textTheme.subtitle2,
+                                    ),
+                                    onTap: () => {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ManageLocationPage()))
+                                        }),
+                                ListTile(
+                                    leading: Icon(
+                                      context.watch<UserProvider>().gender == 1
+                                          ? SweaterIcons.mars
+                                          : SweaterIcons.venus,
+                                      color: context
+                                                  .watch<UserProvider>()
+                                                  .gender ==
+                                              1
+                                          ? Colors.blue
+                                          : Colors.red,
+                                    ),
+                                    title: Text("성별 설정",
+                                        style: GlobalTheme
+                                            .lightTheme.textTheme.subtitle2),
+                                    onTap: () => {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const GenderChangePage()))
+                                        }),
+                                ListTile(
+                                    leading: Icon(SweaterIcons.temperature_high,
+                                        color: GlobalTheme
+                                            .lightTheme.colorScheme.onSurface),
+                                    title: Text("체질 관리",
+                                        style: GlobalTheme
+                                            .lightTheme.textTheme.subtitle2),
+                                    onTap: () => {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ConstitutionManagePage()))
+                                        }),
+                              ],
+                            ),
+                            Spacer(),
+                            Link(
+                              uri: Uri.parse(
+                                  'https://team-naming-1-hour.github.io/sweater-app/'),
+                              target: LinkTarget.blank,
+                              builder:
+                                  (BuildContext ctx, FollowLink? openLink) {
+                                return Row(
+                                    // mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      TextButton(
+                                          style: ButtonStyle(
+                                            overlayColor:
+                                                MaterialStateProperty.all(
+                                                    Colors.transparent),
+                                          ),
+                                          onPressed: openLink,
+                                          child: Text(
+                                            '  개인정보 처리방침',
+                                            style: GlobalTheme
+                                                .lightTheme.textTheme.subtitle2
+                                                ?.copyWith(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle2!
+                                                        .color!
+                                                        .withOpacity(0.4)),
+                                          )),
+                                    ]);
+                              },
+                            ),
+                          ])))))),
       // Center(
       //     child:
       isFirst
