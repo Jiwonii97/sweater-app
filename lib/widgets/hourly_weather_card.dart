@@ -21,6 +21,7 @@ class HourlyWeatherCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isNow = false;
+    int time = int.parse(hourForecast.getTime.substring(0, 2));
     return GestureDetector(
       onTap: () {
         onPress();
@@ -44,7 +45,7 @@ class HourlyWeatherCard extends StatelessWidget {
               children: [
                 Text(hourForecast.getTime.substring(0, 2) + ":00",
                     style: Theme.of(context).textTheme.caption),
-                decideWeatherIcon(hourForecast, isNow),
+                decideWeatherIcon(hourForecast, isNow, time),
                 Text("${hourForecast.getTemp}°",
                     style: Theme.of(context).textTheme.headline6),
                 Text("${hourForecast.getRainRate} %",
