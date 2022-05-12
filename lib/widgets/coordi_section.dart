@@ -2,15 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/widgets/loading.dart';
-<<<<<<< HEAD
-// import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sweater/widgets/card_container.dart';
 
 import 'package:wrapped_korean_text/wrapped_korean_text.dart';
-=======
-import 'package:wrapped_korean_text/wrapped_korean_text.dart';
-import 'package:flutter_svg/flutter_svg.dart';
->>>>>>> b0e62bffffe1682cacd002cff8ccf4a8de3e2216
 
 class CoordiSection extends StatefulWidget {
   const CoordiSection({Key? key}) : super(key: key);
@@ -39,7 +33,7 @@ class _CoordiSectionState extends State<CoordiSection> {
               context.watch<CoordiProvider>().coordiList.isEmpty
                   ? const Text("no data")
                   : SizedBox(
-                      height: 324,
+                      height: 344,
                       child: PageView.builder(
                           controller: controller,
                           itemBuilder: (_, index) {
@@ -105,39 +99,23 @@ class CoordiView extends StatelessWidget {
     return Column(
       children: [
         Container(
+          // color: Colors.amber,
           width: 264,
           height: 264,
-          margin: EdgeInsets.all(16),
           child: Stack(children: coordiList),
         ),
         Container(
           width: 264,
           height: 60,
-          child: WrappedKoreanText(
-            detail,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1!
-                .copyWith(fontWeight: FontWeight.bold),
-          ),
-<<<<<<< HEAD
-=======
-          // child: Column(
-          //   crossAxisAlignment: CrossAxisAlignment.center,
-          //   children: List.generate(
-          //     coordi.length,
-          //     (index) => coordi[index] != ""
-          //         ? Container(
-          //             margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-          //             padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-          //             color: Theme.of(context).colorScheme.surface,
-          //             child: Text("# ${coordi[index]}",
-          //                 style: Theme.of(context).textTheme.bodyText2),
-          //           )
-          //         : Container(),
-          //   ),
-          // ),
->>>>>>> b0e62bffffe1682cacd002cff8ccf4a8de3e2216
+          child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: WrappedKoreanText(
+                detail,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(fontWeight: FontWeight.bold),
+              )),
         ),
       ],
     );
