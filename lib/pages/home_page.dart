@@ -168,23 +168,27 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                   onPressed: () {
                                     Scaffold.of(context).openDrawer();
                                   }))),
-                      body:  SingleChildScrollView(
-                          child:Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: isWeatherReady && isCoordiReady
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: <Widget>[
-                                        WeatherView(
-                                          hourForecast: context
-                                              .watch<WeatherProvider>()
-                                              .getCurrentWeather(),
-                                        ),
-                                        const CardContainer(
-                                            child: CoordiSection()),
-                                      ])
-                                : const Loading(height: 600))),
+                      body: SingleChildScrollView(
+                          child: Container(
+                              // padding:
+                              //     const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: isWeatherReady && isCoordiReady
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: <Widget>[
+                                          Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16.0),
+                                              child: WeatherView(
+                                                hourForecast: context
+                                                    .watch<WeatherProvider>()
+                                                    .getCurrentWeather(),
+                                              )),
+                                          const CoordiSection(),
+                                        ])
+                                  : const Loading(height: 600))),
                       drawer: Drawer(
                           backgroundColor:
                               GlobalTheme.lightTheme.colorScheme.surface,

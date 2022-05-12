@@ -16,7 +16,7 @@ packages:
     source: hosted
     version: "1.6.0"
   async:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: async
       url: "https://pub.dartlang.org"
@@ -546,6 +546,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.1"
+  wrapped_korean_text:
+    dependency: "direct main"
+    description:
+      name: wrapped_korean_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   xdg_directories:
     dependency: transitive
     description:

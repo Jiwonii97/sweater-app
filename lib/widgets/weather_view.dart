@@ -21,7 +21,6 @@ class WeatherView extends StatelessWidget {
     int time = DateTime.now().hour;
     return isWeatherReady
         ? Container(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
             alignment: Alignment.topCenter,
             child: Column(children: [
               Row(
@@ -36,7 +35,6 @@ class WeatherView extends StatelessWidget {
                   SizedBox(
                       width: 80,
                       child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Row(
