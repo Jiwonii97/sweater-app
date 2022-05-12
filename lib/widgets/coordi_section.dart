@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/widgets/loading.dart';
+<<<<<<< HEAD
 // import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sweater/widgets/card_container.dart';
 
 import 'package:wrapped_korean_text/wrapped_korean_text.dart';
+=======
+import 'package:wrapped_korean_text/wrapped_korean_text.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+>>>>>>> b0e62bffffe1682cacd002cff8ccf4a8de3e2216
 
 class CoordiSection extends StatefulWidget {
   const CoordiSection({Key? key}) : super(key: key);
@@ -115,6 +120,24 @@ class CoordiView extends StatelessWidget {
                 .bodyText1!
                 .copyWith(fontWeight: FontWeight.bold),
           ),
+<<<<<<< HEAD
+=======
+          // child: Column(
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   children: List.generate(
+          //     coordi.length,
+          //     (index) => coordi[index] != ""
+          //         ? Container(
+          //             margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+          //             padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+          //             color: Theme.of(context).colorScheme.surface,
+          //             child: Text("# ${coordi[index]}",
+          //                 style: Theme.of(context).textTheme.bodyText2),
+          //           )
+          //         : Container(),
+          //   ),
+          // ),
+>>>>>>> b0e62bffffe1682cacd002cff8ccf4a8de3e2216
         ),
       ],
     );
