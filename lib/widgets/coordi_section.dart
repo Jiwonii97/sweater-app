@@ -8,7 +8,7 @@ import 'package:sweater/theme/global_theme.dart';
 import 'dart:ui';
 import 'package:sweater/theme/sweater_icons.dart';
 import 'package:sweater/widgets/loading.dart';
-
+import 'package:wrapped_korean_text/wrapped_korean_text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CoordiSection extends StatelessWidget {
@@ -115,54 +115,80 @@ class CoordiView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String outer, top, bottomt;
-    return Container(
-      width: 288,
-      height: 288,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 16),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: List.generate(coordiIllust.length,
-                      (index) => illustView(coordiIllust[index]))),
-              Container(
-                // color: Colors.green,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                width: 288,
-                height: 144,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: List.generate(
-                    coordi.length,
-                    (index) => coordi[index] != ""
-                        ? Container(
-                            margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
-                            padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-                            color: Theme.of(context).colorScheme.surface,
-                            child: Text("# ${coordi[index]}",
-                                style: Theme.of(context).textTheme.bodyText2),
-                          )
-                        : Container(),
-                  ),
-                ),
-              ),
-            ]),
-      ),
+    String detail = "";
+    int clothCount = coordiIllust.length;
+    List<Widget> coordiList = [];
+
+    // 코디 위치 결정
+    if (clothCount == 1) {
+      coordiList.add(illustView(coordiIllust[0], 64, 32));
+    } else if (clothCount == 2) {
+      coordiList.add(illustView(coordiIllust[0], 19, 23));
+      coordiList.add(illustView(coordiIllust[1], 123, 72));
+    } else if (clothCount == 3) {
+      coordiList.add(illustView(coordiIllust[0], 16, 17));
+      coordiList.add(illustView(coordiIllust[1], 128, 17));
+      coordiList.add(illustView(coordiIllust[2], 80, 84));
+    } else if (clothCount == 4) {
+      coordiList.add(illustView(coordiIllust[2], 84, 0));
+      coordiList.add(illustView(coordiIllust[1], 146, 60));
+      coordiList.add(illustView(coordiIllust[3], 60, 110));
+      coordiList.add(illustView(coordiIllust[0], 0, 20));
+    }
+
+    // 상세 설명 텍스트
+    for (String cloth in coordi) {
+      detail += "#${cloth}  ";
+    }
+    ;
+    return Column(
+      children: [
+        Container(
+          width: 264,
+          height: 264,
+          margin: EdgeInsets.all(16),
+          child: Stack(children: coordiList),
+        ),
+        Container(
+          width: 264,
+          height: 60,
+          child: WrappedKoreanText(
+            detail,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(fontWeight: FontWeight.bold),
+          ),
+          // child: Column(
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   children: List.generate(
+          //     coordi.length,
+          //     (index) => coordi[index] != ""
+          //         ? Container(
+          //             margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+          //             padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+          //             color: Theme.of(context).colorScheme.surface,
+          //             child: Text("# ${coordi[index]}",
+          //                 style: Theme.of(context).textTheme.bodyText2),
+          //           )
+          //         : Container(),
+          //   ),
+          // ),
+        ),
+      ],
     );
   }
 
-  Widget illustView(String illust) {
+  Widget illustView(String illust, double X, double Y) {
     return illust != ""
-        ? SizedBox(
-            width: 96,
-            child: Image.asset(illust),
-            height: 96,
-          )
+        ? Positioned(
+            top: Y,
+            left: X,
+            child: SizedBox(
+              width: 120,
+              child: Image.asset(illust),
+              height: 160,
+            ))
         : Container();
   }
 }

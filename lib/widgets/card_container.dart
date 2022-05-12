@@ -16,7 +16,7 @@ class CardContainer extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
             child: child));
   }
 }
