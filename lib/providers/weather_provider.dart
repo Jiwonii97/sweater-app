@@ -44,9 +44,16 @@ class WeatherProvider extends ChangeNotifier {
   }
 
   // 현재 날씨 정보를 반환
-
   HourForecast getCurrentWeather() {
     return _forecastList[0];
+  }
+
+  HourForecast? getSelectedWeather(int index) {
+    if (index > _forecastList.length || index < 0) {
+      return null;
+    } else {
+      return _forecastList[index];
+    }
   }
 
   // JSON을 통해 키값 불러오기

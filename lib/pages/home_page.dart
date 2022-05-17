@@ -114,10 +114,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     coordiUpdateEmitter.on("updateCoordi", null, (evt, cnt) async {
       //코디 갱신
       bool isUpdateCoordiSuccess = await coordiProvider.requestCoordiList(
-          weatherProvider.forecastList,
-          0,
-          userProvider.gender,
-          userProvider.constitution);
+          weatherProvider.getCurrentWeather(), userProvider.user);
       if (!isUpdateCoordiSuccess) {
         debugPrint("fail getting coordi data");
       }

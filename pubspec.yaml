@@ -30,10 +30,10 @@ dependencies:
   flutter:
     sdk: flutter
   shared_preferences: "^2.0.13"
-  excel: ^1.1.5
+  # excel: ^1.1.5
   provider: ^5.0.0
 
-  flutter_svg: ^0.19.0
+  flutter_svg: ^1.0.3
   flutter_slidable: ^1.0.0
 
   # The following adds the Cupertino Icons font to your application.
@@ -41,7 +41,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   cloud_firestore: ^3.1.11
   http: ^0.13.4 # API 추출용
-  intl: ^0.15.7 # 날짜 계산용
+  intl: ^0.17.0-nullsafety.2 # 날짜 계산용
   cloud_functions: ^3.2.12
   flutter_dotenv: ^5.0.2
   eventify: ^1.0.0
@@ -49,25 +49,15 @@ dependencies:
   async: ^2.8.2
   url_launcher: ^6.1.0
   wrapped_korean_text: ^0.0.2
+  convert: ^3.0.1
+  mockito: ^5.1.0
+  build_runner: ^2.1.11
 
-  
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  shared_preferences: "^2.0.13"
-  excel: ^1.1.5
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

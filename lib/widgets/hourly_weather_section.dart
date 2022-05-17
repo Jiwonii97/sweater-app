@@ -48,19 +48,16 @@ class _HourlyWeatherSection extends State<HourlyWeatherSection> {
                           selectedTime = -1;
                           HourForecast currentForecast = weatherPrediction[0];
                           coordiConsumer.requestCoordiList(
-                              _weatherProvider.forecastList,
-                              0,
-                              userConsumer.gender,
-                              userConsumer.constitution);
+                              _weatherProvider.getCurrentWeather(),
+                              userConsumer.user);
                         } else {
                           selectedTime = index;
-                          HourForecast selectedForecast =
-                              weatherPrediction[index];
-                          coordiConsumer.requestCoordiList(
-                              _weatherProvider.forecastList,
-                              selectedTime + 1,
-                              userConsumer.gender,
-                              userConsumer.constitution);
+                          HourForecast? selectedForecast =
+                              _weatherProvider.getSelectedWeather(index + 1);
+                          if (selectedForecast != null) {
+                            coordiConsumer.requestCoordiList(
+                                selectedForecast, userConsumer.user);
+                          }
                         }
                         setState(() {});
                       }),

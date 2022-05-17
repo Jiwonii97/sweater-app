@@ -41,8 +41,8 @@ class _GenderChangePage extends State<GenderChangePage> {
           context
               .read<UserProvider>()
               .changeGender(genderList[index]['gender']);
-          coordiConsumer.requestCoordiList(weatherConsumer.forecastList, 0,
-              userConsumer.gender, userConsumer.constitution);
+          coordiConsumer.requestCoordiList(
+              weatherConsumer.getCurrentWeather(), userConsumer.user);
         },
         child: CheckMenu(
           leadingIcon: genderList[index]['icon'],
