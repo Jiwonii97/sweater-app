@@ -1,16 +1,16 @@
 import 'package:sweater/module/gender.dart';
 
 class Constitution {
-  static int feelVeryHot = 4;
-  static int feelHot = 2;
-  static int feelNormal = 0;
-  static int feelCold = -2;
-  static int feelVeryCold = -4;
-  static String feelVeryHotString = "더위를 많이 타요";
-  static String feelHotString = "더위를 조금 타요";
-  static String feelNormalString = "보통이에요";
-  static String feelColdString = "추위를 조금 타요";
-  static String feelVeryColdString = "추위를 많이 타요";
+  static const int feelVeryHot = 4;
+  static const int feelHot = 2;
+  static const int feelNormal = 0;
+  static const int feelCold = -2;
+  static const int feelVeryCold = -4;
+  static const String feelVeryHotString = "더위를 많이 타요";
+  static const String feelHotString = "더위를 조금 타요";
+  static const String feelNormalString = "보통이에요";
+  static const String feelColdString = "추위를 조금 타요";
+  static const String feelVeryColdString = "추위를 많이 타요";
 
   int _constitution;
   int get constitution {
