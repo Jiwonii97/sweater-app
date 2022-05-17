@@ -21,8 +21,9 @@ main() {
   currentForecast.initHourForecast(
       "20220517", "0424", "26", "28", "맑음", "0", "2.8");
   User user = User(Gender.man, Constitution.feelCold);
+  List<String> clothFilter = ["blouse", "shirt"];
   test('fetch_coordi_list 통신 테스트', () async {
-    var response = await fetchCoordiList(currentForecast, user);
+    var response = await fetchCoordiList(currentForecast, user, clothFilter);
     expect(response.length, 20);
 
     for (int i = 0; i < response.length; i++) {
