@@ -28,7 +28,7 @@ class HourlyWeatherCard extends StatelessWidget {
       },
       child: Container(
         width: 60.0,
-        margin: const EdgeInsets.only(right: 8),
+        margin: const EdgeInsets.only(right: 4),
         child: Card(
           elevation: 0.0,
           margin: EdgeInsets.zero,
