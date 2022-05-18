@@ -33,13 +33,13 @@ class HourlyWeatherCard extends StatelessWidget {
           elevation: 0.0,
           margin: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(8),
           ),
           color: isSelected
               ? Theme.of(context).colorScheme.surface.withOpacity(0.4)
               : Colors.transparent,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(4),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -15,7 +15,7 @@ class CardContainer extends StatelessWidget {
     return SizedBox(
         child: Card(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(8),
             ),
             color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
             child: child));
