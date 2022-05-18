@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:sweater/module/cloth.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sweater/api/fetch_coordi_list.dart';
 import 'package:sweater/module/constitution.dart';
 import 'package:sweater/module/coordi.dart';
+import 'package:sweater/module/forecast.dart';
 import 'package:sweater/module/gender.dart';
 import 'package:sweater/module/user.dart';
 import 'package:sweater/providers/weather_provider.dart';
@@ -17,9 +19,9 @@ import 'package:sweater/providers/weather_provider.dart';
   final String _thickness; // "","thin","thick",
 */
 main() {
-  HourForecast currentForecast = HourForecast();
-  currentForecast.initHourForecast(
-      "20220517", "0424", "26", "28", "맑음", "0", "2.8");
+  Forecast currentForecast = Forecast();
+  DateTime specificDate = DateFormat("yyyyMMdd hh:mm").parse("20220517 04:24");
+  currentForecast.initForecast(specificDate, 26, 28, "맑음", 0, 2.8);
   User user = User(Gender.man, Constitution.feelCold);
   List<String> clothFilter = ["blouse", "shirt"];
   test('fetch_coordi_list 통신 테스트', () async {

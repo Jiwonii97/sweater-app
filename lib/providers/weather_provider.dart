@@ -6,6 +6,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import "dart:math"; // 체감 온도 계산을 위한 연산 라이브러리
 import 'package:intl/intl.dart'; // 날짜 계산을 위한 라이브러리
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:sweater/module/forecast.dart';
 
 // Weather 객체 클래스
 class WeatherProvider extends ChangeNotifier {
@@ -23,8 +24,8 @@ class WeatherProvider extends ChangeNotifier {
   static const _rainSnow = "3";
   static const _rainDrop = "4";
 
-  final List<HourForecast> _forecastList = [];
-  List<HourForecast> get forecastList => _forecastList; // get 필드
+  final List<Forecast> _forecastList = [];
+  List<Forecast> get forecastList => _forecastList; // get 필드
   static const int predictMax = 12; // 객체 12개 생성으로 인한 12시간의 날씨 데이터 보유
 
   // API Key값
@@ -39,18 +40,18 @@ class WeatherProvider extends ChangeNotifier {
   // 생성자
   WeatherProvider() {
     for (var i = 0; i < predictMax; i++) {
-      forecastList.add(HourForecast());
+      forecastList.add(Forecast());
     }
   }
 
   // 현재 날씨 정보를 반환
-  HourForecast getCurrentWeather() {
+  Forecast getCurrentWeather() {
     return _forecastList[0];
   }
 
-  HourForecast? getSelectedWeather(int index) {
+  Forecast getSelectedWeather(int index) {
     if (index > _forecastList.length || index < 0) {
-      return null;
+      return Forecast();
     } else {
       return _forecastList[index];
     }
@@ -102,13 +103,13 @@ class WeatherProvider extends ChangeNotifier {
   }
 
   // 체감 온도 계산 함수
-  String makeSTemp(int temp, double windSpeed) {
+  int makeSTemp(int temp, double windSpeed) {
     var T = temp;
     var V = pow(windSpeed * 3.6, 0.16);
 
     // 체감온도 계산
     var res = 13.12 + (0.6215 * T) - (11.37 * V) + (0.3965 * V * T);
-    return res.round().toString();
+    return res.round();
   }
 
   // API를 받아서 해당 날씨 데이터를 Weather 객체에 업데이트
@@ -179,16 +180,21 @@ class WeatherProvider extends ChangeNotifier {
       final List itemList = (convert.jsonDecode(response.body))['response']
           ['body']['items']['item'];
       // 순서대로 온도, 기상상태, 강수상태, 강수확률, 풍속, 날짜, 시간 데이터를 가져온다
-      final Iterable tempList = itemList.where((el) => el['category'] == 'TMP');
-      final Iterable skyList = itemList.where((el) => el['category'] == 'SKY');
-      final Iterable rainList = itemList.where((el) => el['category'] == 'PTY');
-      final Iterable rainRateList =
-          itemList.where((el) => el['category'] == 'POP');
-      final Iterable windSpeedList =
-          itemList.where((el) => el['category'] == 'WSD');
+      final List<dynamic> tempList =
+          itemList.where((el) => el['category'] == 'TMP').toList();
+      final List<dynamic> skyList =
+          itemList.where((el) => el['category'] == 'SKY').toList();
+      final List<dynamic> rainList =
+          itemList.where((el) => el['category'] == 'PTY').toList();
+      final List<dynamic> rainRateList =
+          itemList.where((el) => el['category'] == 'POP').toList();
+      final List<dynamic> windSpeedList =
+          itemList.where((el) => el['category'] == 'WSD').toList();
 
-      final Iterable dateList = windSpeedList.map((el) => el['fcstDate']);
-      final Iterable timeList = windSpeedList.map((el) => el['fcstTime']);
+      final List<dynamic> dateList =
+          windSpeedList.map((el) => el['fcstDate']).toList();
+      final List<dynamic> timeList =
+          windSpeedList.map((el) => el['fcstTime']).toList();
       int tmp = 0; // 기준 시간으로 부터 차이 나는 시간을 구할때 사용하는 임시 변수
       int idx = 0; // 인덱스 부여용 변수
       // 데이터 업데이트
@@ -206,18 +212,15 @@ class WeatherProvider extends ChangeNotifier {
           continue;
         } else {
           // 조건에 맞으면 클래스 리스트에 값을 갱신
-          forecastList[idx].initHourForecast(
-              dateList.elementAt(i), // 날짜
-              timeList.elementAt(i), // 시간
-              tempList.elementAt(i)['fcstValue'], // 온도
-              makeSTemp(
-                  int.parse(tempList.elementAt(i)['fcstValue']),
-                  double.parse(
-                      windSpeedList.elementAt(i)['fcstValue'])), // 체감 온도
-              makeSky(skyList.elementAt(i)['fcstValue'],
-                  rainList.elementAt(i)['fcstValue']), // 하늘 상태(구름 상태)
-              rainRateList.elementAt(i)['fcstValue'], // 강수 확률
-              windSpeedList.elementAt(i)['fcstValue']); // 풍속
+          forecastList[idx].initForecast(
+              DateFormat("YYYYMMDDHH:mm").parse(dateList[i] + timeList[i]),
+              tempList[i]['fcstValue'], // 온도
+              makeSTemp(int.parse(tempList[i]['fcstValue']),
+                  double.parse(windSpeedList[i]['fcstValue'])), // 체감 온도
+              makeSky(skyList[i]['fcstValue'],
+                  rainList[i]['fcstValue']), // 하늘 상태(구름 상태)
+              rainRateList[i]['fcstValue'], // 강수 확률
+              windSpeedList[i]['fcstValue']); // 풍속
           idx++; // 다음 인덱스
         }
       }
@@ -233,68 +236,5 @@ class WeatherProvider extends ChangeNotifier {
       print(e);
     }
     return initWeatherFlag;
-  }
-}
-
-// 시간별 날씨 정보를 담고 있는 객체
-class HourForecast {
-  // 초기값(Default) 설정
-  String _date = "19700101";
-  String _time = "10:00"; // 시간
-  String _temp = "99"; // 기온
-  String _sTemp = "99"; // 체감 온도
-  String _sky =
-      ""; // 구름 상태 - 맑음, 구름많음, 흐림, 비, 비/눈, 눈, 소나기 <- 초기화 되지 않았을 때는 "" 나오도록 수정했어요
-  String _rainRate = "-1"; // 강수 확률
-  String _windSpeed = "-1"; // 풍속
-
-  //getter
-  String get getDate => _date;
-  String get getTime => _time;
-  String get getTemp => _temp;
-  String get getSTemp => _sTemp;
-  String get getSky => _sky;
-  String get getRainRate => _rainRate;
-  String get getWindSpeed => _windSpeed;
-
-  // Set 함수
-  set date(String input) {
-    _date = input;
-  }
-
-  set time(String input) {
-    _time = input;
-  }
-
-  set temp(String input) {
-    _temp = input;
-  }
-
-  set sTemp(String input) {
-    _sTemp = input;
-  }
-
-  set sky(String input) {
-    _sky = input;
-  }
-
-  set rainRate(String input) {
-    _rainRate = input;
-  }
-
-  set windSpeed(String input) {
-    _windSpeed = input;
-  }
-
-  // 해당 객체 업데이트(갱신)
-  void initHourForecast(String newDate, String newTime, String newTemp,
-      String newsTemp, String newSky, String newRainRate, String newWindSpeed) {
-    date = newDate;
-    time = newTime;
-    temp = newTemp;
-    sky = newSky;
-    rainRate = newRainRate;
-    sTemp = newsTemp;
-    windSpeed = newWindSpeed;
   }
 }

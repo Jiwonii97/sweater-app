@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:sweater/module/forecast.dart';
 import 'package:sweater/providers/weather_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-Widget decideWeatherIcon(HourForecast hourForecast, bool isNow, int time) {
+Widget decideWeatherIcon(Forecast forecast, bool isNow) {
   bool isNight = true;
-
-  if (6 <= time && time <= 18) {
+  int hour = forecast.time.hour;
+  if (6 <= hour && hour <= 18) {
     isNight = false;
   }
-  switch (hourForecast.getSky) {
+  switch (forecast.sky) {
     case "맑음":
       return SvgPicture.asset(
           isNight ? "assets/weather/night.svg" : "assets/weather/sunny.svg",
