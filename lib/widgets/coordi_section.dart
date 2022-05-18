@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/widgets/loading.dart';
 import 'package:sweater/widgets/card_container.dart';
+import 'package:sweater/theme/sweater_icons.dart';
 
 import 'package:wrapped_korean_text/wrapped_korean_text.dart';
 
@@ -19,16 +20,43 @@ class _CoordiSectionState extends State<CoordiSection> {
     final controller = PageController(viewportFraction: 0.8, initialPage: 999);
     return context.watch<CoordiProvider>().isUpdateCoordiState
         ? Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: Column(children: <Widget>[
-              Text(
-                "오늘의 추천 코디",
-                style: Theme.of(context).textTheme.headline5?.copyWith(
-                      fontWeight: FontWeight.bold,
+              Container(
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                          height: 32,
+                          child: Text(
+                            "오늘의 추천 코디",
+                            style:
+                                Theme.of(context).textTheme.headline5?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                          )),
                     ),
+                    Align(
+                        alignment: Alignment.centerRight,
+                        // alignment: Alignment.topRight,
+                        child: Container(
+                          height: 32,
+                          margin: const EdgeInsets.only(right: 8),
+                          child: IconButton(
+                              // icon: const Icon(SweaterIcons.temperature_high),
+                              icon: Icon(SweaterIcons.sliders_h,
+                                  size: 20,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground),
+                              onPressed: () {}),
+                        ))
+                  ],
+                ),
               ),
               const SizedBox(
-                height: 16,
+                height: 8,
               ),
               context.watch<CoordiProvider>().coordiList.isEmpty
                   ? const Text("no data")
