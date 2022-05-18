@@ -33,7 +33,7 @@ class _HourlyWeatherSection extends State<HourlyWeatherSection> {
     List<bool> selectedCheckList =
         List.generate(weatherPrediction.length - 1, (index) => false);
     return Container(
-        height: 112.0,
+        height: 116.0,
         child: ScrollConfiguration(
             behavior: NoGlowScrollBehavior(),
             child: ListView(

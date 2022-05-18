@@ -23,6 +23,7 @@ class _CoordiSectionState extends State<CoordiSection> {
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Column(children: <Widget>[
               Container(
+                margin: const EdgeInsets.only(right: 16),
                 child: Stack(
                   children: [
                     Align(
@@ -42,7 +43,7 @@ class _CoordiSectionState extends State<CoordiSection> {
                         // alignment: Alignment.topRight,
                         child: Container(
                           height: 32,
-                          margin: const EdgeInsets.only(right: 8),
+                          width: 32,
                           child: IconButton(
                               // icon: const Icon(SweaterIcons.temperature_high),
                               icon: Icon(SweaterIcons.sliders_h,
@@ -56,7 +57,7 @@ class _CoordiSectionState extends State<CoordiSection> {
                 ),
               ),
               const SizedBox(
-                height: 8,
+                height: 12,
               ),
               context.watch<CoordiProvider>().coordiList.isEmpty
                   ? const Text("no data")
