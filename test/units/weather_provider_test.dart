@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,9 +16,10 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 main() {
+  dotenv.testLoad(fileInput: File('test/.env').readAsStringSync());
   WeatherProvider weatherProvider = WeatherProvider();
   test('WeatherProvider 생성', () async {
-    expect(weatherProvider.forecastList, []);
+    expect(weatherProvider.forecastList.length, 12);
   });
   test('WeatherProvider 날씨 불러오기', () async {
     bool isRequestSuccess = await weatherProvider.updateWeather(61, 124);

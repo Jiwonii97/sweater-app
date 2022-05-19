@@ -13,7 +13,6 @@ Future<List<dynamic>?> fetchWeather(
     int nx, int ny, DateTime now, int predictMax, String key) async {
   const String host = "apis.data.go.kr";
   const String path = "/1360000/VilageFcstInfoService_2.0/getVilageFcst";
-
   /*
       Q. 왜 계산을 이렇게 진행 하였는가?
       A. 우리가 날씨 정보를 구하는 단기예보의 데이터의 경우,

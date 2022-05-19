@@ -30,7 +30,7 @@ class WeatherProvider extends ChangeNotifier {
   static const int predictMax = 12; // 객체 12개 생성으로 인한 12시간의 날씨 데이터 보유
 
   // API Key값
-  late String _myKey = '';
+  late String _myKey = dotenv.env['WEATHER_API_KEY'] ?? '';
   bool flagApi = false; // 키값을 1회만 불러오게 하기 위한 flag
 
   // 해당 API 주소
@@ -55,16 +55,6 @@ class WeatherProvider extends ChangeNotifier {
       return Forecast();
     } else {
       return _forecastList[index];
-    }
-  }
-
-  // JSON을 통해 키값 불러오기
-  Future<bool> initKey() async {
-    try {
-      _myKey = dotenv.env['WEATHER_API_KEY'] ?? '';
-      return true;
-    } catch (e) {
-      return false;
     }
   }
 
@@ -121,16 +111,11 @@ class WeatherProvider extends ChangeNotifier {
     String nx   // 기준 위치 X좌표    ex) 59
     String ny   // 기준 위치 Y좌표    ex) 125
     */
-    if ((_myKey == '') & (flagApi == false)) {
-      // api 키값을 제대로 받아오면 해당 flag를 true로 바꿔 1회만 실행되게 함
-      flagApi = await initKey();
-    }
     // 현재 시간(now) 기준, 1시간전 시간(anHourBefore) 구하기
-    var now = DateTime.now(); //현재일자
     // 30분으로 시간을 설정한 이유 : API 제공 시간(~이후)이 각 BaseTime +10분이기 때문이다
     try {
       List<dynamic>? itemList =
-          await fetchWeather(nx, ny, now, predictMax, _myKey);
+          await fetchWeather(nx, ny, DateTime.now(), predictMax, _myKey);
       if (itemList == null) throw Exception("날씨를 불러오지 못함");
       for (int i = 0; i < predictMax; i++) {
         forecastList[i].initForecast(
