@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweater/module/forecast.dart';
 import 'package:sweater/module/user.dart';
 import 'dart:convert' as convert;
 import 'package:sweater/providers/weather_provider.dart';
@@ -43,8 +44,7 @@ class CoordiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> requestCoordiList(
-      HourForecast selectedForecast, User user) async {
+  Future<bool> requestCoordiList(Forecast selectedForecast, User user) async {
     if (_coordiListFuture != null) {
       _coordiListFuture?.cancel();
     }
