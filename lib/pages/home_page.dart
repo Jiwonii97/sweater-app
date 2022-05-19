@@ -25,6 +25,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/widgets/first_guide.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/link.dart';
+import 'package:sweater/widgets/filter_drawer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -37,6 +38,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final String _title = "스웨더";
   late Timer weatherUpdateTimer;
   late bool isFirst = false;
+  bool isFilterOpen = false;
   EventEmitter weatherUpdateEmitter = new EventEmitter();
   EventEmitter coordiUpdateEmitter = new EventEmitter();
 
@@ -140,6 +142,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     setState(() {});
   }
 
+  void openFilter() {
+    isFilterOpen = true;
+    setState(() {});
+  }
+
+  void closeFilter() {
+    // if()
+    isFilterOpen = false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var isWeatherReady = context.watch<WeatherProvider>().initWeatherFlag;
@@ -157,6 +170,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         colors: backgroundByWeather()),
                   ),
                   child: Scaffold(
+                      bottomSheet: FilterDrawer(
+                          closeDrawer: closeFilter, isOpenDrawer: isFilterOpen),
                       backgroundColor: Colors.transparent,
                       appBar: AppBar(
                           title: Text(_title),
@@ -184,7 +199,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                                     .watch<WeatherProvider>()
                                                     .getCurrentWeather(),
                                               )),
-                                          const CoordiSection(),
+                                          CoordiSection(
+                                            openFilterDrawer: openFilter,
+                                          ),
                                         ])
                                   : const Loading(height: 600))),
                       drawer: Drawer(

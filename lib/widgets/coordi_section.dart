@@ -9,7 +9,9 @@ import 'package:url_launcher/link.dart';
 import 'package:wrapped_korean_text/wrapped_korean_text.dart';
 
 class CoordiSection extends StatefulWidget {
-  const CoordiSection({Key? key}) : super(key: key);
+  final Function openFilterDrawer;
+  const CoordiSection({Key? key, required this.openFilterDrawer})
+      : super(key: key);
 
   @override
   State<CoordiSection> createState() => _CoordiSectionState();
@@ -43,17 +45,17 @@ class _CoordiSectionState extends State<CoordiSection> {
                         alignment: Alignment.centerRight,
                         // alignment: Alignment.topRight,
                         child: Container(
-                          height: 32,
-                          width: 32,
-                          child: IconButton(
+                            height: 32,
+                            width: 32,
+                            child: IconButton(
                               // icon: const Icon(SweaterIcons.temperature_high),
                               icon: Icon(SweaterIcons.sliders_h,
                                   size: 20,
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onBackground),
-                              onPressed: () {}),
-                        ))
+                              onPressed: () => widget.openFilterDrawer(),
+                            )))
                   ],
                 ),
               ),
