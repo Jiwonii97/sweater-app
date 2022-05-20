@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
+import 'package:sweater/widgets/filter_drawer.dart';
 import 'package:sweater/widgets/loading.dart';
 import 'package:sweater/widgets/card_container.dart';
 import 'package:sweater/theme/sweater_icons.dart';
@@ -53,7 +54,20 @@ class _CoordiSectionState extends State<CoordiSection> {
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onBackground),
-                              onPressed: () => widget.openFilterDrawer(),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    builder: (context) {
+                                      return Container(
+                                        child: FilterDrawer(),
+                                        height: 600,
+                                      );
+                                    });
+                              },
                             )))
                   ],
                 ),
