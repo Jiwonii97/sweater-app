@@ -14,10 +14,11 @@ class CardContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
         child: Card(
+            elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
+            color: Theme.of(context).colorScheme.background.withOpacity(0.4),
             child: child));
   }
 }
