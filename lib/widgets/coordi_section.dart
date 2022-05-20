@@ -211,13 +211,13 @@ class CoordiView extends StatelessWidget {
 
   String decideLinkButtonText(String url) {
     String returnSource = "링크 보러가기";
-    source.forEach((source) {
+    for (var source in sourceList) {
       if (url.contains(source[0])) returnSource = source[1];
-    });
+    }
     return returnSource;
   }
 
-  final List source = [
+  final List sourceList = [
     ['www.musinsa.com', '무신사닷컴(www.musinsa.com)'],
   ];
 }
