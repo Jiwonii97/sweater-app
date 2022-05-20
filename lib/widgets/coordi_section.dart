@@ -5,6 +5,7 @@ import 'package:sweater/widgets/loading.dart';
 import 'package:sweater/widgets/card_container.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 
+import 'package:url_launcher/link.dart';
 import 'package:wrapped_korean_text/wrapped_korean_text.dart';
 
 class CoordiSection extends StatefulWidget {
@@ -62,28 +63,37 @@ class _CoordiSectionState extends State<CoordiSection> {
               context.watch<CoordiProvider>().coordiList.isEmpty
                   ? const Text("no data")
                   : SizedBox(
-                      height: 344,
+                      height: 400,
                       child: PageView.builder(
                           controller: controller,
                           itemBuilder: (_, index) {
                             return CardContainer(
-                                child: CoordiView(
-                                    coordi: context
-                                        .watch<CoordiProvider>()
-                                        .coordiList[index %
-                                            context
-                                                .watch<CoordiProvider>()
-                                                .coordiList
-                                                .length]
-                                        .getCoordiInfo(),
-                                    coordiIllust: context
-                                        .watch<CoordiProvider>()
-                                        .coordiList[index %
-                                            context
-                                                .watch<CoordiProvider>()
-                                                .coordiList
-                                                .length]
-                                        .getIllustUrl()));
+                              child: CoordiView(
+                                  coordi: context
+                                      .watch<CoordiProvider>()
+                                      .coordiList[index %
+                                          context
+                                              .watch<CoordiProvider>()
+                                              .coordiList
+                                              .length]
+                                      .getCoordiInfo(),
+                                  coordiIllust: context
+                                      .watch<CoordiProvider>()
+                                      .coordiList[index %
+                                          context
+                                              .watch<CoordiProvider>()
+                                              .coordiList
+                                              .length]
+                                      .getIllustUrl(),
+                                  url: context
+                                      .watch<CoordiProvider>()
+                                      .coordiList[index %
+                                          context
+                                              .watch<CoordiProvider>()
+                                              .coordiList
+                                              .length]
+                                      .url),
+                            );
                           })),
             ]),
           )
@@ -94,7 +104,12 @@ class _CoordiSectionState extends State<CoordiSection> {
 class CoordiView extends StatelessWidget {
   final List coordi;
   final List coordiIllust;
-  const CoordiView({Key? key, required this.coordi, required this.coordiIllust})
+  final String url;
+  const CoordiView(
+      {Key? key,
+      required this.coordi,
+      required this.coordiIllust,
+      required this.url})
       : super(key: key);
 
   @override
@@ -145,6 +160,39 @@ class CoordiView extends StatelessWidget {
                     .bodyText2!
                     .copyWith(fontWeight: FontWeight.bold),
               )),
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Link(
+          uri: Uri.parse(url),
+          target: LinkTarget.blank,
+          builder: (BuildContext ctx, FollowLink? openLink) {
+            return url != ""
+                ? Container(
+                    width: 232,
+                    height: 32,
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context)
+                              .colorScheme
+                              .background
+                              .withOpacity(0.6),
+                          elevation: 0),
+                      icon: const Icon(
+                        SweaterIcons.external_link_alt,
+                        size: 14,
+                      ),
+                      onPressed: openLink,
+                      label: Text(
+                        url.contains('www.musinsa.com')
+                            ? "무신사닷컴(www.musinsa.com)"
+                            : "코디 보러가기",
+                        style: Theme.of(context).textTheme.caption,
+                      ),
+                    ))
+                : Container();
+          },
         ),
       ],
     );
