@@ -105,12 +105,12 @@ class CoordiView extends StatelessWidget {
   final List coordi;
   final List coordiIllust;
   final String url;
-  const CoordiView(
-      {Key? key,
-      required this.coordi,
-      required this.coordiIllust,
-      required this.url})
-      : super(key: key);
+  CoordiView({
+    Key? key,
+    required this.coordi,
+    required this.coordiIllust,
+    required this.url,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -185,9 +185,7 @@ class CoordiView extends StatelessWidget {
                       ),
                       onPressed: openLink,
                       label: Text(
-                        url.contains('www.musinsa.com')
-                            ? "무신사닷컴(www.musinsa.com)"
-                            : "코디 보러가기",
+                        decideLinkButtonText(url),
                         style: Theme.of(context).textTheme.caption,
                       ),
                     ))
@@ -210,4 +208,16 @@ class CoordiView extends StatelessWidget {
             ))
         : Container();
   }
+
+  String decideLinkButtonText(String url) {
+    String returnSource = "링크 보러가기";
+    source.forEach((source) {
+      if (url.contains(source[0])) returnSource = source[1];
+    });
+    return returnSource;
+  }
+
+  final List source = [
+    ['www.musinsa.com', '무신사닷컴(www.musinsa.com)'],
+  ];
 }
