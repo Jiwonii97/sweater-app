@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sweater/api/fetch_filter_list.dart';
 import 'package:sweater/module/user.dart';
 import 'dart:convert' as convert;
 import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/module/cloth.dart';
 import 'package:sweater/module/coordi.dart';
-import 'package:http/http.dart' as http;
 import 'package:async/async.dart';
 import 'package:sweater/api/fetch_coordi_list.dart';
 
@@ -13,9 +13,16 @@ class CoordiProvider with ChangeNotifier {
 
   List<Coordi> coordiList = [];
   Coordi _coordi = Coordi("", [], "");
-  int coordiIdx = 0;
   bool isReadyCoordiState = false;
   bool _isUpdateCoordiState = false;
+  String filterResponse = "";
+  Map<String, dynamic> filterList = {};
+  Map<String, List<String>> pickedCategory = {
+    "outer": [],
+    "top": [],
+    "bottom": [],
+    "one_piece": []
+  };
 
   Coordi get coordi => _coordi;
   bool get isUpdateCoordiState => _isUpdateCoordiState;
@@ -29,18 +36,26 @@ class CoordiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void nextCoordi() {
-    coordiIdx++;
-    if (coordiIdx >= coordiList.length) coordiIdx = 0;
-    notifyListeners();
-  }
-
-  void prevCoordi() {
-    coordiIdx--;
-    if (coordiIdx < 0) {
-      coordiIdx = coordiList.length - 1;
+  Future<bool> requestCoordiListWithFiltering(
+      HourForecast selectedForecast, User user) async {
+    isUpdateCoordiState = false;
+    coordiList.clear();
+    List<dynamic> filteredCoordiList =
+        await fetchCoordiList(selectedForecast, user, pickedCategory);
+    for (int i = 0; i < filteredCoordiList.length; i++) {
+      coordiList.add(
+        Coordi(
+            filteredCoordiList[i]['url'],
+            filteredCoordiList[i]['items'].map<Cloth>((item) {
+              return Cloth(item['major'], item['minor'], item['color'],
+                  item['full_name']);
+            }).toList(),
+            filteredCoordiList[i]['style']),
+      );
     }
+    isUpdateCoordiState = true;
     notifyListeners();
+    return true;
   }
 
   Future<bool> requestCoordiList(
@@ -49,10 +64,12 @@ class CoordiProvider with ChangeNotifier {
       _coordiListFuture?.cancel();
     }
     _coordiListFuture = CancelableOperation.fromFuture(
-      fetchCoordiList(selectedForecast, user),
+      fetchCoordiList(selectedForecast, user, pickedCategory),
     );
-    coordiIdx = 0;
     isUpdateCoordiState = false;
+    filterResponse = await fetchFilterList(selectedForecast, user);
+    filterList = convert.jsonDecode(filterResponse);
+
     final responseCoordiLists = await _coordiListFuture?.value;
     if (responseCoordiLists == null) {
       notifyListeners();
@@ -76,5 +93,14 @@ class CoordiProvider with ChangeNotifier {
       notifyListeners();
       return true;
     }
+  }
+
+  clearPickedCategory() {
+    pickedCategory['outer']!.clear();
+    pickedCategory['top']!.clear();
+    pickedCategory['bottom']!.clear();
+    pickedCategory['one_piece']!.clear();
+
+    notifyListeners();
   }
 }
