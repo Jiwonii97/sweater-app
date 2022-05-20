@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sweater/module/error_type.dart';
 import 'package:sweater/theme/global_theme.dart';
-// import 'package:sweater/widgets/hourly_weather_section.dart';
 import 'package:sweater/pages/gender_change_page.dart';
 import 'package:sweater/pages/manage_location_page.dart';
 import 'package:sweater/pages/constitution_page.dart';
@@ -41,9 +40,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   ThemeData themeByWeather() {
     // return Random().nextInt(2) == 1
     // ? GlobalTheme.darkTheme
-    HourForecast currentWeather =
+    Forecast currentWeather =
         context.watch<WeatherProvider>().getCurrentWeather();
-    String skyState = currentWeather.getSky;
+    String skyState = currentWeather.sky;
     if (skyState == '비' || skyState == '비/눈' || skyState == '눈') {
       return GlobalTheme.darkTheme;
     }
@@ -68,9 +67,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   List<Color> backgroundByWeather() {
-    HourForecast currentWeather =
+    Forecast currentWeather =
         context.watch<WeatherProvider>().getCurrentWeather();
-    String skyState = currentWeather.getSky;
+    String skyState = currentWeather.sky;
     if (skyState == '비' || skyState == '비/눈' || skyState == '눈') {
       return [const Color(0xff00141F), const Color(0x004E77).withOpacity(0)];
     }
@@ -189,7 +188,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 16.0),
                                               child: WeatherView(
-                                                hourForecast: context
+                                                forecast: context
                                                     .watch<WeatherProvider>()
                                                     .getCurrentWeather(),
                                               )),

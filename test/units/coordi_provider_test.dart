@@ -1,6 +1,8 @@
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sweater/module/coordi.dart';
+import 'package:sweater/module/forecast.dart';
 import 'package:sweater/module/user.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/providers/user_provider.dart';
@@ -33,10 +35,12 @@ main() {
   test('UserProvider 코디 불러오기', () async {
     expect(coordiProvider.coordiList, []);
 
-    HourForecast currentForecast = HourForecast();
-    currentForecast.initHourForecast(
-        "20220517", "0424", "26", "28", "맑음", "0", "2.8");
+    Forecast currentForecast = Forecast();
+    DateTime specificDate =
+        DateFormat("yyyy-MM-dd HH:mm").parse("2022-05-17 04:24");
+    currentForecast.initForecast(specificDate, 26, 28, "맑음", 0, 2.8);
     User user = User(Gender.man, Constitution.feelNormal);
+
     bool isRequestSuccess =
         await coordiProvider.requestCoordiList(currentForecast, user);
     expect(isRequestSuccess, true);

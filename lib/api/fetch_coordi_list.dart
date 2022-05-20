@@ -2,15 +2,18 @@ import 'dart:convert';
 
 import 'package:sweater/module/constitution.dart';
 import 'package:sweater/module/error_type.dart';
+import 'package:sweater/module/forecast.dart';
 import 'package:sweater/module/user.dart';
 import 'package:sweater/providers/weather_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+
 Future<List<dynamic>> fetchCoordiList(HourForecast selectedForecast, User user,
     Map<String, List<String>> pickedCategory) async {
+
   try {
-    int userCustomedTemp = int.parse(selectedForecast.getSTemp);
+    int userCustomedTemp = selectedForecast.sTemp;
     switch (user.constitution) {
       case Constitution.feelVeryHot: //더위 많이
         userCustomedTemp += 4;
@@ -27,6 +30,7 @@ Future<List<dynamic>> fetchCoordiList(HourForecast selectedForecast, User user,
       default:
         break;
     }
+
     Uri uri = Uri.parse(
         "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand");
 
@@ -42,6 +46,7 @@ Future<List<dynamic>> fetchCoordiList(HourForecast selectedForecast, User user,
     Map<String, String> headers = {
       'Content-Type': 'application/json; charset=UTF-8',
     };
+
 
     http.Response response = await http.post(
       uri,

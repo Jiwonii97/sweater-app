@@ -58,8 +58,7 @@ class CoordiProvider with ChangeNotifier {
     return true;
   }
 
-  Future<bool> requestCoordiList(
-      HourForecast selectedForecast, User user) async {
+  Future<bool> requestCoordiList(Forecast selectedForecast, User user) async {
     if (_coordiListFuture != null) {
       _coordiListFuture?.cancel();
     }

@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sweater/module/forecast.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/providers/user_provider.dart';
@@ -9,19 +11,18 @@ import 'package:sweater/module/decide_weather_icon.dart';
 class HourlyWeatherCard extends StatelessWidget {
   HourlyWeatherCard(
       {Key? key,
-      required this.hourForecast,
+      required this.forecast,
       required this.isSelected,
       required this.onPress})
       : super(key: key);
 
-  final HourForecast hourForecast;
+  final Forecast forecast;
   bool isSelected;
   final Function onPress;
 
   @override
   Widget build(BuildContext context) {
     bool isNow = false;
-    int time = int.parse(hourForecast.getTime.substring(0, 2));
     return GestureDetector(
       onTap: () {
         onPress();
@@ -43,12 +44,12 @@ class HourlyWeatherCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(hourForecast.getTime.substring(0, 2) + ":00",
+                Text(DateFormat('HH:mm').format(forecast.time),
                     style: Theme.of(context).textTheme.caption),
-                decideWeatherIcon(hourForecast, isNow, time),
-                Text("${hourForecast.getTemp}°",
+                decideWeatherIcon(forecast, isNow),
+                Text("${forecast.temp}°",
                     style: Theme.of(context).textTheme.headline6),
-                Text("${hourForecast.getRainRate} %",
+                Text("${forecast.rainRate} %",
                     style: Theme.of(context).textTheme.caption),
               ],
             ),
