@@ -52,6 +52,9 @@ dependencies:
   convert: ^3.0.1
   mockito: ^5.1.0
   build_runner: ^2.1.11
+  bottom_drawer: ^0.0.5
+  flutter_tags: ^0.4.9+1
+  modal_bottom_sheet: ^2.0.1
 
 dev_dependencies:
   flutter_test:
