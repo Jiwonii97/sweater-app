@@ -34,9 +34,9 @@ Future<List<dynamic>> fetchCoordiList(Forecast selectedForecast, User user,
     Object body = {
       "gender": user.gender,
       "stemp": userCustomedTemp,
-      "isRain": selectedForecast.getSky == '비' ? true : false,
-      "isSnow": selectedForecast.getSky == '눈' ? true : false,
-      "windSpeed": selectedForecast.getWindSpeed,
+      "isRain": selectedForecast.sky == '비' ? true : false,
+      "isSnow": selectedForecast.sky == '눈' ? true : false,
+      "windSpeed": selectedForecast.windSpeed,
       "filterList": json.encode(pickedCategory),
     };
 

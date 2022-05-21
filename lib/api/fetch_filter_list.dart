@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:sweater/module/constitution.dart';
 import 'package:sweater/module/user.dart';
+import 'package:sweater/module/forecast.dart';
 import 'package:sweater/providers/weather_provider.dart';
 import 'package:http/http.dart' as http;
 
-Future<String> fetchFilterList(HourForecast selectedForecast, User user) async {
+Future<String> fetchFilterList(Forecast selectedForecast, User user) async {
   try {
-    int userCustomedTemp = int.parse(selectedForecast.getSTemp);
+    int userCustomedTemp = selectedForecast.sTemp;
     switch (user.constitution) {
       case Constitution.feelVeryHot: //더위 많이
         userCustomedTemp += 4;
@@ -28,9 +29,9 @@ Future<String> fetchFilterList(HourForecast selectedForecast, User user) async {
     Object body = {
       "gender": user.gender,
       "stemp": userCustomedTemp.toString(),
-      "isRain": selectedForecast.getSky == '비' ? true : false,
-      "isSnow": selectedForecast.getSky == '눈' ? true : false,
-      "windSpeed": selectedForecast.getWindSpeed
+      "isRain": selectedForecast.sky == '비' ? true : false,
+      "isSnow": selectedForecast.sky == '눈' ? true : false,
+      "windSpeed": selectedForecast.windSpeed
     };
 
     http.Response response = await http.post(

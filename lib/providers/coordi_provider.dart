@@ -38,7 +38,7 @@ class CoordiProvider with ChangeNotifier {
   }
 
   Future<bool> requestCoordiListWithFiltering(
-      HourForecast selectedForecast, User user) async {
+      Forecast selectedForecast, User user) async {
     isUpdateCoordiState = false;
     coordiList.clear();
     List<dynamic> filteredCoordiList =
@@ -74,93 +74,6 @@ class CoordiProvider with ChangeNotifier {
     if (responseCoordiLists == null) {
       notifyListeners();
       return false;
-    } else {
-      coordiList.clear();
-      for (int i = 0; i < responseCoordiLists.length; i++) {
-        //코디 리스트 생성
-        coordiList.add(
-          Coordi(
-              responseCoordiLists[i]['url'],
-              responseCoordiLists[i]['items'].map<Cloth>((item) {
-                return Cloth(item['major'], item['minor'], item['color'],
-                    item['full_name']);
-              }).toList(),
-              responseCoordiLists[i]['style']),
-        );
-      }
-      isReadyCoordiState = true;
-      isUpdateCoordiState = true;
-      notifyListeners();
-      return true;
-    }
-  }
-
-  clearPickedCategory() {
-    pickedCategory['outer']!.clear();
-    pickedCategory['top']!.clear();
-    pickedCategory['bottom']!.clear();
-    pickedCategory['one_piece']!.clear();
-
-    notifyListeners();
-  }
-}
-    } else {
-      coordiList.clear();
-      for (int i = 0; i < responseCoordiLists.length; i++) {
-        //코디 리스트 생성
-        coordiList.add(
-          Coordi(
-              responseCoordiLists[i]['url'],
-              responseCoordiLists[i]['items'].map<Cloth>((item) {
-                return Cloth(item['major'], item['minor'], item['color'],
-                    item['full_name']);
-              }).toList(),
-              responseCoordiLists[i]['style']),
-        );
-      }
-      isReadyCoordiState = true;
-      isUpdateCoordiState = true;
-      notifyListeners();
-      return true;
-    }
-  }
-
-  clearPickedCategory() {
-    pickedCategory['outer']!.clear();
-    pickedCategory['top']!.clear();
-    pickedCategory['bottom']!.clear();
-    pickedCategory['one_piece']!.clear();
-
-    notifyListeners();
-  }
-}
-        //코디 리스트 생성
-        coordiList.add(
-          Coordi(
-              responseCoordiLists[i]['url'],
-              responseCoordiLists[i]['items'].map<Cloth>((item) {
-                return Cloth(item['major'], item['minor'], item['color'],
-                    item['full_name']);
-              }).toList(),
-              responseCoordiLists[i]['style']),
-        );
-      }
-      isReadyCoordiState = true;
-      isUpdateCoordiState = true;
-      notifyListeners();
-      return true;
-    }
-  }
-
-  clearPickedCategory() {
-    pickedCategory['outer']!.clear();
-    pickedCategory['top']!.clear();
-    pickedCategory['bottom']!.clear();
-    pickedCategory['one_piece']!.clear();
-
-    notifyListeners();
-  }
-}
     } else {
       coordiList.clear();
       for (int i = 0; i < responseCoordiLists.length; i++) {
