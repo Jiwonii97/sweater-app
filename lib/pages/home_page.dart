@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     switch (state) {
       case AppLifecycleState.resumed: //재개하다
-        if (context.watch<WeatherProvider>().getCurrentWeather().time.hour <
+        if (context.read<WeatherProvider>().getCurrentWeather().time.hour <
             DateTime.now().hour) {
           weatherUpdateEmitter.emit('updatePeriodic');
         }
