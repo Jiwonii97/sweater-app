@@ -26,19 +26,25 @@ Future<String> fetchFilterList(Forecast selectedForecast, User user) async {
     }
     Uri uri = Uri.parse(
         "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/list");
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+
     Object body = {
       "gender": user.gender,
-      "stemp": userCustomedTemp.toString(),
+      "stemp": userCustomedTemp,
       "isRain": selectedForecast.sky == '비' ? true : false,
       "isSnow": selectedForecast.sky == '눈' ? true : false,
       "windSpeed": selectedForecast.windSpeed
     };
-
+    print(user.gender);
     http.Response response = await http.post(
       uri,
+      headers: headers,
       body: json.encode(body),
     );
     if (response.statusCode == 200) {
+      print(response.body);
       return response.body;
     } else {
       throw Exception();
