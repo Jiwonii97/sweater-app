@@ -94,6 +94,7 @@ Future<List<dynamic>?> fetchWeather(
     print("Couldn't find the post 😱");
     return null;
   } on FormatException {
+    print(now);
     print("Bad response format 👎");
     return null;
   } catch (e) {
