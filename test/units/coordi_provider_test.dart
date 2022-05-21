@@ -30,7 +30,6 @@ main() {
   CoordiProvider coordiProvider = CoordiProvider();
   test('UserProvider 생성', () async {
     expect(coordiProvider.coordiList, []);
-    expect(coordiProvider.coordiIdx, 0);
   });
   test('UserProvider 코디 불러오기', () async {
     expect(coordiProvider.coordiList, []);
@@ -51,16 +50,5 @@ main() {
       //코디 스타일 스트링을 불러오는 메소드 추가("getCoordiStyle() => 아메리칸 캐쥬얼")
       // expect(coordi.style.isNotEmpty, true);
     }
-  });
-  test('UserProvider 다음 코디, 이전 코디', () async {
-    expect(coordiProvider.coordiIdx, 0);
-    coordiProvider.nextCoordi();
-    expect(coordiProvider.coordiIdx, 1);
-    coordiProvider.prevCoordi();
-    expect(coordiProvider.coordiIdx, 0);
-    coordiProvider.prevCoordi();
-    expect(coordiProvider.coordiIdx, 19);
-    coordiProvider.nextCoordi();
-    expect(coordiProvider.coordiIdx, 0);
   });
 }
