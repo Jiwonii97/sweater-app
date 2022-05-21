@@ -190,10 +190,7 @@ class CoordiView extends StatelessWidget {
                     height: 32,
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context)
-                              .colorScheme
-                              .background
-                              .withOpacity(0.6),
+                          primary: Theme.of(context).colorScheme.surface,
                           elevation: 0),
                       icon: const Icon(
                         SweaterIcons.external_link_alt,
