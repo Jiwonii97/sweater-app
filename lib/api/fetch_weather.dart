@@ -66,17 +66,6 @@ Future<List<dynamic>?> fetchWeather(
       String hour = timeList[i].substring(0, 2);
       String minute = timeList[i].substring(2, 4);
       String second = '00';
-      print((year +
-          '-' +
-          month +
-          '-' +
-          date +
-          ' ' +
-          hour +
-          ':' +
-          minute +
-          ':' +
-          second));
       forecastDataList.add({
         "date": DateFormat("yyyy-MM-dd HH:mm:ss").parse(year +
             '-' +
