@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sweater/module/coordi.dart';
 import 'package:sweater/module/forecast.dart';
 import 'package:sweater/module/user.dart';
+import 'package:sweater/my_http_overrides.dart';
 import 'package:sweater/providers/coordi_provider.dart';
 import 'package:sweater/providers/user_provider.dart';
 import 'package:sweater/module/gender.dart';
@@ -17,6 +18,7 @@ import 'package:mockito/mockito.dart';
 
 main() {
   dotenv.testLoad(fileInput: File('test/.env').readAsStringSync());
+  HttpOverrides.global = MyHttpOverrides();
   WeatherProvider weatherProvider = WeatherProvider();
   test('WeatherProvider 생성', () async {
     expect(weatherProvider.forecastList.length, 12);

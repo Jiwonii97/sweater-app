@@ -133,6 +133,7 @@ class WeatherProvider extends ChangeNotifier {
     } on HttpException {
       print("Couldn't find the post 😱");
     } on FormatException {
+      print(DateTime.now());
       print("Bad response format 👎");
     } catch (e) {
       print(e);
