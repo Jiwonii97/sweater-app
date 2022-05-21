@@ -3,10 +3,10 @@ import 'dart:async';
 
 import 'package:eventify/eventify.dart';
 import 'package:flutter/material.dart';
+import 'package:mockito/mockito.dart';
 import 'package:sweater/module/error_type.dart';
-import 'package:sweater/module/forecast.dart';
-import 'package:sweater/widgets/card_container.dart';
 import 'package:sweater/theme/global_theme.dart';
+import 'package:sweater/module/forecast.dart';
 // import 'package:sweater/widgets/hourly_weather_section.dart';
 import 'package:sweater/pages/gender_change_page.dart';
 import 'package:sweater/pages/manage_location_page.dart';
@@ -20,10 +20,8 @@ import 'package:sweater/providers/user_provider.dart';
 import 'package:sweater/widgets/loading.dart';
 import '../widgets/coordi_section.dart';
 import '../widgets/weather_view.dart';
-import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/widgets/first_guide.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/link.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,6 +35,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final String _title = "스웨더";
   late Timer weatherUpdateTimer;
   late bool isFirst = false;
+  bool isFilterOpen = false;
   EventEmitter weatherUpdateEmitter = new EventEmitter();
   EventEmitter coordiUpdateEmitter = new EventEmitter();
 
@@ -140,6 +139,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     setState(() {});
   }
 
+  void openFilter() {
+    isFilterOpen = true;
+    setState(() {});
+  }
+
+  void closeFilter() {
+    // if()
+    isFilterOpen = false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var isWeatherReady = context.watch<WeatherProvider>().initWeatherFlag;
@@ -184,7 +194,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                                     .watch<WeatherProvider>()
                                                     .getCurrentWeather(),
                                               )),
-                                          const CoordiSection(),
+                                          CoordiSection(
+                                            openFilterDrawer: openFilter,
+                                          ),
                                         ])
                                   : const Loading(height: 600))),
                       drawer: Drawer(
@@ -263,28 +275,25 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               target: LinkTarget.blank,
                               builder:
                                   (BuildContext ctx, FollowLink? openLink) {
-                                return Row(
-                                    // mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      TextButton(
-                                          style: ButtonStyle(
-                                            overlayColor:
-                                                MaterialStateProperty.all(
-                                                    Colors.transparent),
-                                          ),
-                                          onPressed: openLink,
-                                          child: Text(
-                                            '  개인정보 처리방침',
-                                            style: GlobalTheme
-                                                .lightTheme.textTheme.subtitle2
-                                                ?.copyWith(
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .subtitle2!
-                                                        .color!
-                                                        .withOpacity(0.4)),
-                                          )),
-                                    ]);
+                                return Row(children: [
+                                  TextButton(
+                                      style: ButtonStyle(
+                                        overlayColor: MaterialStateProperty.all(
+                                            Colors.transparent),
+                                      ),
+                                      onPressed: openLink,
+                                      child: Text(
+                                        '  개인정보 처리방침',
+                                        style: GlobalTheme
+                                            .lightTheme.textTheme.subtitle2
+                                            ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle2!
+                                                    .color!
+                                                    .withOpacity(0.4)),
+                                      )),
+                                ]);
                               },
                             ),
                           ])))))),
@@ -296,9 +305,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       isFirst
           ? Center(
               child: Container(
-                  // margin: EdgeInsets.fromLTRB(16, 120, 16, 100),
-                  // color: Colors.white,
-                  // height: 600,
                   height: MediaQuery.of(context).size.height - 160,
                   width: MediaQuery.of(context).size.width - 32,
                   child: FirstGuide(startPressed: endTutorial)))

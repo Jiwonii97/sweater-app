@@ -12,12 +12,14 @@ class CardContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
         child: Card(
+            elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
+              side: BorderSide(color: Colors.black.withOpacity(0.05)),
             ),
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
+            color: Theme.of(context).colorScheme.background.withOpacity(0.4),
             child: child));
   }
 }

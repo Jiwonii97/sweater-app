@@ -20,10 +20,16 @@ import 'package:sweater/providers/weather_provider.dart';
 */
 main() {
   Forecast currentForecast = Forecast();
-  DateTime specificDate = DateFormat("yyyyMMdd hh:mm").parse("20220517 04:24");
+  DateTime specificDate =
+      DateFormat("yyyy-MM-dd HH:mm").parse("2022-05-17 04:24");
   currentForecast.initForecast(specificDate, 26, 28, "맑음", 0, 2.8);
   User user = User(Gender.man, Constitution.feelCold);
-  List<String> clothFilter = ["blouse", "shirt"];
+  Map<String, List<String>> clothFilter = {
+    "outer": [],
+    "top": [],
+    "bottom": [],
+    "one_piece": []
+  };
   test('fetch_coordi_list 통신 테스트', () async {
     var response = await fetchCoordiList(currentForecast, user, clothFilter);
     expect(response.length, 20);

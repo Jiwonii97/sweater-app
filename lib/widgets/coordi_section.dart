@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
+import 'package:sweater/widgets/filter_drawer.dart';
 import 'package:sweater/widgets/loading.dart';
 import 'package:sweater/widgets/card_container.dart';
 import 'package:sweater/theme/sweater_icons.dart';
@@ -9,7 +10,9 @@ import 'package:url_launcher/link.dart';
 import 'package:wrapped_korean_text/wrapped_korean_text.dart';
 
 class CoordiSection extends StatefulWidget {
-  const CoordiSection({Key? key}) : super(key: key);
+  final Function openFilterDrawer;
+  const CoordiSection({Key? key, required this.openFilterDrawer})
+      : super(key: key);
 
   @override
   State<CoordiSection> createState() => _CoordiSectionState();
@@ -43,17 +46,30 @@ class _CoordiSectionState extends State<CoordiSection> {
                         alignment: Alignment.centerRight,
                         // alignment: Alignment.topRight,
                         child: Container(
-                          height: 32,
-                          width: 32,
-                          child: IconButton(
+                            height: 32,
+                            width: 32,
+                            child: IconButton(
                               // icon: const Icon(SweaterIcons.temperature_high),
                               icon: Icon(SweaterIcons.sliders_h,
                                   size: 20,
                                   color: Theme.of(context)
                                       .colorScheme
                                       .onBackground),
-                              onPressed: () {}),
-                        ))
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    builder: (context) {
+                                      return Container(
+                                        child: FilterDrawer(),
+                                        height: 600,
+                                      );
+                                    });
+                              },
+                            )))
                   ],
                 ),
               ),
@@ -174,10 +190,7 @@ class CoordiView extends StatelessWidget {
                     height: 32,
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context)
-                              .colorScheme
-                              .background
-                              .withOpacity(0.6),
+                          primary: Theme.of(context).colorScheme.surface,
                           elevation: 0),
                       icon: const Icon(
                         SweaterIcons.external_link_alt,

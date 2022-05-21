@@ -24,6 +24,7 @@ class GlobalTheme {
   static const Color _gray200 = Color(0xffEEEEEE);
   static const Color _gray100 = Color(0xffF5F5F5);
   static const Color _gray50 = Color(0xffFAFAFA);
+  static const Color _gray0 = Color(0xffFFFFFF);
 
   static const Color _blueGray900 = Color(0xff263238);
   static const Color _blueGray800 = Color(0xff37474F);
@@ -71,8 +72,9 @@ class GlobalTheme {
 
   final Color _iconColor = const Color(0xff2B3137);
 
-  static const Color _lightPrimaryColor = Color(0xff0E7EB8);
+  static const Color _lightPrimaryColor = Color(0xff03a9f4);
   static const Color _lightPrimaryVariantColor = Color(0xff004B72);
+  static const Color _darkPrimaryColor = Color(0xff4fc3f7);
   static const Color _lightBackgroundColor = Color(0xffFFFFFF);
   static const Color _lightSurfaceColor = Color(0xffFFFFFF);
   static const Color _lightErrorColor = Color(0xffDD3730);
@@ -153,14 +155,14 @@ class GlobalTheme {
 
   static final ThemeData lightTheme = ThemeData(
       colorScheme: const ColorScheme.light(
-        surface: Color(0xffFFFFFF),
-        background: Color(0xffFFFFFF),
+        surface: _gray200,
+        background: _gray50,
         error: _error500,
-        onPrimary: Color(0xff121212),
-        onSecondary: Color(0xff121212),
-        onSurface: Color(0xff121212),
-        onBackground: Color(0xff121212),
-        onError: Color(0xffFFFFFF),
+        onPrimary: _gray900,
+        onSecondary: _gray900,
+        onSurface: _gray900,
+        onBackground: _gray900,
+        onError: _gray50,
         brightness: Brightness.light,
       ),
       appBarTheme: const AppBarTheme(
@@ -194,10 +196,10 @@ class GlobalTheme {
       errorColor: _lightErrorColor);
   static final ThemeData darkTheme = ThemeData(
       colorScheme: const ColorScheme.dark(
-        surface: _gray900,
+        surface: _gray800,
         background: _gray900,
         error: _error500,
-        onPrimary: _gray50,
+        onPrimary: _gray900,
         onSecondary: _gray50,
         onSurface: _gray50,
         onBackground: _gray50,
@@ -231,6 +233,6 @@ class GlobalTheme {
         overline: _overlineText.copyWith(color: _gray50),
       ),
       fontFamily: 'NotoSansKR',
-      primaryColor: _lightPrimaryColor,
+      primaryColor: _darkPrimaryColor,
       errorColor: _lightErrorColor);
 }
