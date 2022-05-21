@@ -18,7 +18,9 @@ jobs:
     
     steps:
       - name: set timezone to asia/seoul
-        run: timedatectl set-timezone 'Asia/Seoul'
+        uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Asia/Seoul"
         
       - name: Checkout the code
         uses: actions/checkout@v3
