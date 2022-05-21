@@ -31,13 +31,10 @@ class CheckMenu extends StatelessWidget {
                   : null,
               title: Text(title,
                   style: checked
-                      ? isLocation
-                          ? TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold)
-                          : TextStyle(color: Theme.of(context).primaryColor)
-                      : const TextStyle(
-                          color: Colors.grey, fontWeight: FontWeight.bold)),
+                      ? TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold)
+                      : TextStyle(color: Colors.grey)),
               trailing: checked
                   ? const Icon(Icons.check, color: Colors.blue)
                   : const Icon(null),
