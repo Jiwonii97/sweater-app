@@ -28,6 +28,10 @@ jobs:
         run: echo "WEATHER_API_KEY=$WEAHER_API_KEY" >> .env
         env:
           WEHATER_API_KEY: ${{ secrets.WEAHTER_API_KEY }}
+      - name: Set test .env
+        run: echo "WEATHER_API_KEY=$WEAHER_API_KEY" >> test/.env
+        env:
+          WEHATER_API_KEY: ${{ secrets.WEAHTER_API_KEY }}
           
       # 패키지 불러오기
       - name: Restore packages 
