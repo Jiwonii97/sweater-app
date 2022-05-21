@@ -44,7 +44,6 @@ Future<String> fetchFilterList(Forecast selectedForecast, User user) async {
       body: json.encode(body),
     );
     if (response.statusCode == 200) {
-      print(response.body);
       return response.body;
     } else {
       throw Exception();
