@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:sweater/providers/location_provider.dart';
 import 'package:sweater/theme/global_theme.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:sweater/my_http_overrides.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -19,15 +20,6 @@ void main() async {
 
   HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
-}
-
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
 }
 
 class MyApp extends StatelessWidget {
