@@ -43,13 +43,14 @@ class _ManageLocationPage extends State<ManageLocationPage> {
           // context.read<WeatherProvider>().changeActiveFlag();
           int xValue = context.read<LocationProvider>().current.X;
           int yValue = context.read<LocationProvider>().current.Y;
-          context.read<WeatherProvider>().updateWeather(xValue, yValue).then(
-              (value) => value == 0
+          context
+              .read<WeatherProvider>()
+              .updateWeather(xValue, yValue)
+              .then((value) => value == 0
                   ? context.read<CoordiProvider>().requestCoordiList(
-                      context.read<WeatherProvider>().forecastList,
-                      0,
-                      context.read<UserProvider>().gender,
-                      context.read<UserProvider>().constitution)
+                        context.read<WeatherProvider>().getCurrentWeather(),
+                        context.read<UserProvider>().user,
+                      )
                   : debugPrint("fail getting weather api"));
 
           setState(() {});

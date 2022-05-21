@@ -7,6 +7,10 @@ import 'package:sweater/module/user.dart';
 // User 클래스 정의
 class UserProvider extends ChangeNotifier {
   final User _user = User(Gender.man, Constitution.feelNormal);
+  User get user {
+    return _user;
+  }
+
   int get gender {
     return _user.gender;
   }
