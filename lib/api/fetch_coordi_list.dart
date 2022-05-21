@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:sweater/module/constitution.dart';
 import 'package:sweater/module/error_type.dart';
 import 'package:sweater/module/forecast.dart';
@@ -6,8 +8,8 @@ import 'package:sweater/providers/weather_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-Future<List<dynamic>> fetchCoordiList(
-    Forecast selectedForecast, User user) async {
+Future<List<dynamic>> fetchCoordiList(Forecast selectedForecast, User user,
+    Map<String, List<String>>? pickedCategory) async {
   try {
     int userCustomedTemp = selectedForecast.sTemp;
     switch (user.constitution) {
@@ -26,16 +28,27 @@ Future<List<dynamic>> fetchCoordiList(
       default:
         break;
     }
-    String host =
-        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand?";
-    host += "gender=${user.gender}&";
-    host += "stemp=${userCustomedTemp.toString()}&";
-    host += "isRain=${selectedForecast.sky == '비' ? true : false}&";
-    host += "isSnow=${selectedForecast.sky == '눈' ? true : false}&";
-    host += "windSpeed=${selectedForecast.windSpeed}";
+    Uri uri = Uri.parse(
+        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand");
 
-    Uri uri = Uri.parse(host);
-    var response = await http.get(uri);
+    Object body = {
+      "gender": user.gender,
+      "stemp": userCustomedTemp,
+      "isRain": selectedForecast.getSky == '비' ? true : false,
+      "isSnow": selectedForecast.getSky == '눈' ? true : false,
+      "windSpeed": selectedForecast.getWindSpeed,
+      "filterList": json.encode(pickedCategory),
+    };
+
+    Map<String, String> headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+    };
+
+    http.Response response = await http.post(
+      uri,
+      headers: headers,
+      body: json.encode(body),
+    );
     if (response.statusCode == 200) {
       return convert.jsonDecode(response.body);
     } else {
