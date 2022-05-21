@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +12,7 @@ import 'package:sweater/module/forecast.dart';
 import 'package:sweater/module/gender.dart';
 import 'package:sweater/module/user.dart';
 import 'package:sweater/providers/weather_provider.dart';
+import 'package:sweater/my_http_overrides.dart';
 
 /* Cloth의 속성
   final String _majorCategory;
@@ -19,6 +22,7 @@ import 'package:sweater/providers/weather_provider.dart';
   final String _thickness; // "","thin","thick",
 */
 main() {
+  HttpOverrides.global = MyHttpOverrides();
   Forecast currentForecast = Forecast();
   DateTime specificDate =
       DateFormat("yyyy-MM-dd HH:mm").parse("2022-05-17 04:24");

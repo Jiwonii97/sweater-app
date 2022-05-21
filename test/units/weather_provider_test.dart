@@ -14,9 +14,11 @@ import 'package:sweater/module/constitution.dart';
 import 'package:sweater/providers/weather_provider.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:sweater/my_http_overrides.dart';
 
 main() {
   dotenv.testLoad(fileInput: File('test/.env').readAsStringSync());
+  HttpOverrides.global = MyHttpOverrides();
   WeatherProvider weatherProvider = WeatherProvider();
   test('WeatherProvider 생성', () async {
     expect(weatherProvider.forecastList.length, 12);
