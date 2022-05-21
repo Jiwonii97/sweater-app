@@ -15,7 +15,6 @@ import 'package:sweater/module/user.dart';
 import 'package:sweater/providers/weather_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-//{"address":"서울특별시 서초구 내곡동","X":61,"Y":124}
 main() async {
   dotenv.testLoad(fileInput: File('test/.env').readAsStringSync());
 
