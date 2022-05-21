@@ -37,7 +37,6 @@ Future<String> fetchFilterList(Forecast selectedForecast, User user) async {
       "isSnow": selectedForecast.sky == '눈' ? true : false,
       "windSpeed": selectedForecast.windSpeed
     };
-    print(user.gender);
     http.Response response = await http.post(
       uri,
       headers: headers,
