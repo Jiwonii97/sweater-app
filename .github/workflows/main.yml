@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: set timezone to asia/seoul
+        run: timedatectl set-timezone 'Asia/Seoul'
+        
       - name: Checkout the code
         uses: actions/checkout@v3
         
