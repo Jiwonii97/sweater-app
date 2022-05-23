@@ -21,7 +21,7 @@ class CoordiSection extends StatefulWidget {
 class _CoordiSectionState extends State<CoordiSection> {
   @override
   Widget build(BuildContext context) {
-    final controller = PageController(viewportFraction: 0.8, initialPage: 999);
+    final controller = PageController(viewportFraction: 0.8);
     return context.watch<CoordiProvider>().isUpdateCoordiState
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 20),
@@ -82,32 +82,22 @@ class _CoordiSectionState extends State<CoordiSection> {
                       height: 400,
                       child: PageView.builder(
                           controller: controller,
+                          itemCount:
+                              context.watch<CoordiProvider>().coordiList.length,
                           itemBuilder: (_, index) {
                             return CardContainer(
                               child: CoordiView(
                                   coordi: context
                                       .watch<CoordiProvider>()
-                                      .coordiList[index %
-                                          context
-                                              .watch<CoordiProvider>()
-                                              .coordiList
-                                              .length]
+                                      .coordiList[index]
                                       .getCoordiInfo(),
                                   coordiIllust: context
                                       .watch<CoordiProvider>()
-                                      .coordiList[index %
-                                          context
-                                              .watch<CoordiProvider>()
-                                              .coordiList
-                                              .length]
+                                      .coordiList[index]
                                       .getIllustUrl(),
                                   url: context
                                       .watch<CoordiProvider>()
-                                      .coordiList[index %
-                                          context
-                                              .watch<CoordiProvider>()
-                                              .coordiList
-                                              .length]
+                                      .coordiList[index]
                                       .url),
                             );
                           })),
