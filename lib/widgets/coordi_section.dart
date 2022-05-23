@@ -24,7 +24,7 @@ class _CoordiSectionState extends State<CoordiSection> {
     final controller = PageController(viewportFraction: 0.8, initialPage: 999);
     return context.watch<CoordiProvider>().isUpdateCoordiState
         ? Container(
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: Column(children: <Widget>[
               Container(
                 margin: const EdgeInsets.only(right: 16),
@@ -44,12 +44,10 @@ class _CoordiSectionState extends State<CoordiSection> {
                     ),
                     Align(
                         alignment: Alignment.centerRight,
-                        // alignment: Alignment.topRight,
                         child: Container(
                             height: 32,
                             width: 32,
                             child: IconButton(
-                              // icon: const Icon(SweaterIcons.temperature_high),
                               icon: Icon(SweaterIcons.sliders_h,
                                   size: 20,
                                   color: Theme.of(context)
@@ -85,30 +83,39 @@ class _CoordiSectionState extends State<CoordiSection> {
                           itemBuilder: (_, index) {
                             return CardContainer(
                               child: CoordiView(
-                                  coordi: context
-                                      .watch<CoordiProvider>()
-                                      .coordiList[index %
-                                          context
-                                              .watch<CoordiProvider>()
-                                              .coordiList
-                                              .length]
-                                      .getCoordiInfo(),
-                                  coordiIllust: context
-                                      .watch<CoordiProvider>()
-                                      .coordiList[index %
-                                          context
-                                              .watch<CoordiProvider>()
-                                              .coordiList
-                                              .length]
-                                      .getIllustUrl(),
-                                  url: context
-                                      .watch<CoordiProvider>()
-                                      .coordiList[index %
-                                          context
-                                              .watch<CoordiProvider>()
-                                              .coordiList
-                                              .length]
-                                      .url),
+                                coordi: context
+                                    .watch<CoordiProvider>()
+                                    .coordiList[index %
+                                        context
+                                            .watch<CoordiProvider>()
+                                            .coordiList
+                                            .length]
+                                    .getCoordiInfo(),
+                                coordiIllust: context
+                                    .watch<CoordiProvider>()
+                                    .coordiList[index %
+                                        context
+                                            .watch<CoordiProvider>()
+                                            .coordiList
+                                            .length]
+                                    .getIllustUrl(),
+                                url: context
+                                    .watch<CoordiProvider>()
+                                    .coordiList[index %
+                                        context
+                                            .watch<CoordiProvider>()
+                                            .coordiList
+                                            .length]
+                                    .url,
+                                style: context
+                                    .watch<CoordiProvider>()
+                                    .coordiList[index %
+                                        context
+                                            .watch<CoordiProvider>()
+                                            .coordiList
+                                            .length]
+                                    .style,
+                              ),
                             );
                           })),
             ]),
@@ -121,11 +128,13 @@ class CoordiView extends StatelessWidget {
   final List coordi;
   final List coordiIllust;
   final String url;
+  final String style;
   CoordiView({
     Key? key,
     required this.coordi,
     required this.coordiIllust,
     required this.url,
+    required this.style,
   }) : super(key: key);
 
   @override
@@ -138,17 +147,17 @@ class CoordiView extends StatelessWidget {
     if (clothCount == 1) {
       coordiList.add(illustView(coordiIllust[0], 64, 32));
     } else if (clothCount == 2) {
-      coordiList.add(illustView(coordiIllust[0], 19, 23));
-      coordiList.add(illustView(coordiIllust[1], 123, 72));
+      coordiList.add(illustView(coordiIllust[0], 19, 0));
+      coordiList.add(illustView(coordiIllust[1], 123, 42));
     } else if (clothCount == 3) {
-      coordiList.add(illustView(coordiIllust[0], 16, 17));
-      coordiList.add(illustView(coordiIllust[1], 128, 17));
-      coordiList.add(illustView(coordiIllust[2], 80, 84));
+      coordiList.add(illustView(coordiIllust[0], 16, -3));
+      coordiList.add(illustView(coordiIllust[1], 128, -3));
+      coordiList.add(illustView(coordiIllust[2], 80, 64));
     } else if (clothCount == 4) {
-      coordiList.add(illustView(coordiIllust[2], 84, 0));
-      coordiList.add(illustView(coordiIllust[1], 146, 60));
-      coordiList.add(illustView(coordiIllust[3], 60, 110));
-      coordiList.add(illustView(coordiIllust[0], 0, 20));
+      coordiList.add(illustView(coordiIllust[2], 84, -10));
+      coordiList.add(illustView(coordiIllust[1], 146, 50));
+      coordiList.add(illustView(coordiIllust[3], 60, 70));
+      coordiList.add(illustView(coordiIllust[0], 0, 10));
     }
 
     // 상세 설명 텍스트
@@ -159,16 +168,22 @@ class CoordiView extends StatelessWidget {
     return Column(
       children: [
         Container(
-          // color: Colors.amber,
+          margin: EdgeInsets.symmetric(vertical: 16),
+          child: Text(style, style: Theme.of(context).textTheme.subtitle2),
+        ),
+        Container(
           width: 264,
-          height: 264,
+          height: 228,
           child: Stack(children: coordiList),
+        ),
+        const SizedBox(
+          height: 8,
         ),
         Container(
           width: 264,
           height: 60,
           child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: WrappedKoreanText(
                 detail,
                 style: Theme.of(context)
@@ -177,16 +192,13 @@ class CoordiView extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.bold),
               )),
         ),
-        const SizedBox(
-          height: 8,
-        ),
         Link(
           uri: Uri.parse(url),
           target: LinkTarget.blank,
           builder: (BuildContext ctx, FollowLink? openLink) {
             return url != ""
                 ? Container(
-                    width: 232,
+                    width: 264,
                     height: 32,
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
