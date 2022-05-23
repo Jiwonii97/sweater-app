@@ -54,6 +54,7 @@ dependencies:
   build_runner: ^2.1.11
   flutter_tags: ^0.4.9+1
   modal_bottom_sheet: ^2.0.1
+  flutter_native_splash: ^2.1.6
 
 dev_dependencies:
   flutter_test:
@@ -159,3 +160,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/splash.png
+  fullscreen: true
