@@ -27,7 +27,7 @@ class WeatherProvider extends ChangeNotifier {
 
   final List<Forecast> _forecastList = [];
   List<Forecast> get forecastList => _forecastList; // get 필드
-  static const int predictMax = 12; // 객체 12개 생성으로 인한 12시간의 날씨 데이터 보유
+  static const int predictMax = 24; // 객체 12개 생성으로 인한 24시간의 날씨 데이터 보유
 
   // API Key값
   late String _myKey = dotenv.env['WEATHER_API_KEY'] ?? '';
