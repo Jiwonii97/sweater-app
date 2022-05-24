@@ -21,6 +21,7 @@ class CoordiSection extends StatefulWidget {
 class _CoordiSectionState extends State<CoordiSection> {
   @override
   Widget build(BuildContext context) {
+    int currentHour = DateTime.now().hour;
     final controller = PageController(viewportFraction: 0.8, initialPage: 999);
     return context.watch<CoordiProvider>().isUpdateCoordiState
         ? Container(
@@ -77,7 +78,26 @@ class _CoordiSectionState extends State<CoordiSection> {
                 height: 12,
               ),
               context.watch<CoordiProvider>().coordiList.isEmpty
-                  ? const Text("no data")
+                  ? CardContainer(
+                      child: SizedBox(
+                          width: 264,
+                          height: 400,
+                          child: Column(
+                            children: [
+                              if (6 <= currentHour && currentHour <= 18)
+                                Image.asset('assets/no-data-black.png')
+                              else
+                                Image.asset('assets/no-data-white.png'),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              const Text(
+                                "데이터가 없습니다.",
+                                // style: Theme.of(context).textTheme.headline6
+                              )
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.center,
+                          )))
                   : SizedBox(
                       height: 400,
                       child: PageView.builder(
