@@ -232,7 +232,7 @@ class CoordiView extends StatelessWidget {
                           elevation: 0),
                       icon: Icon(
                         SweaterIcons.external_link_alt,
-                        color: Theme.of(context).colorScheme.onBackground,
+                        color: Theme.of(context).colorScheme.onSurface,
                         size: 14,
                       ),
                       onPressed: openLink,
