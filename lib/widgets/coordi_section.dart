@@ -98,28 +98,65 @@ class _CoordiSectionState extends State<CoordiSection> {
                       height: 400,
                       child: PageView.builder(
                           controller: controller,
-                          itemCount:
-                              context.watch<CoordiProvider>().coordiList.length,
+                          itemCount: context
+                                  .watch<CoordiProvider>()
+                                  .coordiList
+                                  .length +
+                              1,
                           itemBuilder: (_, index) {
-                            return CardContainer(
-                                child: CoordiView(
-                              coordi: context
-                                  .watch<CoordiProvider>()
-                                  .coordiList[index]
-                                  .getCoordiInfo(),
-                              coordiIllust: context
-                                  .watch<CoordiProvider>()
-                                  .coordiList[index]
-                                  .getIllustUrl(),
-                              url: context
-                                  .watch<CoordiProvider>()
-                                  .coordiList[index]
-                                  .url,
-                              style: context
-                                  .watch<CoordiProvider>()
-                                  .coordiList[index]
-                                  .style,
-                            ));
+                            if (index ==
+                                context
+                                    .watch<CoordiProvider>()
+                                    .coordiList
+                                    .length) {
+                              return GestureDetector(
+                                  onTap: () => {}, // 여기서 더 불러오기
+                                  child: CardContainer(
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 48,
+                                        ),
+                                        Icon(
+                                          SweaterIcons.plus,
+                                          size: 70,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                        ),
+                                        const SizedBox(
+                                          height: 48,
+                                        ),
+                                        Text("코디 더 불러오기",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline6)
+                                      ],
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                    ),
+                                  ));
+                            } else {
+                              return CardContainer(
+                                  child: CoordiView(
+                                coordi: context
+                                    .watch<CoordiProvider>()
+                                    .coordiList[index]
+                                    .getCoordiInfo(),
+                                coordiIllust: context
+                                    .watch<CoordiProvider>()
+                                    .coordiList[index]
+                                    .getIllustUrl(),
+                                url: context
+                                    .watch<CoordiProvider>()
+                                    .coordiList[index]
+                                    .url,
+                                style: context
+                                    .watch<CoordiProvider>()
+                                    .coordiList[index]
+                                    .style,
+                              ));
+                            }
                           })),
             ]),
           )
@@ -201,10 +238,12 @@ class CoordiView extends StatelessWidget {
           builder: (BuildContext ctx, FollowLink? openLink) {
             return url != ""
                 ? Container(
-                    width: 264,
+                    width: 232,
                     height: 32,
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
                           primary: Theme.of(context).colorScheme.surface,
                           elevation: 0),
                       icon: const Icon(
