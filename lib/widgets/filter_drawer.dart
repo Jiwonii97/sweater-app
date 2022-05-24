@@ -214,10 +214,9 @@ class _FilterDrawerState extends State<FilterDrawer>
                               child: ElevatedButton(
                                   onPressed: () async {
                                     Navigator.pop(context);
-                                    await coordiProvider
-                                        .requestCoordiListWithFiltering(
-                                            weatherProvider.getCurrentWeather(),
-                                            userProvider.user);
+                                    await coordiProvider.requestCoordiList(
+                                        weatherProvider.getCurrentWeather(),
+                                        userProvider.user);
                                   },
                                   child: Text("적용",
                                       style: Theme.of(context)

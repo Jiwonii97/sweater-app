@@ -18,6 +18,8 @@ class CoordiProvider with ChangeNotifier {
   bool _isUpdateCoordiState = false;
   String filterResponse = "";
   Map<String, dynamic> filterList = {};
+  Map<String, int> currentPage = {"key": -1, "index": 0};
+  bool isAllLoaded = false;
   Map<String, List<String>> pickedCategory = {
     "outer": [],
     "top": [],
@@ -27,6 +29,8 @@ class CoordiProvider with ChangeNotifier {
 
   Coordi get coordi => _coordi;
   bool get isUpdateCoordiState => _isUpdateCoordiState;
+  int get pageKey => currentPage['key'] ?? -1;
+  int get pageIndex => currentPage['index'] ?? 0;
 
   set coordi(Coordi input) {
     _coordi = Coordi(input.url, input.clothes, input.style);
@@ -37,34 +41,19 @@ class CoordiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> requestCoordiListWithFiltering(
-      Forecast selectedForecast, User user) async {
-    isUpdateCoordiState = false;
-    coordiList.clear();
-    List<dynamic> filteredCoordiList =
-        await fetchCoordiList(selectedForecast, user, pickedCategory);
-    for (int i = 0; i < filteredCoordiList.length; i++) {
-      coordiList.add(
-        Coordi(
-            filteredCoordiList[i]['url'],
-            filteredCoordiList[i]['items'].map<Cloth>((item) {
-              return Cloth(item['major'], item['minor'], item['color'],
-                  item['full_name']);
-            }).toList(),
-            filteredCoordiList[i]['style']),
-      );
-    }
-    isUpdateCoordiState = true;
-    notifyListeners();
-    return true;
-  }
-
-  Future<bool> requestCoordiList(Forecast selectedForecast, User user) async {
+  Future<bool> requestCoordiList(Forecast selectedForecast, User user,
+      {int pageKey = -1, int pageIndex = 0}) async {
     if (_coordiListFuture != null) {
       _coordiListFuture?.cancel();
     }
+    if (pageIndex == 0) {
+      coordiList.clear();
+      isAllLoaded = false;
+    }
+
     _coordiListFuture = CancelableOperation.fromFuture(
-      fetchCoordiList(selectedForecast, user, pickedCategory),
+      fetchCoordiList(
+          selectedForecast, user, pickedCategory, pageKey, pageIndex),
     );
     isUpdateCoordiState = false;
     filterResponse = await fetchFilterList(selectedForecast, user);
@@ -75,17 +64,22 @@ class CoordiProvider with ChangeNotifier {
       notifyListeners();
       return false;
     } else {
-      coordiList.clear();
-      for (int i = 0; i < responseCoordiLists.length; i++) {
+      // coordiList.clear();
+
+      currentPage['key'] = responseCoordiLists['key'];
+      currentPage['index'] = responseCoordiLists['index'];
+      if (currentPage['index'] == responseCoordiLists['maxIndex'])
+        isAllLoaded = true;
+      for (int i = 0; i < responseCoordiLists['coordis'].length; i++) {
         //코디 리스트 생성
         coordiList.add(
           Coordi(
-              responseCoordiLists[i]['url'],
-              responseCoordiLists[i]['items'].map<Cloth>((item) {
+              responseCoordiLists['coordis'][i]['url'],
+              responseCoordiLists['coordis'][i]['items'].map<Cloth>((item) {
                 return Cloth(item['major'], item['minor'], item['color'],
                     item['full_name']);
               }).toList(),
-              responseCoordiLists[i]['style']),
+              responseCoordiLists['coordis'][i]['style']),
         );
       }
       isReadyCoordiState = true;

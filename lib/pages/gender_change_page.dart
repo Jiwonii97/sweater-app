@@ -42,7 +42,9 @@ class _GenderChangePage extends State<GenderChangePage> {
               .read<UserProvider>()
               .changeGender(genderList[index]['gender']);
           coordiConsumer.requestCoordiList(
-              weatherConsumer.getCurrentWeather(), userConsumer.user);
+              weatherConsumer.getCurrentWeather(), userConsumer.user,
+              pageKey: coordiConsumer.pageKey,
+              pageIndex: coordiConsumer.pageIndex);
         },
         child: CheckMenu(
           leadingIcon: genderList[index]['icon'],

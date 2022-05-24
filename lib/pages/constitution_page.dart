@@ -52,7 +52,9 @@ class _ConstitutionManagePage extends State<ConstitutionManagePage> {
               .changeConstitution(constitutionList[index]['constitutionValue']);
           context.read<CoordiProvider>().requestCoordiList(
               context.read<WeatherProvider>().getCurrentWeather(),
-              context.read<UserProvider>().user);
+              context.read<UserProvider>().user,
+              pageKey: context.read<CoordiProvider>().pageKey,
+              pageIndex: context.read<CoordiProvider>().pageIndex);
         },
         child: CheckMenu(
           title: constitutionList[index]['constitutionString'],

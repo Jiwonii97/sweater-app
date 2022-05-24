@@ -6,6 +6,8 @@ import 'package:sweater/widgets/loading.dart';
 import 'package:sweater/widgets/card_container.dart';
 import 'package:sweater/theme/sweater_icons.dart';
 
+import 'package:sweater/providers/user_provider.dart';
+import 'package:sweater/providers/weather_provider.dart';
 import 'package:url_launcher/link.dart';
 import 'package:wrapped_korean_text/wrapped_korean_text.dart';
 
@@ -21,79 +23,81 @@ class CoordiSection extends StatefulWidget {
 class _CoordiSectionState extends State<CoordiSection> {
   @override
   Widget build(BuildContext context) {
-    final controller = PageController(viewportFraction: 0.8);
+    final controller = PageController(
+        viewportFraction: 0.8,
+        initialPage: context.watch<CoordiProvider>().pageIndex * 20);
     final pageLength = context.watch<CoordiProvider>().coordiList.length;
-    return context.watch<CoordiProvider>().isUpdateCoordiState
-        ? Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Column(children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 16),
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                          height: 32,
-                          child: Text(
-                            "오늘의 추천 코디",
-                            style:
-                                Theme.of(context).textTheme.headline5?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                          )),
-                    ),
-                    Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                            height: 32,
-                            width: 32,
-                            child: IconButton(
-                              icon: Icon(SweaterIcons.sliders_h,
-                                  size: 20,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground),
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    builder: (context) {
-                                      return Container(
-                                        child: FilterDrawer(),
-                                        height: 600,
-                                      );
-                                    });
-                              },
-                            )))
-                  ],
-                ),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Column(children: <Widget>[
+        Container(
+          margin: const EdgeInsets.only(right: 16),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                    height: 32,
+                    child: Text(
+                      "오늘의 추천 코디",
+                      style: Theme.of(context).textTheme.headline5?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    )),
               ),
-              const SizedBox(height: 12),
-              context
-                      .watch<CoordiProvider>()
-                      .coordiList
-                      .isEmpty // 코디 부분 빌드 build
-                  ? noDataCard()
-                  : SizedBox(
-                      height: 400,
-                      child: PageView.builder(
-                          controller: controller,
-                          itemCount: pageLength + 1,
-                          itemBuilder: (_, index) {
-                            if (index == pageLength) {
-                              return moreLoadCard();
-                            } else {
-                              return coordiViewCard(index);
-                            }
-                          }),
-                    ),
-            ]),
-          )
-        : const Loading(height: 396);
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                      height: 32,
+                      width: 32,
+                      child: IconButton(
+                        icon: Icon(SweaterIcons.sliders_h,
+                            size: 20,
+                            color: Theme.of(context).colorScheme.onBackground),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              builder: (context) {
+                                return Container(
+                                  child: FilterDrawer(),
+                                  height: 600,
+                                );
+                              });
+                        },
+                      )))
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        context.watch<CoordiProvider>().coordiList.isEmpty &&
+                context
+                    .watch<CoordiProvider>()
+                    .isUpdateCoordiState // 코디 부분 빌드 build
+            ? noDataCard()
+            : SizedBox(
+                height: 400,
+                child: PageView.builder(
+                    controller: controller,
+                    itemCount: pageLength + 1,
+                    itemBuilder: (_, index) {
+                      if (index == pageLength) {
+                        if (context.watch<CoordiProvider>().isUpdateCoordiState)
+                          return moreLoadCard();
+                        else
+                          return CardContainer(
+                            child: const Loading(height: 396),
+                          );
+                      } else
+                        return coordiViewCard(index);
+                    }),
+              ),
+      ]),
+    );
+    // : const Loading(height: 396);
   }
 
   Widget coordiViewCard(int index) {
@@ -109,7 +113,13 @@ class _CoordiSectionState extends State<CoordiSection> {
 
   Widget moreLoadCard() {
     return GestureDetector(
-      onTap: () => {}, // 여기서 더 불러오기
+      onTap: () => {
+        context.read<CoordiProvider>().requestCoordiList(
+            context.read<WeatherProvider>().getCurrentWeather(),
+            context.read<UserProvider>().user,
+            pageKey: context.read<CoordiProvider>().pageKey,
+            pageIndex: context.read<CoordiProvider>().pageIndex + 1)
+      }, // 여기서 더 불러오기
       child: CardContainer(
         child: Column(
           children: [
