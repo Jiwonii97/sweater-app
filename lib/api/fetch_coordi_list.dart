@@ -33,7 +33,7 @@ Future<Map<dynamic, dynamic>> fetchCoordiList(
         break;
     }
     Uri uri = Uri.parse(
-        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand");
+        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/new/coordi/recommand");
 
     Object body = {
       "gender": user.gender,

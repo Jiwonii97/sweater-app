@@ -3,7 +3,6 @@ import 'package:sweater/module/forecast.dart';
 import 'package:sweater/api/fetch_filter_list.dart';
 import 'package:sweater/module/user.dart';
 import 'dart:convert' as convert;
-import 'package:sweater/providers/weather_provider.dart';
 import 'package:sweater/module/cloth.dart';
 import 'package:sweater/module/coordi.dart';
 import 'package:async/async.dart';
@@ -70,6 +69,8 @@ class CoordiProvider with ChangeNotifier {
       currentPage['index'] = responseCoordiLists['index'];
       if (currentPage['index'] == responseCoordiLists['maxIndex'])
         isAllLoaded = true;
+      else
+        isAllLoaded = false;
       for (int i = 0; i < responseCoordiLists['coordis'].length; i++) {
         //코디 리스트 생성
         coordiList.add(

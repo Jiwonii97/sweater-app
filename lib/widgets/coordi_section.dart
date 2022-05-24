@@ -25,7 +25,7 @@ class _CoordiSectionState extends State<CoordiSection> {
   Widget build(BuildContext context) {
     final controller = PageController(
         viewportFraction: 0.8,
-        initialPage: context.watch<CoordiProvider>().pageIndex * 20);
+        initialPage: context.watch<CoordiProvider>().pageIndex);
     final pageLength = context.watch<CoordiProvider>().coordiList.length;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
