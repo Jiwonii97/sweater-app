@@ -102,25 +102,24 @@ class _CoordiSectionState extends State<CoordiSection> {
                               context.watch<CoordiProvider>().coordiList.length,
                           itemBuilder: (_, index) {
                             return CardContainer(
-                              child: CoordiView(
-
-                                  coordi: context
-                                      .watch<CoordiProvider>()
-                                      .coordiList[index]
-                                      .getCoordiInfo(),
-                                  coordiIllust: context
-                                      .watch<CoordiProvider>()
-                                      .coordiList[index]
-                                      .getIllustUrl(),
-                                  url: context
-                                      .watch<CoordiProvider>()
-                                      .coordiList[index]
-                                      .url),
-                            style: context
-                                    .watch<CoordiProvider>()
-                                    .coordiList[index] 
-                                    .style,
-                            );
+                                child: CoordiView(
+                              coordi: context
+                                  .watch<CoordiProvider>()
+                                  .coordiList[index]
+                                  .getCoordiInfo(),
+                              coordiIllust: context
+                                  .watch<CoordiProvider>()
+                                  .coordiList[index]
+                                  .getIllustUrl(),
+                              url: context
+                                  .watch<CoordiProvider>()
+                                  .coordiList[index]
+                                  .url,
+                              style: context
+                                  .watch<CoordiProvider>()
+                                  .coordiList[index]
+                                  .style,
+                            ));
                           })),
             ]),
           )
