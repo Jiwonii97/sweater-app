@@ -21,8 +21,8 @@ class CoordiSection extends StatefulWidget {
 class _CoordiSectionState extends State<CoordiSection> {
   @override
   Widget build(BuildContext context) {
-    int currentHour = DateTime.now().hour;
     final controller = PageController(viewportFraction: 0.8);
+    final pageLength = context.watch<CoordiProvider>().coordiList.length;
     return context.watch<CoordiProvider>().isUpdateCoordiState
         ? Container(
             padding: const EdgeInsets.symmetric(vertical: 16),
@@ -72,58 +72,79 @@ class _CoordiSectionState extends State<CoordiSection> {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
-              context.watch<CoordiProvider>().coordiList.isEmpty
-                  ? SizedBox(
-                      width: 264,
-                      height: 400,
-                      child: CardContainer(
-                          child: Column(
-                        children: [
-                          if (6 <= currentHour && currentHour <= 18)
-                            Image.asset('assets/no-data-black.png')
-                          else
-                            Image.asset('assets/no-data-white.png'),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Text("데이터가 없습니다.",
-                              style: Theme.of(context).textTheme.headline6)
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.center,
-                      )))
+              const SizedBox(height: 12),
+              context
+                      .watch<CoordiProvider>()
+                      .coordiList
+                      .isEmpty // 코디 부분 빌드 build
+                  ? noDataCard()
                   : SizedBox(
                       height: 400,
                       child: PageView.builder(
                           controller: controller,
-                          itemCount:
-                              context.watch<CoordiProvider>().coordiList.length,
+                          itemCount: pageLength + 1,
                           itemBuilder: (_, index) {
-                            return CardContainer(
-                                child: CoordiView(
-                              coordi: context
-                                  .watch<CoordiProvider>()
-                                  .coordiList[index]
-                                  .getCoordiInfo(),
-                              coordiIllust: context
-                                  .watch<CoordiProvider>()
-                                  .coordiList[index]
-                                  .getIllustUrl(),
-                              url: context
-                                  .watch<CoordiProvider>()
-                                  .coordiList[index]
-                                  .url,
-                              style: context
-                                  .watch<CoordiProvider>()
-                                  .coordiList[index]
-                                  .style,
-                            ));
-                          })),
+                            if (index == pageLength) {
+                              return moreLoadCard();
+                            } else {
+                              return coordiViewCard(index);
+                            }
+                          }),
+                    ),
             ]),
           )
         : const Loading(height: 396);
+  }
+
+  Widget coordiViewCard(int index) {
+    return CardContainer(
+        child: CoordiView(
+      coordi: context.watch<CoordiProvider>().coordiList[index].getCoordiInfo(),
+      coordiIllust:
+          context.watch<CoordiProvider>().coordiList[index].getIllustUrl(),
+      url: context.watch<CoordiProvider>().coordiList[index].url,
+      style: context.watch<CoordiProvider>().coordiList[index].style,
+    ));
+  }
+
+  Widget moreLoadCard() {
+    return GestureDetector(
+      onTap: () => {}, // 여기서 더 불러오기
+      child: CardContainer(
+        child: Column(
+          children: [
+            const SizedBox(height: 48),
+            Icon(
+              SweaterIcons.plus,
+              size: 70,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            const SizedBox(height: 48),
+            Text("코디 더 불러오기", style: Theme.of(context).textTheme.headline6)
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+      ),
+    );
+  }
+
+  Widget noDataCard() {
+    int currentHour = DateTime.now().hour;
+    return SizedBox(
+        width: 264,
+        height: 400,
+        child: CardContainer(
+            child: Column(
+          children: [
+            if (6 <= currentHour && currentHour <= 18)
+              Image.asset('assets/no-data-black.png')
+            else
+              Image.asset('assets/no-data-white.png'),
+            const SizedBox(height: 16),
+            Text("데이터가 없습니다.", style: Theme.of(context).textTheme.headline6)
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+        )));
   }
 }
 
@@ -201,14 +222,17 @@ class CoordiView extends StatelessWidget {
           builder: (BuildContext ctx, FollowLink? openLink) {
             return url != ""
                 ? Container(
-                    width: 264,
+                    width: 232,
                     height: 32,
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0)),
                           primary: Theme.of(context).colorScheme.surface,
                           elevation: 0),
-                      icon: const Icon(
+                      icon: Icon(
                         SweaterIcons.external_link_alt,
+                        color: Theme.of(context).colorScheme.onSurface,
                         size: 14,
                       ),
                       onPressed: openLink,
