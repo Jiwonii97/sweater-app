@@ -23,6 +23,7 @@ import '../widgets/weather_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/widgets/first_guide.dart';
 import 'package:url_launcher/link.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -121,6 +122,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       if (!isUpdateCoordiSuccess) {
         debugPrint("fail getting coordi data");
       }
+      FlutterNativeSplash.remove();
     });
 
     weatherUpdateEmitter.emit("updatePeriodic", null);
