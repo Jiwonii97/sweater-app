@@ -230,8 +230,9 @@ class CoordiView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8.0)),
                           primary: Theme.of(context).colorScheme.surface,
                           elevation: 0),
-                      icon: const Icon(
+                      icon: Icon(
                         SweaterIcons.external_link_alt,
+                        color: Theme.of(context).colorScheme.onBackground,
                         size: 14,
                       ),
                       onPressed: openLink,
