@@ -82,12 +82,16 @@ class _CoordiSectionState extends State<CoordiSection> {
                 height: 400,
                 child: PageView.builder(
                     controller: controller,
-                    itemCount: pageLength + 1,
+                    itemCount: context.watch<CoordiProvider>().isAllLoaded
+                        ? pageLength
+                        : pageLength + 1,
                     itemBuilder: (_, index) {
                       if (index == pageLength) {
-                        if (context.watch<CoordiProvider>().isUpdateCoordiState)
+                        if (context
+                            .watch<CoordiProvider>()
+                            .isUpdateCoordiState) {
                           return moreLoadCard();
-                        else
+                        } else
                           return CardContainer(
                             child: const Loading(height: 396),
                           );
