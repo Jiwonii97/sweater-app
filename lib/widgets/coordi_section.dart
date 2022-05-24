@@ -77,7 +77,7 @@ class _CoordiSectionState extends State<CoordiSection> {
                       .watch<CoordiProvider>()
                       .coordiList
                       .isEmpty // 코디 부분 빌드 build
-                  ? noDataPage()
+                  ? noDataCard()
                   : SizedBox(
                       height: 400,
                       child: PageView.builder(
@@ -85,9 +85,9 @@ class _CoordiSectionState extends State<CoordiSection> {
                           itemCount: pageLength + 1,
                           itemBuilder: (_, index) {
                             if (index == pageLength) {
-                              return moreLoadPage();
+                              return moreLoadCard();
                             } else {
-                              return coordiViewPage(index);
+                              return coordiViewCard(index);
                             }
                           }),
                     ),
@@ -96,7 +96,7 @@ class _CoordiSectionState extends State<CoordiSection> {
         : const Loading(height: 396);
   }
 
-  Widget coordiViewPage(int index) {
+  Widget coordiViewCard(int index) {
     return CardContainer(
         child: CoordiView(
       coordi: context.watch<CoordiProvider>().coordiList[index].getCoordiInfo(),
@@ -107,7 +107,7 @@ class _CoordiSectionState extends State<CoordiSection> {
     ));
   }
 
-  Widget moreLoadPage() {
+  Widget moreLoadCard() {
     return GestureDetector(
       onTap: () => {}, // 여기서 더 불러오기
       child: CardContainer(
@@ -128,7 +128,7 @@ class _CoordiSectionState extends State<CoordiSection> {
     );
   }
 
-  Widget noDataPage() {
+  Widget noDataCard() {
     int currentHour = DateTime.now().hour;
     return SizedBox(
         width: 264,
