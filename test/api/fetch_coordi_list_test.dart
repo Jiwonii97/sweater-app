@@ -34,10 +34,19 @@ main() {
     "bottom": [],
     "one_piece": []
   };
-  test('fetch_coordi_list 통신 테스트', () async {
-    var response = await fetchCoordiList(currentForecast, user, clothFilter);
-    expect(response.length, 20);
-
+  int key = 13;
+  int index = 0;
+  test('fetch_coordi_list pagenation 통신 테스트', () async {
+    var response =
+        await fetchCoordiList(currentForecast, user, clothFilter, key, index);
+    expect(response['index'], 0);
+    expect(response['key'], 13);
+    if (response['coordis'].length < 20) {
+      expect(response['maxIndex'], 0);
+    } else {
+      expect(response['coorids'].length, 20);
+      expect(response['maxIndex'] > 0, true);
+    }
     for (int i = 0; i < response.length; i++) {
       Coordi coordi = Coordi(
           response[i]['url'],
@@ -46,6 +55,36 @@ main() {
                 item['major'], item['minor'], item['color'], item['full_name']);
           }).toList(),
           response[i]['style']);
+
+      expect(coordi.getCoordiInfo().isNotEmpty, true);
+      expect(coordi.getIllustUrl().isNotEmpty, true);
+      expect(coordi.style.isNotEmpty, true);
+    }
+  });
+  test('fetch_coordi_list pagenation 최초 통신 테스트', () async {
+    //최초 통신에는 key,index가 없이 들어와야함 혹은 key= -1, index = 0 으로 보내야함
+    var response = await fetchCoordiList(currentForecast, user, clothFilter);
+    expect(response['index'], 0);
+    if (response['coordis'].length == 0) {
+      expect(response['key'], -1);
+      expect(response['maxIndex'], 0);
+    } else if (response['coordis'].length < 20) {
+      expect(response['key'] > 0, true);
+      expect(response['maxIndex'], 0);
+    } else {
+      expect(response['coorids'].length, 20);
+      expect(response['key'] > 0, true);
+      expect(response['maxIndex'] > 0, true);
+    }
+
+    for (int i = 0; i < response['coordis'].length; i++) {
+      Coordi coordi = Coordi(
+          response['coordis'][i]['url'],
+          response['coordis'][i]['items'].map<Cloth>((item) {
+            return Cloth(
+                item['major'], item['minor'], item['color'], item['full_name']);
+          }).toList(),
+          response['coordis'][i]['style']);
 
       expect(coordi.getCoordiInfo().isNotEmpty, true);
       expect(coordi.getIllustUrl().isNotEmpty, true);
