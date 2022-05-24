@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
@@ -9,8 +11,15 @@ import 'package:sweater/widgets/category_tile.dart';
 import '../theme/global_theme.dart';
 
 class FilterDrawer extends StatefulWidget {
-  const FilterDrawer({
+  Map<String, dynamic> newPickedCategory = {
+    "outer": [],
+    "top": [],
+    "bottom": [],
+    "one_piece": []
+  };
+  FilterDrawer({
     Key? key,
+    required this.newPickedCategory,
   }) : super(key: key);
 
   @override
@@ -45,7 +54,6 @@ class _FilterDrawerState extends State<FilterDrawer>
               Expanded(
                   child: SingleChildScrollView(
                 child: Container(
-                    // color: Colors.transparent,
                     child: Column(
                   children: [
                     Column(
@@ -53,23 +61,22 @@ class _FilterDrawerState extends State<FilterDrawer>
                         filterList['outer'].isNotEmpty
                             ? Container(
                                 padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                                // color: Colors.pink[100],
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                        // color: Colors.amber,
                                         margin: EdgeInsets.only(bottom: 16),
                                         child: Text("아우터",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1)),
                                     CategoryTile(
-                                      elementList: filterList['outer'],
-                                      pickedList: coordiProvider
-                                              .pickedCategory['outer'] ??
-                                          [],
-                                    ),
+                                        elementList: filterList['outer'],
+                                        pickedList:
+                                            pickedCategory['outer'] ?? [],
+                                        newPickedList:
+                                            widget.newPickedCategory['outer'] ??
+                                                []),
                                     const SizedBox(
                                       height: 16,
                                     ),
@@ -83,23 +90,21 @@ class _FilterDrawerState extends State<FilterDrawer>
                         filterList['top'].isNotEmpty
                             ? Container(
                                 padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                                // color: Colors.green[100],
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                        // color: Colors.amber,
                                         margin: EdgeInsets.only(bottom: 16),
                                         child: Text("상의",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1)),
                                     CategoryTile(
-                                      elementList: filterList['top'],
-                                      pickedList: coordiProvider
-                                              .pickedCategory['top'] ??
-                                          [],
-                                    ),
+                                        elementList: filterList['top'],
+                                        pickedList: pickedCategory['top'] ?? [],
+                                        newPickedList:
+                                            widget.newPickedCategory['top'] ??
+                                                []),
                                     const SizedBox(
                                       height: 16,
                                     ),
@@ -113,23 +118,22 @@ class _FilterDrawerState extends State<FilterDrawer>
                         filterList['bottom'].isNotEmpty
                             ? Container(
                                 padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                                // color: Colors.blue[100],
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                        // color: Colors.amber,
                                         margin: EdgeInsets.only(bottom: 16),
                                         child: Text("하의",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1)),
                                     CategoryTile(
-                                      elementList: filterList['bottom'],
-                                      pickedList: coordiProvider
-                                              .pickedCategory['bottom'] ??
-                                          [],
-                                    ),
+                                        elementList: filterList['bottom'],
+                                        pickedList:
+                                            pickedCategory['bottom'] ?? [],
+                                        newPickedList: widget
+                                                .newPickedCategory['bottom'] ??
+                                            []),
                                     const SizedBox(
                                       height: 16,
                                     ),
@@ -143,23 +147,22 @@ class _FilterDrawerState extends State<FilterDrawer>
                         filterList['one_piece'].isNotEmpty
                             ? Container(
                                 padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                                // color: Colors.blue[100],
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                        // color: Colors.amber,
                                         margin: EdgeInsets.only(bottom: 16),
                                         child: Text("원피스",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText1)),
                                     CategoryTile(
-                                      elementList: filterList['one_piece'],
-                                      pickedList: coordiProvider
-                                              .pickedCategory['one_piece'] ??
-                                          [],
-                                    ),
+                                        elementList: filterList['one_piece'],
+                                        pickedList:
+                                            pickedCategory['one_piece'] ?? [],
+                                        newPickedList: widget.newPickedCategory[
+                                                'one_piece'] ??
+                                            []),
                                     const SizedBox(
                                       height: 16,
                                     ),
@@ -205,7 +208,13 @@ class _FilterDrawerState extends State<FilterDrawer>
                               alignment: Alignment.centerLeft,
                             ),
                             onPressed: () {
-                              coordiProvider.clearPickedCategory();
+                              widget.newPickedCategory = {
+                                "outer": [],
+                                "top": [],
+                                "bottom": [],
+                                "one_piece": []
+                              };
+                              setState(() {});
                             },
                           ),
                           SizedBox(
@@ -213,6 +222,12 @@ class _FilterDrawerState extends State<FilterDrawer>
                               height: 36,
                               child: ElevatedButton(
                                   onPressed: () async {
+                                    coordiProvider.clearPickedCategory();
+                                    context
+                                            .read<CoordiProvider>()
+                                            .setPickedCategory =
+                                        json.decode(json
+                                            .encode(widget.newPickedCategory));
                                     Navigator.pop(context);
                                     await coordiProvider
                                         .requestCoordiListWithFiltering(
@@ -257,7 +272,6 @@ class _FilterDrawerState extends State<FilterDrawer>
                     ],
                   ),
                   child: Container(
-                      // color: Colors.amber,
                       margin: EdgeInsets.all(16),
                       child: Row(
                         children: [
@@ -274,7 +288,16 @@ class _FilterDrawerState extends State<FilterDrawer>
                           ),
                           SizedBox(
                               child: IconButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () {
+                              widget.newPickedCategory = {
+                                "outer": [],
+                                "top": [],
+                                "bottom": [],
+                                "one_piece": [],
+                              };
+
+                              Navigator.pop(context);
+                            },
                             icon: Icon(SweaterIcons.times,
                                 color:
                                     Theme.of(context).colorScheme.onBackground),
