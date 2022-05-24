@@ -45,12 +45,10 @@ class _CoordiSectionState extends State<CoordiSection> {
                     ),
                     Align(
                         alignment: Alignment.centerRight,
-                        // alignment: Alignment.topRight,
                         child: Container(
                             height: 32,
                             width: 32,
                             child: IconButton(
-                              // icon: const Icon(SweaterIcons.temperature_high),
                               icon: Icon(SweaterIcons.sliders_h,
                                   size: 20,
                                   color: Theme.of(context)
@@ -78,26 +76,24 @@ class _CoordiSectionState extends State<CoordiSection> {
                 height: 12,
               ),
               context.watch<CoordiProvider>().coordiList.isEmpty
-                  ? CardContainer(
-                      child: SizedBox(
-                          width: 264,
-                          height: 400,
+                  ? SizedBox(
+                      width: 264,
+                      height: 400,
+                      child: CardContainer(
                           child: Column(
-                            children: [
-                              if (6 <= currentHour && currentHour <= 18)
-                                Image.asset('assets/no-data-black.png')
-                              else
-                                Image.asset('assets/no-data-white.png'),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              const Text(
-                                "데이터가 없습니다.",
-                                // style: Theme.of(context).textTheme.headline6
-                              )
-                            ],
-                            mainAxisAlignment: MainAxisAlignment.center,
-                          )))
+                        children: [
+                          if (6 <= currentHour && currentHour <= 18)
+                            Image.asset('assets/no-data-black.png')
+                          else
+                            Image.asset('assets/no-data-white.png'),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Text("데이터가 없습니다.",
+                              style: Theme.of(context).textTheme.headline6)
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      )))
                   : SizedBox(
                       height: 400,
                       child: PageView.builder(
