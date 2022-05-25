@@ -51,6 +51,7 @@ class _CoordiSectionState extends State<CoordiSection> {
                             fontWeight: FontWeight.bold,
                           ),
                     )),
+
               ),
               Align(
                   alignment: Alignment.centerRight,
