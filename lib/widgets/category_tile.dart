@@ -3,13 +3,11 @@ import 'package:flutter_tags/flutter_tags.dart';
 
 class CategoryTile extends StatelessWidget {
   List<dynamic> elementList;
-  List<dynamic> pickedList = [""];
   List<dynamic> newPickedList = [""];
 
   CategoryTile({
     Key? key,
     required this.elementList,
-    required this.pickedList,
     required this.newPickedList,
   }) : super(key: key);
 

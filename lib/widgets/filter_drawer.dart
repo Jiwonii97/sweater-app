@@ -11,7 +11,7 @@ import 'package:sweater/widgets/category_tile.dart';
 import '../theme/global_theme.dart';
 
 class FilterDrawer extends StatefulWidget {
-  Map<String, dynamic> newPickedCategory = {
+  Map<String, List<String>> newPickedCategory = {
     "outer": [],
     "top": [],
     "bottom": [],
@@ -72,8 +72,6 @@ class _FilterDrawerState extends State<FilterDrawer>
                                                 .bodyText1)),
                                     CategoryTile(
                                         elementList: filterList['outer'],
-                                        pickedList:
-                                            pickedCategory['outer'] ?? [],
                                         newPickedList:
                                             widget.newPickedCategory['outer'] ??
                                                 []),
@@ -101,7 +99,6 @@ class _FilterDrawerState extends State<FilterDrawer>
                                                 .bodyText1)),
                                     CategoryTile(
                                         elementList: filterList['top'],
-                                        pickedList: pickedCategory['top'] ?? [],
                                         newPickedList:
                                             widget.newPickedCategory['top'] ??
                                                 []),
@@ -129,8 +126,6 @@ class _FilterDrawerState extends State<FilterDrawer>
                                                 .bodyText1)),
                                     CategoryTile(
                                         elementList: filterList['bottom'],
-                                        pickedList:
-                                            pickedCategory['bottom'] ?? [],
                                         newPickedList: widget
                                                 .newPickedCategory['bottom'] ??
                                             []),
@@ -158,8 +153,6 @@ class _FilterDrawerState extends State<FilterDrawer>
                                                 .bodyText1)),
                                     CategoryTile(
                                         elementList: filterList['one_piece'],
-                                        pickedList:
-                                            pickedCategory['one_piece'] ?? [],
                                         newPickedList: widget.newPickedCategory[
                                                 'one_piece'] ??
                                             []),
@@ -225,7 +218,7 @@ class _FilterDrawerState extends State<FilterDrawer>
                                     coordiProvider.clearPickedCategory();
                                     context
                                             .read<CoordiProvider>()
-                                            .setPickedCategory =
+                                            .pickedCategory =
                                         json.decode(json
                                             .encode(widget.newPickedCategory));
                                     Navigator.pop(context);
