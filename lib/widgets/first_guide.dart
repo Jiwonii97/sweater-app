@@ -52,32 +52,24 @@ class _FirstGuideState extends State<FirstGuide> {
 
   _buildPageView() {
     final List<String> firstGuideImages = <String>[
-      'menu_guide.png',
-      'location_manage_first_guide.png',
-      'add_location_first_guide.png',
-      'gender_first_guide.png',
-      'constitution_first_guide.png',
       'weather_section_guide.png',
       'coordi_section_guide.png',
       "link_guide.png",
       "filter_button_guide.png",
+      'menu_guide.png',
       'ready_first_guide.png'
     ];
     final List<String> guideText = <String>[
-      "상단의 메뉴 버튼을 누르면 위치, 성별, 체질 설정을 할 수 있습니다.",
-      "메뉴 > 위치관리를 눌러 지역을 선택하고 지역에 맞는 코디를 추천받을 수 있습니다.",
-      "메뉴 > 위치관리 > + 버튼을 눌러 지역을 추가할 수 있습니다.",
-      "메뉴 > 성별 탭을 눌러 본인의 성별에 맞는 코디를 추천받을 수 있습니다.",
-      "메뉴 > 체질관리 탭을 눌러 추천되는 코디를 더 시원하게 또는 더 따뜻하게 설정할 수 있습니다.",
       "날씨 예보를 클릭해 클릭한 예보를 기준으로 코디를 추천받을 수 있습니다.",
-      "일러스트를 통해 날씨에 맞춘 코디를 추천받을 수 있습니다.",
+      "날씨에 맞는 코디를 추천받을 수 있습니다.",
       "하단의 링크를 통해 실제 코디를 볼 수 있습니다.",
       "필터 버튼을 통해 유저가 원하는 옷만 추천되도록 설정할 수 있습니다.",
+      "상단의 메뉴 버튼을 누르면 위치, 성별, 체질 설정을 할 수 있습니다.",
       " "
     ];
     return Expanded(
       child: PageView.builder(
-        itemCount: 10,
+        itemCount: 6,
         controller: PageController(initialPage: 0),
         itemBuilder: (BuildContext context, int index) {
           return Container(
@@ -92,7 +84,7 @@ class _FirstGuideState extends State<FirstGuide> {
                   SizedBox(height: 16),
                   Expanded(
                     flex: 1,
-                    child: index != 9
+                    child: index != 5
                         ? WrappedKoreanText(guideText[index],
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
@@ -129,7 +121,7 @@ class _FirstGuideState extends State<FirstGuide> {
       color: Colors.transparent,
       padding: const EdgeInsets.all(8.0),
       child: StepPageIndicator(
-        itemCount: 10,
+        itemCount: 6,
         stepColor: Colors.white,
         currentPageNotifier: _currentPageNotifier,
         size: 16,
