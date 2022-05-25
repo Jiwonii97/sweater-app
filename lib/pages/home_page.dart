@@ -1,5 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:eventify/eventify.dart';
 import 'package:flutter/material.dart';
@@ -303,16 +304,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                             ),
                           ])))))),
       isFirst
-          ? Container(
-              color: Colors.black.withOpacity(0.7),
-            )
-          : Container(),
-      isFirst
-          ? Center(
+          ? (BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
-                  height: MediaQuery.of(context).size.height - 160,
-                  width: MediaQuery.of(context).size.width - 32,
-                  child: FirstGuide(startPressed: endTutorial)))
+                  color: Colors.black.withOpacity(0.75),
+                  child: Center(
+                      child: SizedBox(
+                          height: MediaQuery.of(context).size.height - 100,
+                          width: MediaQuery.of(context).size.width - 32,
+                          child: FirstGuide(endTutorial: endTutorial))))))
           : Container()
     ]);
   }
