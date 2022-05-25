@@ -222,10 +222,9 @@ class _FilterDrawerState extends State<FilterDrawer>
                                         json.decode(json
                                             .encode(widget.newPickedCategory));
                                     Navigator.pop(context);
-                                    await coordiProvider
-                                        .requestCoordiListWithFiltering(
-                                            weatherProvider.getCurrentWeather(),
-                                            userProvider.user);
+                                    await coordiProvider.requestCoordiList(
+                                        weatherProvider.getCurrentWeather(),
+                                        userProvider.user);
                                   },
                                   child: Text("적용",
                                       style: Theme.of(context)
