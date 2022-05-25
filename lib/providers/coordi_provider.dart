@@ -19,7 +19,7 @@ class CoordiProvider with ChangeNotifier {
   Map<String, dynamic> filterList = {};
   Map<String, int> currentPage = {"key": -1, "index": 0};
   bool isAllLoaded = false;
-  Map<String, List<String>> pickedCategory = {
+  Map<String, List<String>> _pickedCategory = {
     "outer": [],
     "top": [],
     "bottom": [],
@@ -30,6 +30,7 @@ class CoordiProvider with ChangeNotifier {
   bool get isUpdateCoordiState => _isUpdateCoordiState;
   int get pageKey => currentPage['key'] ?? -1;
   int get pageIndex => currentPage['index'] ?? 0;
+  Map<String, List<String>> get pickedCategory => _pickedCategory;
 
   set coordi(Coordi input) {
     _coordi = Coordi(input.url, input.clothes, input.style);
@@ -42,6 +43,7 @@ class CoordiProvider with ChangeNotifier {
 
   Future<bool> requestCoordiList(Forecast selectedForecast, User user,
       {int pageKey = -1, int pageIndex = 0}) async {
+
     if (_coordiListFuture != null) {
       _coordiListFuture?.cancel();
     }

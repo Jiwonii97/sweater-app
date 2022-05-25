@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
@@ -23,52 +25,71 @@ class CoordiSection extends StatefulWidget {
 class _CoordiSectionState extends State<CoordiSection> {
   @override
   Widget build(BuildContext context) {
-    final controller = PageController(
-        viewportFraction: 0.8,
-        initialPage: context.watch<CoordiProvider>().pageIndex);
+    Map<String, List<String>> newPickedCategory = {
+      "outer": [],
+      "top": [],
+      "bottom": [],
+      "one_piece": []
+    };
+    int currentHour = DateTime.now().hour;
+    final controller = PageController(viewportFraction: 0.8);
     final pageLength = context.watch<CoordiProvider>().coordiList.length;
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Column(children: <Widget>[
-        Container(
-          margin: const EdgeInsets.only(right: 16),
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                    height: 32,
-                    child: Text(
-                      "오늘의 추천 코디",
-                      style: Theme.of(context).textTheme.headline5?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    )),
+    return context.watch<CoordiProvider>().isUpdateCoordiState
+        ? Container(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Column(children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(right: 16),
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                          height: 32,
+                          child: Text(
+                            "오늘의 추천 코디",
+                            style:
+                                Theme.of(context).textTheme.headline5?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                          )),
+                    ),
+                    Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                            height: 32,
+                            width: 32,
+                            child: IconButton(
+                              icon: Icon(SweaterIcons.sliders_h,
+                                  size: 20,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground),
+                              onPressed: () {
+                                newPickedCategory = json.decode(json.encode(
+                                    context
+                                        .read<CoordiProvider>()
+                                        .pickedCategory));
+                                print(newPickedCategory);
+                                showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    builder: (context) {
+                                      return SizedBox(
+                                        child: FilterDrawer(
+                                            newPickedCategory:
+                                                newPickedCategory),
+                                        height: 600,
+                                      );
+                                    });
+                              },
+                            )))
+                  ],
+                ),
               ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                      height: 32,
-                      width: 32,
-                      child: IconButton(
-                        icon: Icon(SweaterIcons.sliders_h,
-                            size: 20,
-                            color: Theme.of(context).colorScheme.onBackground),
-                        onPressed: () {
-                          showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              builder: (context) {
-                                return Container(
-                                  child: FilterDrawer(),
-                                  height: 600,
-                                );
-                              });
-                        },
-                      )))
             ],
           ),
         ),
