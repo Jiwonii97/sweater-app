@@ -81,7 +81,7 @@ Future<List<dynamic>?> fetchWeather(
         "temp": int.parse(tempList[i]['fcstValue']),
         "sky": skyList[i]['fcstValue'],
         "rain": rainList[i]['fcstValue'],
-        "rainRate": int.parse(rainList[i]['fcstValue']),
+        "rainRate": int.parse(rainRateList[i]['fcstValue']),
         "windSpeed": double.parse(windSpeedList[i]['fcstValue']),
       });
     }
