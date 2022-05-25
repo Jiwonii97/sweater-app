@@ -17,8 +17,8 @@ class CoordiProvider with ChangeNotifier {
   bool isReadyCoordiState = false;
   bool _isUpdateCoordiState = false;
   String filterResponse = "";
-  Map<String, dynamic> filterList = {};
-  Map<String, List<String>> pickedCategory = {
+  Map<String, List<String>> filterList = {};
+  Map<String, List<String>> _pickedCategory = {
     "outer": [],
     "top": [],
     "bottom": [],
@@ -27,6 +27,7 @@ class CoordiProvider with ChangeNotifier {
 
   Coordi get coordi => _coordi;
   bool get isUpdateCoordiState => _isUpdateCoordiState;
+  Map<String, List<String>> get pickedCategory => _pickedCategory;
 
   set coordi(Coordi input) {
     _coordi = Coordi(input.url, input.clothes, input.style);
@@ -34,6 +35,11 @@ class CoordiProvider with ChangeNotifier {
 
   set isUpdateCoordiState(bool input) {
     _isUpdateCoordiState = input;
+    notifyListeners();
+  }
+
+  set pickedCategory(Map<String, List<String>> input) {
+    _pickedCategory = input;
     notifyListeners();
   }
 

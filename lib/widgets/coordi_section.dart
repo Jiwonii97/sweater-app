@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sweater/providers/coordi_provider.dart';
@@ -21,6 +23,13 @@ class CoordiSection extends StatefulWidget {
 class _CoordiSectionState extends State<CoordiSection> {
   @override
   Widget build(BuildContext context) {
+    Map<String, List<String>> newPickedCategory = {
+      "outer": [],
+      "top": [],
+      "bottom": [],
+      "one_piece": []
+    };
+    int currentHour = DateTime.now().hour;
     final controller = PageController(viewportFraction: 0.8);
     final pageLength = context.watch<CoordiProvider>().coordiList.length;
     return context.watch<CoordiProvider>().isUpdateCoordiState
@@ -55,6 +64,11 @@ class _CoordiSectionState extends State<CoordiSection> {
                                       .colorScheme
                                       .onBackground),
                               onPressed: () {
+                                newPickedCategory = json.decode(json.encode(
+                                    context
+                                        .read<CoordiProvider>()
+                                        .pickedCategory));
+                                print(newPickedCategory);
                                 showModalBottomSheet(
                                     isScrollControlled: true,
                                     context: context,
@@ -62,8 +76,10 @@ class _CoordiSectionState extends State<CoordiSection> {
                                       borderRadius: BorderRadius.circular(20.0),
                                     ),
                                     builder: (context) {
-                                      return Container(
-                                        child: FilterDrawer(),
+                                      return SizedBox(
+                                        child: FilterDrawer(
+                                            newPickedCategory:
+                                                newPickedCategory),
                                         height: 600,
                                       );
                                     });
