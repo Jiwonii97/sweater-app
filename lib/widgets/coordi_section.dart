@@ -25,7 +25,7 @@ class CoordiSection extends StatefulWidget {
 class _CoordiSectionState extends State<CoordiSection> {
   @override
   Widget build(BuildContext context) {
-    Map<String, List<String>> newPickedCategory = {
+    Map<String, dynamic> newPickedCategory = {
       "outer": [],
       "top": [],
       "bottom": [],
@@ -51,7 +51,6 @@ class _CoordiSectionState extends State<CoordiSection> {
                             fontWeight: FontWeight.bold,
                           ),
                     )),
-
               ),
               Align(
                   alignment: Alignment.centerRight,
@@ -65,7 +64,6 @@ class _CoordiSectionState extends State<CoordiSection> {
                         onPressed: () {
                           newPickedCategory = json.decode(json.encode(
                               context.read<CoordiProvider>().pickedCategory));
-                          print(newPickedCategory);
                           showModalBottomSheet(
                               isScrollControlled: true,
                               context: context,

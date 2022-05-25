@@ -8,12 +8,8 @@ import 'package:sweater/providers/weather_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-Future<Map<String, dynamic>> fetchCoordiList(
-    Forecast selectedForecast,
-    User user,
-    Map<String, List<String>>? pickedCategory,
-    int key,
-    int index) async {
+Future<Map<String, dynamic>> fetchCoordiList(Forecast selectedForecast,
+    User user, Map<String, dynamic>? pickedCategory, int key, int index) async {
   try {
     int userCustomedTemp = selectedForecast.sTemp;
     switch (user.constitution) {

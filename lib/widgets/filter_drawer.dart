@@ -11,7 +11,7 @@ import 'package:sweater/widgets/category_tile.dart';
 import '../theme/global_theme.dart';
 
 class FilterDrawer extends StatefulWidget {
-  Map<String, List<String>> newPickedCategory = {
+  Map<String, dynamic> newPickedCategory = {
     "outer": [],
     "top": [],
     "bottom": [],
