@@ -3,12 +3,12 @@ import 'package:flutter_tags/flutter_tags.dart';
 
 class CategoryTile extends StatelessWidget {
   List<dynamic> elementList;
-  List<dynamic> pickedList = [""];
+  List<dynamic> newPickedList = [""];
 
   CategoryTile({
     Key? key,
     required this.elementList,
-    required this.pickedList,
+    required this.newPickedList,
   }) : super(key: key);
 
   @override
@@ -28,16 +28,16 @@ class CategoryTile extends StatelessWidget {
           textColor: Theme.of(context).colorScheme.onSurface,
           index: index,
           title: element,
-          active: pickedList.contains(element) ? true : false,
+          active: newPickedList.contains(element) ? true : false,
           elevation: 0,
           textActiveColor: Theme.of(context).primaryColor,
           color: Theme.of(context).colorScheme.surface,
           activeColor: Theme.of(context).colorScheme.surface, //체크 후 배경색
           onPressed: (element) {
             if (element.active) {
-              pickedList.add(element.title);
+              newPickedList.add(element.title);
             } else {
-              pickedList.remove(element.title);
+              newPickedList.remove(element.title);
             }
           },
         );

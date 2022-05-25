@@ -1,5 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:eventify/eventify.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ import '../widgets/weather_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweater/widgets/first_guide.dart';
 import 'package:url_launcher/link.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -121,6 +123,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       if (!isUpdateCoordiSuccess) {
         debugPrint("fail getting coordi data");
       }
+      FlutterNativeSplash.remove();
     });
 
     weatherUpdateEmitter.emit("updatePeriodic", null);
@@ -301,16 +304,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                             ),
                           ])))))),
       isFirst
-          ? Container(
-              color: Colors.black.withOpacity(0.7),
-            )
-          : Container(),
-      isFirst
-          ? Center(
+          ? (BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
-                  height: MediaQuery.of(context).size.height - 160,
-                  width: MediaQuery.of(context).size.width - 32,
-                  child: FirstGuide(startPressed: endTutorial)))
+                  color: Colors.black.withOpacity(0.75),
+                  child: Center(
+                      child: SizedBox(
+                          height: MediaQuery.of(context).size.height - 100,
+                          width: MediaQuery.of(context).size.width - 32,
+                          child: FirstGuide(endTutorial: endTutorial))))))
           : Container()
     ]);
   }

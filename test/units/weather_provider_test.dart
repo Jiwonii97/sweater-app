@@ -22,7 +22,7 @@ main() {
   HttpOverrides.global = MyHttpOverrides();
   WeatherProvider weatherProvider = WeatherProvider();
   test('WeatherProvider 생성', () async {
-    expect(weatherProvider.forecastList.length, 12);
+    expect(weatherProvider.forecastList.length, 24);
   });
   // test('WeatherProvider 날씨 불러오기', () async {
   //   bool isRequestSuccess = await weatherProvider.updateWeather(61, 124);

@@ -81,12 +81,12 @@ Future<List<dynamic>?> fetchWeather(
         "temp": int.parse(tempList[i]['fcstValue']),
         "sky": skyList[i]['fcstValue'],
         "rain": rainList[i]['fcstValue'],
-        "rainRate": int.parse(rainList[i]['fcstValue']),
+        "rainRate": int.parse(rainRateList[i]['fcstValue']),
         "windSpeed": double.parse(windSpeedList[i]['fcstValue']),
       });
     }
     int sub = (anHourBefore.hour + 22) % 3; // ex) 23시 -> 0, 0시 -> 1, 1시 -> 2
-    return forecastDataList.sublist(sub, 12 + sub);
+    return forecastDataList.sublist(sub, predictMax + sub);
   } on SocketException {
     print('No Internet connection 😑');
     return null;

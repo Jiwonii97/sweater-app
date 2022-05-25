@@ -8,8 +8,8 @@ import 'package:sweater/providers/weather_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-Future<List<dynamic>> fetchCoordiList(Forecast selectedForecast, User user,
-    Map<String, List<String>>? pickedCategory) async {
+Future<Map<String, dynamic>> fetchCoordiList(Forecast selectedForecast,
+    User user, Map<String, dynamic>? pickedCategory, int key, int index) async {
   try {
     int userCustomedTemp = selectedForecast.sTemp;
     switch (user.constitution) {
@@ -29,7 +29,7 @@ Future<List<dynamic>> fetchCoordiList(Forecast selectedForecast, User user,
         break;
     }
     Uri uri = Uri.parse(
-        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/coordi/recommand");
+        "https://us-central1-sweather-46fbf.cloudfunctions.net/api/new/coordi/recommand");
 
     Object body = {
       "gender": user.gender,
@@ -38,6 +38,7 @@ Future<List<dynamic>> fetchCoordiList(Forecast selectedForecast, User user,
       "isSnow": selectedForecast.sky == '눈' ? true : false,
       "windSpeed": selectedForecast.windSpeed,
       "filterList": json.encode(pickedCategory),
+      "pagenation": json.encode({'key': key, 'index': index})
     };
 
     Map<String, String> headers = {
@@ -55,6 +56,6 @@ Future<List<dynamic>> fetchCoordiList(Forecast selectedForecast, User user,
       throw Exception();
     }
   } catch (e) {
-    return [];
+    return {};
   }
 }
