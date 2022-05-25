@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 Future<List<dynamic>> fetchCoordiList(Forecast selectedForecast, User user,
-    Map<String, dynamic>? pickedCategory) async {
+    Map<String, List<String>>? pickedCategory) async {
   try {
     int userCustomedTemp = selectedForecast.sTemp;
     switch (user.constitution) {
