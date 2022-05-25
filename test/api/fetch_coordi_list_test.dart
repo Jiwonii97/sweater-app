@@ -44,17 +44,17 @@ main() {
     if (response['coordis'].length < 20) {
       expect(response['maxIndex'], 0);
     } else {
-      expect(response['coorids'].length, 20);
+      expect(response['coordis'].length, 20);
       expect(response['maxIndex'] > 0, true);
     }
     for (int i = 0; i < response.length; i++) {
       Coordi coordi = Coordi(
-          response[i]['url'],
-          response[i]['items'].map<Cloth>((item) {
+          response['coordis'][i]['url'],
+          response['coordis'][i]['items'].map<Cloth>((item) {
             return Cloth(
                 item['major'], item['minor'], item['color'], item['full_name']);
           }).toList(),
-          response[i]['style']);
+          response['coordis'][i]['style']);
 
       expect(coordi.getCoordiInfo().isNotEmpty, true);
       expect(coordi.getIllustUrl().isNotEmpty, true);
@@ -63,7 +63,8 @@ main() {
   });
   test('fetch_coordi_list pagenation 최초 통신 테스트', () async {
     //최초 통신에는 key,index가 없이 들어와야함 혹은 key= -1, index = 0 으로 보내야함
-    var response = await fetchCoordiList(currentForecast, user, clothFilter);
+    var response =
+        await fetchCoordiList(currentForecast, user, clothFilter, -1, 0);
     expect(response['index'], 0);
     if (response['coordis'].length == 0) {
       expect(response['key'], -1);
@@ -72,7 +73,7 @@ main() {
       expect(response['key'] > 0, true);
       expect(response['maxIndex'], 0);
     } else {
-      expect(response['coorids'].length, 20);
+      expect(response['coordis'].length, 20);
       expect(response['key'] > 0, true);
       expect(response['maxIndex'] > 0, true);
     }

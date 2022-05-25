@@ -8,7 +8,7 @@ import 'package:sweater/providers/weather_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-Future<Map<dynamic, dynamic>> fetchCoordiList(
+Future<Map<String, dynamic>> fetchCoordiList(
     Forecast selectedForecast,
     User user,
     Map<String, List<String>>? pickedCategory,
