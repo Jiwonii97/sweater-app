@@ -68,7 +68,6 @@ class _CoordiSectionState extends State<CoordiSection> {
                                     context
                                         .read<CoordiProvider>()
                                         .pickedCategory));
-                                print(newPickedCategory);
                                 showModalBottomSheet(
                                     isScrollControlled: true,
                                     context: context,
