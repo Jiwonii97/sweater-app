@@ -44,7 +44,7 @@ class _ManageLocationPage extends State<ManageLocationPage> {
           int xValue = context.read<LocationProvider>().current.X;
           int yValue = context.read<LocationProvider>().current.Y;
           context.read<WeatherProvider>().updateWeather(xValue, yValue).then(
-              (value) => value == 0
+              (value) => value
                   ? context.read<CoordiProvider>().requestCoordiList(
                       context.read<WeatherProvider>().getCurrentWeather(),
                       context.read<UserProvider>().user)
