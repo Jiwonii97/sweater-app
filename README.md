@@ -30,6 +30,9 @@ https://play.google.com/store/apps/details?id=com.teamnaming1hour.sweather
 3. 남은 옷들이 포함된 코디맵을 찾아 보여줍니다.
    - 만약 입고 싶은 옷이 있다면 그 옷이 포함된 코디맵을 찾아 보여줍니다.
 
+### 아키텍쳐
+<img width="2208" alt="아키텍쳐" src="https://user-images.githubusercontent.com/40891497/171638685-2df70622-6149-47ea-891e-c7a1fa37f91d.png">
+
 ### 기능
 
 - **기온 정보 제공**: 날씨에 맞춰 옷을 입을 수 있도록 날씨 정보 제공
